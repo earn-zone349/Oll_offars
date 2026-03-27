@@ -1,223 +1,211 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXiRON Live Sports</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #0b0f19; color: #fff; }
-        .glass { background: rgba(30,41,59,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-        .live-dot { animation: blink 1.5s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-        .tab-active { border-bottom: 3px solid #38bdf8; color: #38bdf8; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXiRON Live Sports</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<style>
+body { font-family: 'Poppins', sans-serif; background-color: #0b0f19; color: #fff; }
+.glass { background: rgba(30,41,59,0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s, box-shadow 0.3s; }
+.glass:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+.live-dot { animation: blink 1.5s infinite; }
+@keyframes blink { 0% { opacity:1; } 50% { opacity:0.3; } 100% { opacity:1; } }
+.score-pulse { animation: pulse 1s infinite; }
+@keyframes pulse { 0% { opacity:1; } 50% { opacity:0.6; } 100% { opacity:1; } }
+</style>
 </head>
 <body class="pb-10">
 
-    <!-- Banner Ad -->
-    <div class="fixed top-0 w-full h-16 flex items-center justify-center bg-slate-800 z-50 border-b border-slate-700">
-        <span class="text-gray-300 font-bold">[ Banner Ad - AdMob/Unity ]</span>
-    </div>
+<!-- Banner Ad -->
+<div class="fixed top-0 w-full h-16 flex items-center justify-center bg-slate-800 z-50 border-b border-slate-700">
+<span class="text-gray-300 font-bold">[ Google AdSense Banner ]</span>
+</div>
 
-    <main class="container mx-auto mt-20 px-4">
-        
-        <!-- Live Scores -->
-        <section id="scores" class="mb-12">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold flex items-center">
-                    <span class="w-3 h-3 bg-red-500 rounded-full mr-2 live-dot"></span> লাইভ ম্যাচ
-                </h2>
-            </div>
-            <div id="score-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="p-6 glass rounded-2xl animate-pulse flex flex-col items-center">
-                    <div class="h-4 w-24 bg-slate-700 rounded mb-4"></div>
-                    <div class="h-8 w-full bg-slate-700 rounded"></div>
-                </div>
-            </div>
-            
-            <h2 class="text-2xl font-bold flex items-center mt-10 mb-6">
-    <span class="w-3 h-3 bg-blue-500 rounded-full mr-2 live-dot"></span> লাইভ ক্রিকেট
+<main class="container mx-auto mt-20 px-4">
+
+<!-- Live Football -->
+<section id="scores" class="mb-12">
+<h2 class="text-2xl font-bold flex items-center mb-6">
+<span class="w-3 h-3 bg-red-500 rounded-full mr-2 live-dot"></span> লাইভ ফুটবল
+</h2>
+<div id="score-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="p-6 glass rounded-2xl flex flex-col items-center">
+<p class="text-gray-400">ফুটবল স্কোর লোড হচ্ছে...</p>
+</div>
+</div>
+</section>
+
+<!-- Live Cricket -->
+<section id="cricket" class="mb-12">
+<h2 class="text-2xl font-bold flex items-center mb-6">
+<span class="w-3 h-3 bg-blue-500 rounded-full mr-2 live-dot"></span> লাইভ ক্রিকেট
 </h2>
 <div id="cricket-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div class="p-6 glass rounded-2xl animate-pulse flex flex-col items-center">
-        <p class="text-gray-400">ক্রিকেট স্কোর লোড হচ্ছে...</p>
-    </div>
-    </div>
-      </section>
+<div class="p-6 glass rounded-2xl flex flex-col items-center">
+<p class="text-gray-400">ক্রিকেট স্কোর লোড হচ্ছে...</p>
+</div>
+</div>
+</section>
 
-        <!-- Highlights -->
-        <section id="highlights" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">🎥 Highlights</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass rounded-2xl overflow-hidden group">
-                    <div class="relative pt-[56.25%]">
-                        <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/XXXXXXX" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-semibold text-gray-200">Barcelona vs Real Madrid | La Liga Highlights</h3>
-                    </div>
-                </div>
-                <div class="glass rounded-2xl overflow-hidden group">
-                    <div class="relative pt-[56.25%]">
-                        <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/YYYYYYY" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-semibold text-gray-200">BAN vs IND | ICC Champions Trophy Highlights</h3>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- Highlights -->
+<section id="highlights" class="mb-12">
+<h2 class="text-2xl font-bold mb-6">🎥 Highlights</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="glass rounded-2xl overflow-hidden group">
+<div class="relative pt-[56.25%]">
+<iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/XXXXXXX" frameborder="0" allowfullscreen></iframe>
+</div>
+<div class="p-4">
+<h3 class="font-semibold text-gray-200">Barcelona vs Real Madrid | La Liga Highlights</h3>
+</div>
+</div>
+<div class="glass rounded-2xl overflow-hidden group">
+<div class="relative pt-[56.25%]">
+<iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/YYYYYYY" frameborder="0" allowfullscreen></iframe>
+</div>
+<div class="p-4">
+<h3 class="font-semibold text-gray-200">BAN vs IND | ICC Champions Trophy Highlights</h3>
+</div>
+</div>
+</div>
+</section>
 
-        <!-- News -->
-        <section id="news">
-            <h2 class="text-2xl font-bold mb-6">📰 Latest Sports News</h2>
-            <div id="news-container" class="space-y-4">
-                <div class="p-4 glass rounded-xl flex items-center space-x-4 cursor-pointer hover:bg-slate-800 transition">
-                    <div class="w-16 h-16 bg-sky-500/20 rounded-lg flex items-center justify-center text-sky-400">
-                        <i class="fas fa-newspaper text-2xl"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold">Breaking: Transfer Window Updates 2026</h4>
-                        <p class="text-sm text-gray-400">Latest rumors and confirmed signings in European Football...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- News -->
+<section id="news">
+<h2 class="text-2xl font-bold mb-6">📰 Latest Sports News</h2>
+<div id="news-container" class="space-y-4">
+<div class="p-4 glass rounded-xl flex items-center space-x-4 cursor-pointer hover:bg-slate-800 transition">
+<div class="w-16 h-16 bg-sky-500/20 rounded-lg flex items-center justify-center text-sky-400">
+<i class="fas fa-newspaper text-2xl"></i>
+</div>
+<div>
+<h4 class="font-bold">Breaking: Transfer Window Updates 2026</h4>
+<p class="text-sm text-gray-400">Latest rumors and confirmed signings in European Football...</p>
+</div>
+</div>
+</div>
+</section>
 
-    </main>
+</main>
 
-    <footer class="mt-20 py-10 border-t border-slate-800 text-center">
-        <p class="text-gray-500 text-sm">© 2026 AXiRON Live Sports</p>
-    </footer>
+<footer class="mt-20 py-10 border-t border-slate-800 text-center">
+<p class="text-gray-500 text-sm">© 2026 AXiRON Live Sports</p>
+</footer>
 
 <script>
-    // -------------------------
-    // ১. আপনার সব Key এবং Variables (২ নম্বর পার্ট এখানে)
-    // -------------------------
-    const footballKey = "cc01ec4d7120b15b1ffeab0742f0959d";
-    const cricketKey = "f8f1d8427emshe3d3b08d24876e4p17758ajsn72352220199e"; 
-    const cricketHost = "cricket-live-line1.p.rapidapi.com";
+const footballKey = "YOUR_FOOTBALL_API_KEY";
+const cricketKey = "YOUR_CRICKET_API_KEY";
+const cricketHost = "cricket-live-line1.p.rapidapi.com";
 
-    // -------------------------
-    // ২. অ্যাডস লজিক (৩ নম্বর পার্ট এখানে)
-    // -------------------------
-    setInterval(() => {
-        alert("৫ মিনিট হয়েছে: Interstitial Ad দেখাচ্ছে...");
-    }, 5 * 60 * 1000);
+// Ad Trigger
+function triggerRewardedAd(reason){ alert(reason + " Ad দেখুন।"); }
 
-    function triggerRewardedAd(reason) {
-        if(reason === "HT") alert("হাফ-টাইম বিরতি! Rewarded Ad দেখুন।");
-        else if(reason === "Over") alert("ওভার শেষ! Rewarded Ad দেখুন।");
-    }
+// Fetch Football
+async function fetchLiveScores(){
+const container = document.getElementById('score-container');
+try{
+const res = await fetch('https://v3.football.api-sports.io/fixtures?live=all',{
+method:"GET",
+headers:{"x-apisports-key":footballKey}
+});
+const data = await res.json();
+displayFootball(data.response);
+}catch(err){
+container.innerHTML='<p class="text-red-400">ফুটবল লোড হতে সমস্যা হয়েছে।</p>';
+}
+}
 
-    // -------------------------
-    // ৩. ফুটবল ডাটা লোড
-    // -------------------------
-    async function fetchLiveScores() {
-        const container = document.getElementById('score-container');
-        try {
-            const response = await fetch('https://v3.football.api-sports.io/fixtures?live=all', {
-                method: "GET",
-                headers: { "x-apisports-key": footballKey }
-            });
-            const data = await response.json();
-            displayMatches(data.response);
-        } catch(err) {
-            container.innerHTML = '<p class="text-red-400">ফুটবল লোড হতে সমস্যা হয়েছে।</p>';
-        }
-    }
+// Display Football
+function displayFootball(matches){
+const container = document.getElementById('score-container');
+container.innerHTML='';
+matches.forEach(match=>{
+const matchType='Football';
+const homeFlag=match.teams.home.logo || 'https://via.placeholder.com/24x16';
+const awayFlag=match.teams.away.logo || 'https://via.placeholder.com/24x16';
+const matchTime=new Date(match.fixture.date).toLocaleString('bn-BD',{ hour12:true });
+const div=document.createElement('div');
+div.className='p-6 glass rounded-2xl flex flex-col items-center';
+div.innerHTML=`
+<div class="flex justify-between w-full text-[12px] text-gray-400 font-bold uppercase mb-2">
+<span class="flex items-center gap-1">⚽ ${matchType}</span>
+<span class="text-red-500">${match.fixture.status.short}</span>
+</div>
+<div class="flex justify-between items-center w-full text-center mb-2">
+<div class="flex flex-col items-center w-1/3">
+<img src="${homeFlag}" class="w-6 h-4 mb-1">
+<p class="font-bold text-sm">${match.teams.home.name}</p>
+</div>
+<div class="text-xl font-black bg-slate-800 px-3 py-1 rounded score-pulse">
+${match.goals.home} - ${match.goals.away}
+</div>
+<div class="flex flex-col items-center w-1/3">
+<img src="${awayFlag}" class="w-6 h-4 mb-1">
+<p class="font-bold text-sm">${match.teams.away.name}</p>
+</div>
+</div>
+<p class="text-xs text-gray-400">${matchTime}</p>`;
+div.onclick=()=> triggerRewardedAd(match.fixture.status.short);
+container.appendChild(div);
+});
+}
 
-    // -------------------------
-    // ৪. ক্রিকেট ডাটা লোড
-    // -------------------------
-    async function fetchCricketScores() {
-        const container = document.getElementById('cricket-container');
-        try {
-            const response = await fetch('https://cricket-live-line1.p.rapidapi.com/get-live-matches', {
-                method: "GET",
-                headers: {
-                    "x-rapidapi-key": cricketKey,
-                    "x-rapidapi-host": cricketHost
-                }
-            });
-            const data = await response.json();
-            // এখানে ক্রিকেটের ডাটা দেখানোর লজিক আসবে (আপাতত কনসোলে চেক হবে)
-            displayCricket(data.results);
-            console.log("Cricket Data:", data);
-        } catch(err) {
-            container.innerHTML = '<p class="text-red-400">ক্রিকেট লোড হতে সমস্যা হয়েছে।</p>';
-        }
-    }
+// Fetch Cricket
+async function fetchCricketScores(){
+const container=document.getElementById('cricket-container');
+try{
+const res=await fetch('https://cricket-live-line1.p.rapidapi.com/get-live-matches',{
+method:"GET",
+headers:{"x-rapidapi-key":cricketKey,"x-rapidapi-host":cricketHost}
+});
+const data=await res.json();
+displayCricket(data.results);
+}catch(err){
+container.innerHTML='<p class="text-red-400">ক্রিকেট লোড হতে সমস্যা হয়েছে।</p>';
+}
+}
 
-    function displayMatches(matches) {
-        const container = document.getElementById('score-container');
-        container.innerHTML = '';
-        matches.forEach(match => {
-            const div = document.createElement('div');
-            div.className = 'p-6 glass rounded-2xl hover:scale-[1.02] transition duration-300 cursor-pointer';
-            div.innerHTML = `
-                <div class="flex justify-between text-[10px] text-sky-400 font-bold uppercase mb-2">
-                    <span>${match.league.name}</span>
-                    <span class="text-red-500">${match.fixture.status.short}</span>
-                </div>
-                <div class="flex justify-between items-center text-center">
-                    <p class="font-bold w-1/3">${match.teams.home.name}</p>
-                    <div class="text-xl font-black bg-slate-800 px-3 py-1 rounded">${match.goals.home} - ${match.goals.away}</div>
-                    <p class="font-bold w-1/3">${match.teams.away.name}</p>
-                </div>
-            `;
-            div.onclick = () => {
-                if(match.fixture.status.short === 'HT') triggerRewardedAd("HT");
-                else triggerRewardedAd("Match Click");
-            }
-            container.appendChild(div);
-        });
-    }
-    
-        // ক্রিকেটের কার্ডগুলো স্ক্রিনে দেখানোর ফাংশন
-    function displayCricket(matches) {
-        const container = document.getElementById('cricket-container');
-        container.innerHTML = '';
-        if(!matches) {
-            container.innerHTML = '<p class="text-gray-400">কোনো লাইভ ম্যাচ নেই।</p>';
-            return;
-        }
-        matches.forEach(match => {
-            const div = document.createElement('div');
-            div.className = 'p-6 glass rounded-2xl hover:scale-[1.02] transition duration-300 cursor-pointer';
-            div.innerHTML = `
-                <div class="flex justify-between text-[10px] text-blue-400 font-bold uppercase mb-2">
-                    <span>${match.match_type || 'CRICKET'}</span>
-                    <span class="text-red-500">LIVE</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <p class="font-bold text-lg">${match.team_a} vs ${match.team_b}</p>
-                    <div class="mt-2 text-sm bg-slate-800 px-4 py-2 rounded-lg text-white">
-                        ${match.score_a || '0/0'} | ${match.score_b || '0/0'}
-                    </div>
-                </div>
-            `;
-            div.onclick = () => triggerRewardedAd("Over");
-            container.appendChild(div);
-        });
-    }
+// Display Cricket
+function displayCricket(matches){
+const container=document.getElementById('cricket-container');
+container.innerHTML='';
+if(!matches || matches.length===0){ container.innerHTML='<p class="text-gray-400">কোনো লাইভ ম্যাচ নেই।</p>'; return; }
+matches.forEach(match=>{
+const matchType=match.match_type || 'Cricket';
+const matchTime=match.date_time || 'Time not available';
+const div=document.createElement('div');
+div.className='p-6 glass rounded-2xl flex flex-col items-center';
+div.innerHTML=`
+<div class="flex justify-between w-full text-[12px] text-gray-400 font-bold uppercase mb-2">
+<span class="flex items-center gap-1">🏏 ${matchType}</span>
+<span class="text-red-500">LIVE</span>
+</div>
+<div class="flex justify-between items-center w-full text-center mb-2">
+<div class="flex flex-col items-center w-1/3">
+<img src="${match.flag_a || 'https://via.placeholder.com/24x16'}" class="w-6 h-4 mb-1">
+<p class="font-bold text-sm">${match.team_a}</p>
+</div>
+<div class="text-lg font-black bg-slate-800 px-3 py-1 rounded score-pulse">
+${match.score_a || '0/0'} - ${match.score_b || '0/0'}
+</div>
+<div class="flex flex-col items-center w-1/3">
+<img src="${match.flag_b || 'https://via.placeholder.com/24x16'}" class="w-6 h-4 mb-1">
+<p class="font-bold text-sm">${match.team_b}</p>
+</div>
+</div>
+<p class="text-xs text-gray-400">${matchTime}</p>`;
+div.onclick=()=> triggerRewardedAd("Over");
+container.appendChild(div);
+});
+}
 
-
-    // -------------------------
-    // ৫. অটো-আপডেট সিস্টেম (৪ নম্বর পার্ট - ২০ মিনিট)
-    // -------------------------
-    window.onload = () => {
-        fetchLiveScores();
-        fetchCricketScores();
-
-        // ২০ মিনিট পর পর রিফ্রেশ (আপনার লিমিট বাঁচবে)
-        setInterval(() => {
-            fetchLiveScores();
-            fetchCricketScores();
-        }, 20 * 60 * 1000); 
-    };
+window.onload=()=>{
+fetchLiveScores(); fetchCricketScores();
+setInterval(()=>{fetchLiveScores(); fetchCricketScores();}, 20*60*1000);
+};
 </script>
 
 </body>

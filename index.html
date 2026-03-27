@@ -3,99 +3,349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXiRON Live TV - Sportzfy Style</title>
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <title>AXiRON Sports Pro</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
     <style>
-        body { background-color: #121212; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
-        header { background-color: #ff0000; padding: 15px; text-align: center; font-weight: bold; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .container { padding: 15px; max-width: 900px; margin: auto; }
-        
-        /* Player Box */
-        #video-container { width: 100%; background: #000; border-radius: 8px; border: 2px solid #333; overflow: hidden; aspect-ratio: 16 / 9; }
-        .video-js { width: 100%; height: 100%; }
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --accent: #58a6ff;
+            --text: #c9d1d9;
+            --gray: #8b949e;
+        }
 
-        /* Channel List */
-        .list-title { margin-top: 25px; border-left: 4px solid #ff0000; padding-left: 10px; font-size: 18px; }
-        .channel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; margin-top: 15px; }
-        .channel-card { background: #1e1e1e; padding: 15px 10px; text-align: center; border-radius: 12px; cursor: pointer; border: 1px solid #333; transition: 0.3s; }
-        .channel-card:hover { background: #ff0000; transform: scale(1.05); }
-        .channel-card img { width: 45px; height: 45px; object-fit: contain; display: block; margin: 0 auto 8px; }
-        .channel-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding-bottom: 70px;
+            min-height: 100vh;
+        }
 
-        /* Search Bar */
-        .search-box { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: none; background: #222; color: white; font-size: 16px; box-sizing: border-box; }
+        header {
+            background: #161b22;
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid #30363d;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        h2 {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            padding: 12px 16px;
+            color: var(--gray);
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: rgba(22, 27, 34, 0.8);
+            position: sticky;
+            top: 57px;
+            z-index: 99;
+        }
+
+        .match-card {
+            background: var(--card);
+            margin: 10px 16px;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .match-card:hover, .match-card:active {
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.3);
+            border-color: var(--accent);
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 35%;
+        }
+
+        .team img {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 6px;
+            border: 2px solid #30363d;
+        }
+
+        .vs {
+            text-align: center;
+            flex: 1;
+        }
+
+        .status {
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .live { background: rgba(255, 0, 0, 0.2); color: #ff5555; }
+        .upcoming { background: rgba(255, 165, 0, 0.2); color: #ffaa00; }
+        .finished { background: rgba(128, 128, 128, 0.2); color: #888; }
+
+        .time {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        #video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: none;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        video {
+            flex: 1;
+            width: 100%;
+        }
+
+        .close-btn {
+            background: #ff3333;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #161b22;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 4px;
+            border-top: 1px solid #30363d;
+            z-index: 200;
+        }
+
+        .nav-item {
+            color: var(--gray);
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 6px;
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+        }
+
+        .nav-item i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .empty {
+            text-align: center;
+            color: var(--gray);
+            padding: 40px 20px;
+            font-style: italic;
+        }
+
+        .loader {
+            text-align: center;
+            padding: 30px;
+            color: var(--gray);
+        }
     </style>
 </head>
 <body>
 
-<header>AXiRON LIVE SPORTS</header>
+<header>
+    <h2>⚽ AXiRON Sports</h2>
+</header>
 
-<div class="container">
-    <div id="video-container">
-        <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" poster="https://via.placeholder.com/800x450/000000/FFFFFF?text=AXiRON+Live+TV">
-            <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that supports HTML5 video</p>
-        </video>
-    </div>
-
-    <input type="text" id="searchInput" class="search-box" placeholder="Search Channel (T Sports, GTV...)" onkeyup="filterChannels()">
-
-    <h3 class="list-title">Live Channels</h3>
-    <div id="channelGrid" class="channel-grid">
-        </div>
+<!-- Video Player -->
+<div id="video-container">
+    <video id="player" controls autoplay playsinline></video>
+    <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
 </div>
 
-<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+<!-- Live -->
+<div id="live-tab" class="tab-content">
+    <div class="section-title">🔴 Live Matches</div>
+    <div id="live-list"></div>
+</div>
+
+<!-- Upcoming -->
+<div id="upcoming-tab" class="tab-content" style="display:none;">
+    <div class="section-title">⏳ Upcoming Matches</div>
+    <div id="upcoming-list"></div>
+</div>
+
+<!-- Finished -->
+<div id="finished-tab" class="tab-content" style="display:none;">
+    <div class="section-title">✅ Finished Matches</div>
+    <div id="finished-list"></div>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab(0)">
+        <span>🔴</span><br>Live
+    </div>
+    <div class="nav-item" onclick="switchTab(1)">
+        <span>⏳</span><br>Upcoming
+    </div>
+    <div class="nav-item" onclick="switchTab(2)">
+        <span>✅</span><br>Finished
+    </div>
+</div>
 
 <script>
-    const player = videojs('my-video');
+// ================== Firebase Config ==================
+const firebaseConfig = {
+    apiKey: "AIzaSyBDFd5ppHf-CdFF2Vg4Th_P_FIvJmQZd9w",
+    databaseURL: "https://earnzip-a8766-default-rtdb.firebaseio.com/",   // উদাহরণ: https://your-project-default-rtdb.firebaseio.com/
+    projectId: "earnzip-a8766"
+};
 
-    // সরাসরি চ্যানেল লিস্ট (এটি জাদুর মতো সাথে সাথে আসবে)
-    const channels = [
-        {
-            name: "T Sports",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/e/e6/T_Sports_Logo.png",
-            url: "https://raw.githubusercontent.com/tahsinulmohsin/jagobd-m3u8-scraper/master/playlist.m3u8"
-        },
-        {
-            name: "GTV",
-            logo: "https://www.jagobd.com/img/tv_logos/gtv.png",
-            url: "https://raw.githubusercontent.com/tahsinulmohsin/jagobd-m3u8-scraper/master/playlist.m3u8"
-        },
-        {
-            name: "BTV World",
-            logo: "https://www.jagobd.com/img/tv_logos/btv_world.png",
-            url: "https://raw.githubusercontent.com/tahsinulmohsin/jagobd-m3u8-scraper/master/playlist.m3u8"
-        }
-    ];
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-    function loadChannels(filteredList) {
-        const grid = document.getElementById('channelGrid');
-        grid.innerHTML = '';
-        
-        filteredList.forEach(channel => {
-            const card = document.createElement('div');
-            card.className = 'channel-card';
-            card.innerHTML = `
-                <img src="${channel.logo}" onerror="this.src='https://via.placeholder.com/50?text=TV'">
-                <div class="channel-name">${channel.name}</div>
-            `;
-            card.onclick = () => {
-                player.src({ src: channel.url, type: 'application/x-mpegURL' });
-                player.play();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            };
-            grid.appendChild(card);
+// ================== Elements ==================
+const player = document.getElementById("player");
+const videoContainer = document.getElementById("video-container");
+
+const liveList = document.getElementById("live-list");
+const upcomingList = document.getElementById("upcoming-list");
+const finishedList = document.getElementById("finished-list");
+
+// ================== Player Functions ==================
+function playLive(url) {
+    if (!url) return alert("No live stream link available for this match.");
+
+    videoContainer.style.display = "flex";
+    player.innerHTML = ''; // clear previous
+
+    if (Hls.isSupported()) {
+        const hls = new Hls({
+            liveSyncDurationCount: 3,
+            liveMaxLatencyDurationCount: 5,
+            lowLatencyMode: true
         });
+        hls.loadSource(url);
+        hls.attachMedia(player);
+        window.currentHls = hls; // store for cleanup
+    } else if (player.canPlayType('application/vnd.apple.mpegurl')) {
+        player.src = url;
+    } else {
+        alert("Your browser doesn't support HLS streaming.");
+    }
+}
+
+function closePlayer() {
+    if (window.currentHls) {
+        window.currentHls.destroy();
+        window.currentHls = null;
+    }
+    player.pause();
+    player.src = "";
+    videoContainer.style.display = "none";
+}
+
+// ================== Create Match Card ==================
+function createCard(match) {
+    const statusClass = match.status.toLowerCase();
+    let statusHTML = `<div class="status ${statusClass}">${match.status}</div>`;
+
+    return `
+    <div class="match-card" onclick="playLive('${match.live_link || ''}')">
+        <div class="team">
+            <img src="${match.teamA_logo || 'https://via.placeholder.com/52'}" onerror="this.src='https://via.placeholder.com/52'">
+            <div>${match.teamA_name}</div>
+        </div>
+        <div class="vs">
+            ${statusHTML}
+            <div style="font-size:22px; font-weight:bold; margin:6px 0;">VS</div>
+            <div class="time">${match.time || ''}</div>
+        </div>
+        <div class="team">
+            <img src="${match.teamB_logo || 'https://via.placeholder.com/52'}" onerror="this.src='https://via.placeholder.com/52'">
+            <div>${match.teamB_name}</div>
+        </div>
+    </div>`;
+}
+
+// ================== Tab Switching ==================
+function switchTab(tabIndex) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+
+    if (tabIndex === 0) {
+        document.getElementById('live-tab').style.display = 'block';
+    } else if (tabIndex === 1) {
+        document.getElementById('upcoming-tab').style.display = 'block';
+    } else {
+        document.getElementById('finished-tab').style.display = 'block';
     }
 
-    function filterChannels() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = channels.filter(c => c.name.toLowerCase().includes(query));
-        loadChannels(filtered);
+    document.querySelectorAll('.nav-item')[tabIndex].classList.add('active');
+}
+
+// ================== Firebase Real-time Listener ==================
+db.ref("matches").on("value", (snapshot) => {
+    const data = snapshot.val();
+    if (!data) {
+        liveList.innerHTML = upcomingList.innerHTML = finishedList.innerHTML = `<div class="empty">No matches found</div>`;
+        return;
     }
 
-    // প্রথমবার লোড হওয়া
-    loadChannels(channels);
+    let liveHTML = "", upcomingHTML = "", finishedHTML = "";
+
+    Object.values(data).forEach(match => {
+        if (!match || !match.status) return;
+
+        const card = createCard(match);
+
+        if (match.status === "LIVE") {
+            liveHTML += card;
+        } else if (match.status === "UPCOMING") {
+            upcomingHTML += card;
+        } else {
+            finishedHTML += card;
+        }
+    });
+
+    liveList.innerHTML = liveHTML || `<div class="empty">No Live Matches Right Now</div>`;
+    upcomingList.innerHTML = upcomingHTML || `<div class="empty">No Upcoming Matches</div>`;
+    finishedList.innerHTML = finishedHTML || `<div class="empty">No Finished Matches</div>`;
+});
+
+// Initial tab
+switchTab(0);
 </script>
 
 </body>

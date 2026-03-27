@@ -179,6 +179,28 @@
             padding: 30px;
             color: var(--gray);
         }
+        /* new share button and highlight card design */
+.share-btn {
+    background: #238636;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 15px auto;
+    cursor: pointer;
+    width: 90%;
+    display: block;
+    font-weight: bold;
+}
+.highlight-card {
+    background: var(--card);
+    margin: 10px by 16px;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+    border-left: 4px solid #f1c40f;
+    cursor: pointer;
+    }
     </style>
 </head>
 <body>
@@ -211,6 +233,9 @@
     <div id="finished-list"></div>
 </div>
 
+    <div class="nav-item" onclick="switchTab(3)">
+    <span>🎬</span><br>Highlights
+    </div>
 <!-- Bottom Navigation -->
 <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab(0)">
@@ -346,6 +371,47 @@ db.ref("matches").on("value", (snapshot) => {
 
 // Initial tab
 switchTab(0);
+    // 1. Sharing function
+function shareApp() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'AXiRON Sports',
+            text: 'Watch live games for free!',
+            url: window.location.href
+        });
+    } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert("Link copied!");
+    }
+}
+
+// 2. Fetched from the highlights database
+db.ref("highlights").on("value", (snapshot) => {
+    const data = snapshot.val();
+    const list = document.getElementById("highlights-list");
+    list.innerHTML = "";
+    if (!data) {
+        list.innerHTML = '<div class="empty">No highlights yet.</div>';
+        return;
+    }
+    Object.values(data).forEach(h => {
+        list.innerHTML += `
+        <div class="highlight-card" onclick="playLive('${h.link}')">
+            <div style="font-weight:bold;">📽️ ${h.title}</div>
+            <div style="font-size:12px; color:var(--gray);">Click to watch highlights</div>
+        </div>`;
+    });
+});
+
+// 3. Update switch tab function (replace switchTab function)
+function switchTab(index) {
+    const tabs = ['live-tab', 'upcoming-tab', 'finished-tab', 'highlights-tab'];
+    document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    
+    document.getElementById(tabs[index]).style.display = 'block';
+    document.querySelectorAll('.nav-item')[index].classList.add('active');
+}   
 </script>
 
 </body>

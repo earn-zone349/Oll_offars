@@ -3,23 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXiRON Live TV - Sportzfy Style</title>
+    <title>AXiRON Live TV</title>
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
         body { background-color: #121212; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
         header { background-color: #ff0000; padding: 15px; text-align: center; font-weight: bold; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .container { padding: 15px; max-width: 900px; margin: auto; }
-        
-        /* Player Design */
-        #my-video { width: 100%; border-radius: 8px; border: 2px solid #333; aspect-ratio: 16 / 9; }
-        
-        /* Channel List Styling */
-        .search-box { margin: 20px 0; width: 100%; padding: 12px; border-radius: 25px; border: none; outline: none; background: #222; color: white; }
-        .channel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; margin-top: 20px; }
-        .channel-card { background: #1e1e1e; padding: 10px; text-align: center; border-radius: 10px; cursor: pointer; transition: 0.3s; border: 1px solid #333; }
-        .channel-card:hover { background: #ff0000; transform: translateY(-5px); }
-        .channel-card img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 5px; }
-        .channel-name { font-size: 12px; font-weight: bold; }
+        #my-video { width: 100%; border-radius: 8px; border: 2px solid #333; aspect-ratio: 16 / 9; background: black; }
+        .search-box { margin: 20px 0; width: 100%; padding: 12px; border-radius: 10px; border: none; background: #222; color: white; box-sizing: border-box; }
+        .channel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+        .channel-card { background: #1e1e1e; padding: 10px; text-align: center; border-radius: 10px; cursor: pointer; border: 1px solid #333; }
+        .channel-card:hover { background: #ff0000; }
+        .channel-card img { width: 50px; height: 50px; object-fit: contain; display: block; margin: 0 auto 5px; }
+        .channel-name { font-size: 11px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     </style>
 </head>
 <body>
@@ -27,35 +23,40 @@
 <header>AXiRON LIVE SPORTS</header>
 
 <div class="container">
-    <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" poster="https://via.placeholder.com/800x450/000000/FFFFFF?text=Select+a+Channel">
+    <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" poster="https://via.placeholder.com/800x450/000000/FFFFFF?text=Click+Channel+to+Play">
     </video>
 
-    <input type="text" id="searchInput" class="search-box" placeholder="Search Channel (e.g. T Sports, GTV)..." onkeyup="filterChannels()">
+    <input type="text" id="searchInput" class="search-box" placeholder="Search Channel (T Sports, GTV...)" onkeyup="filterChannels()">
 
     <div id="channelGrid" class="channel-grid">
-        <p style="text-align: center; grid-column: 1/-1;">Loading Channels...</p>
+        <p id="loadingText" style="text-align: center; grid-column: 1/-1;">Loading Channels... Please wait.</p>
     </div>
 </div>
 
 <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 <script>
-    const playlistUrl = "https://raw.githubusercontent.com/tahsinulmohsin/jagobd-m3u8-scraper/master/playlist.m3u8";
+    // এখানে আমি একটি CORS Proxy ব্যবহার করছি যাতে ফাইলটি রিড করা যায়
+    const rawUrl = "https://raw.githubusercontent.com/tahsinulmohsin/jagobd-m3u8-scraper/master/playlist.m3u8";
+    const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(rawUrl);
+    
     const player = videojs('my-video');
     let allChannels = [];
 
-    // M3U8 Playlist Parser
     async function fetchPlaylist() {
         try {
-            const response = await fetch(playlistUrl);
+            const response = await fetch(proxyUrl);
+            if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.text();
             const lines = data.split('\n');
             const grid = document.getElementById('channelGrid');
-            grid.innerHTML = '';
+            const loadingText = document.getElementById('loadingText');
+            
+            loadingText.style.display = 'none';
 
             for (let i = 0; i < lines.length; i++) {
                 if (lines[i].startsWith('#EXTINF')) {
                     const info = lines[i];
-                    const name = info.split(',')[1].trim();
+                    const name = info.split(',')[1]?.trim() || "Unknown Channel";
                     const url = lines[i + 1]?.trim();
                     const logoMatch = info.match(/tvg-logo="([^"]+)"/);
                     const logo = logoMatch ? logoMatch[1] : 'https://via.placeholder.com/50';
@@ -68,7 +69,8 @@
                 }
             }
         } catch (error) {
-            console.error("Error loading playlist:", error);
+            document.getElementById('loadingText').innerText = "Failed to load channels. Please refresh.";
+            console.error("Error:", error);
         }
     }
 
@@ -77,7 +79,7 @@
         const card = document.createElement('div');
         card.className = 'channel-card';
         card.innerHTML = `
-            <img src="${channel.logo}" alt="icon">
+            <img src="${channel.logo}" onerror="this.src='https://via.placeholder.com/50?text=TV'">
             <div class="channel-name">${channel.name}</div>
         `;
         card.onclick = () => {
@@ -98,6 +100,5 @@
 
     fetchPlaylist();
 </script>
-
 </body>
 </html>

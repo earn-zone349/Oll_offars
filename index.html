@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AXiRON Sports Pro</title>
+    28900496
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -256,6 +257,7 @@ header h2 {
     </style>
 </head>
 <body>
+28900497
 
 <header>
     <h2> AXiRON Sports</h2>
@@ -288,6 +290,7 @@ header h2 {
     </div>
 
 </div>
+28900499
 
 <!-- Video Player -->
 <div id="video-container">
@@ -392,9 +395,17 @@ function closePlayer() {
 function createCard(match) {
     const statusClass = (match.status || '').toLowerCase();
     let statusHTML = `<div class="status ${statusClass}">${match.status}</div>`;
+    
+    // তোর কপি করা স্মার্টলিঙ্ক এখানে সেট করলাম
+    const smartLink = "https://www.profitablecpmratenetwork.com/u4r2wqek2?key=6c9c1d86d081f2dab49f0760b4c8c06d";
+
+    // লজিক: লাইভ থাকলে খেলা চলবে, না থাকলে লিঙ্কে ক্লিক করলে অ্যাড দেখাবে
+    const clickAction = match.status.toUpperCase() === "LIVE" 
+        ? `playLive('${match.live_link || ''}')` 
+        : `window.open('${smartLink}', '_blank')`;
 
     return `
-    <div class="match-card" onclick="playLive('${match.live_link || ''}')">
+    <div class="match-card" onclick="${clickAction}">
         <div class="team">
             <img src="${match.teamA_logo || 'https://via.placeholder.com/52'}" onerror="this.src='https://via.placeholder.com/52'">
             <div>${match.teamA_name}</div>
@@ -410,6 +421,7 @@ function createCard(match) {
         </div>
     </div>`;
 }
+
 
 // ================== Tab Switching ==================
 

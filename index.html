@@ -242,6 +242,17 @@ header h2 {
     transform: scale(1.1);
 }
 
+.cat-item div {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(255, 255, 255, 0.05);
+}
+
+.cat-item.active div {
+    border-color: var(--accent) !important;
+    transform: scale(1.05);
+    background: rgba(0, 210, 255, 0.1);
+}
+
     </style>
 </head>
 <body>
@@ -253,21 +264,21 @@ header h2 {
 <div class="category-bar" style="display: flex; overflow-x: auto; padding: 15px; gap: 15px; background: rgba(5, 7, 10, 0.5);">
     <div class="cat-item active" onclick="setCategory('all')" id="cat-all" style="text-align: center; min-width: 65px;">
         <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
-            <span style="font-size: 24px;">🏆</span>
+            <span style="font-size: 24px;">ðŸ†</span>
             <span id="count-all" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">0</span>
         </div>
         <div style="font-size: 11px; margin-top: 5px;">All</div>
     </div>
     <div class="cat-item" onclick="setCategory('cricket')" id="cat-cricket" style="text-align: center; min-width: 65px;">
         <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
-            <span style="font-size: 24px;">🏏</span>
+            <span style="font-size: 24px;">ðŸ</span>
             <span id="count-cricket" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">0</span>
         </div>
         <div style="font-size: 11px; margin-top: 5px;">Cricket</div>
     </div>
     <div class="cat-item" onclick="setCategory('football')" id="cat-football" style="text-align: center; min-width: 65px;">
         <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
-            <span style="font-size: 24px;">⚽</span>
+            <span style="font-size: 24px;">âš½</span>
             <span id="count-football" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">0</span>
         </div>
         <div style="font-size: 11px; margin-top: 5px;">Football</div>
@@ -399,7 +410,7 @@ function createCard(match) {
 // ================== Tab Switching ==================
 
 // ================== Firebase Real-time Listener ==================
-let allMatchesData = []; // সব ডাটা রাখার জন্য
+let allMatchesData = []; // à¦¸à¦¬ à¦¡à¦¾à¦Ÿà¦¾ à¦°à¦¾à¦–à¦¾à¦° à¦œà¦¨à§à¦¯
 
 db.ref("matches").on("value", (snapshot) => {
     const data = snapshot.val();
@@ -409,8 +420,8 @@ db.ref("matches").on("value", (snapshot) => {
     }
 
     allMatchesData = Object.values(data);
-    updateCategoryCounts(); // আইকনের ওপর সংখ্যা আপডেট করবে
-    renderFilteredMatches(); // খেলাগুলো দেখাবে
+    updateCategoryCounts(); // à¦†à¦‡à¦•à¦¨à§‡à¦° à¦“à¦ªà¦° à¦¸à¦‚à¦–à§à¦¯à¦¾ à¦†à¦ªà¦¡à§‡à¦Ÿ à¦•à¦°à¦¬à§‡
+    renderFilteredMatches(); // à¦–à§‡à¦²à¦¾à¦—à§à¦²à§‹ à¦¦à§‡à¦–à¦¾à¦¬à§‡
 });
 
 function updateCategoryCounts() {
@@ -486,7 +497,7 @@ function renderFilteredMatches() {
     allMatchesData.forEach(match => {
         if (!match || !match.status) return;
         
-        // ক্যাটাগরি ফিল্টার চেক
+        // à¦•à§à¦¯à¦¾à¦Ÿà¦¾à¦—à¦°à¦¿ à¦«à¦¿à¦²à§à¦Ÿà¦¾à¦° à¦šà§‡à¦•
         if (currentCategory !== 'all' && match.category !== currentCategory) return;
 
         const card = createCard(match);

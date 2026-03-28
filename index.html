@@ -232,6 +232,21 @@ header h2 {
     box-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
 }
 
+.unlock-btn {
+    background: linear-gradient(45deg, #f1c40f, #e67e22);
+    color: #000;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 20px auto;
+    width: 90%;
+    display: block;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
+    text-align: center;
+}
+
 @keyframes blink {
     0% { opacity: 1; }
     50% { opacity: 0.5; }
@@ -359,6 +374,10 @@ header h2 {
 
 <div id="highlights-tab" class="tab-content" style="display:none;">
     <div class="section-title"> Match Highlights</div>
+        <div id="unlock-container">
+        <p style="text-align:center; font-size:13px; color:var(--gray); margin-top:15px;">Highlights দেখার জন্য ৩ বার ক্লিক করে অ্যাড দেখুন।</p>
+        <button class="unlock-btn" onclick="handleUnlockClick()">🔓 Unlock Highlights (<span id="ad-count">3</span> clicks left)</button>
+    </div>
     <div style="text-align: center; margin: 15px 0;">
 <script>
   atOptions = {
@@ -371,7 +390,7 @@ header h2 {
 </script>
 <script src="https://acceptancesuicidegel.com/3894c886e0066f6764c0b8963cd02480/invoke.js"></script>
 </div>
-    <div id="highlights-list"></div>
+    <div id="highlights-list" style="display:none;"></div>
 </div>
 <!-- Bottom Navigation -->
 <div class="bottom-nav">
@@ -574,6 +593,28 @@ function renderFilteredMatches() {
     liveList.innerHTML = liveHTML || `<div class="empty">No Live Matches</div>`;
     upcomingList.innerHTML = upcomingHTML || `<div class="empty">No Upcoming Matches</div>`;
     finishedList.innerHTML = finishedHTML || `<div class="empty">No Finished Matches</div>`;
+}
+
+let adsWatched = 0; 
+
+function handleUnlockClick() {
+    // তোর পপ-আন্ডার লিঙ্ক (যা Adsterra থেকে পেয়েছিস)
+    const popunderLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
+    
+    if (adsWatched < 3) {
+        adsWatched++;
+        // স্ক্রিনে সংখ্যা আপডেট করবে
+        document.getElementById("ad-count").innerText = 3 - adsWatched;
+        
+        // এটি সরাসরি পপ-আন্ডার হিসেবে কাজ করবে (নতুন ট্যাব খুলবে)
+        window.open(popunderLink, '_blank'); 
+        
+        // ৩ বার ক্লিক পূর্ণ হলে বাটন লুকিয়ে লিস্ট দেখাবে
+        if (adsWatched === 3) {
+            document.getElementById("unlock-container").style.display = "none";
+            document.getElementById("highlights-list").style.display = "block";
+        }
+    }
 }
 
 </script>

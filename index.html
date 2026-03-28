@@ -51,10 +51,10 @@ header h2 {
 
         .section-title {
     padding: 12px 16px;
-    color: var(--accent); /* নীল কালার */
+    color: var(--accent); /*   */
     font-size: 1.1rem;
     font-weight: 700;
-    background: transparent; /* ব্যাকগ্রাউন্ড রিমুভ */
+    background: transparent; /*   */
     position: sticky;
     top: 57px;
     z-index: 99;
@@ -162,11 +162,11 @@ header h2 {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background: rgba(5, 7, 10, 0.9); /* হালকা স্বচ্ছ কালো */
+    background: rgba(5, 7, 10, 0.9); /*    */
     backdrop-filter: blur(20px);
     display: flex;
     justify-content: space-around;
-    padding: 8px 0 12px; /* নিচে একটু গ্যাপ থাকবে */
+    padding: 8px 0 12px; /*     */
     border-top: 1px solid rgba(255,255,255,0.05);
     z-index: 200;
 }
@@ -221,7 +221,7 @@ header h2 {
     margin: 10px 16px;
     padding: 18px;
     border-radius: 15px;
-    border: 1px solid rgba(255, 215, 0, 0.2); /* গোল্ডেন বর্ডার */
+    border: 1px solid rgba(255, 215, 0, 0.2); /*   */
     cursor: pointer;
     transition: 0.3s;
 }
@@ -236,66 +236,96 @@ header h2 {
     100% { opacity: 1; }
 }
 
+.cat-item.active div {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 15px var(--glow);
+    transform: scale(1.1);
+}
+
     </style>
 </head>
 <body>
 
 <header>
-    <h2>⚽ AXiRON Sports</h2>
+    <h2> AXiRON Sports</h2>
 </header>
+
+<div class="category-bar" style="display: flex; overflow-x: auto; padding: 15px; gap: 15px; background: rgba(5, 7, 10, 0.5);">
+    <div class="cat-item active" onclick="setCategory('all')" id="cat-all" style="text-align: center; min-width: 65px;">
+        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
+            <span style="font-size: 24px;">🏆</span>
+            <span id="count-all" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">0</span>
+        </div>
+        <div style="font-size: 11px; margin-top: 5px;">All</div>
+    </div>
+    <div class="cat-item" onclick="setCategory('cricket')" id="cat-cricket" style="text-align: center; min-width: 65px;">
+        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
+            <span style="font-size: 24px;">🏏</span>
+            <span id="count-cricket" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">0</span>
+        </div>
+        <div style="font-size: 11px; margin-top: 5px;">Cricket</div>
+    </div>
+    <div class="cat-item" onclick="setCategory('football')" id="cat-football" style="text-align: center; min-width: 65px;">
+        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
+            <span style="font-size: 24px;">⚽</span>
+            <span id="count-football" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">0</span>
+        </div>
+        <div style="font-size: 11px; margin-top: 5px;">Football</div>
+    </div>
+</div>
 
 <!-- Video Player -->
 <div id="video-container">
     <video id="player" controls autoplay playsinline></video>
-    <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
+    <button class="close-btn" onclick="closePlayer()"> Close Player</button>
 </div>
 
 <!-- Live -->
 <div id="live-tab" class="tab-content">
-    <div class="section-title">🔴 Live Matches</div>
+    <div class="section-title"> Live Matches</div>
     <div id="live-list"></div>
 </div>
 
 <!-- Upcoming -->
 <div id="upcoming-tab" class="tab-content" style="display:none;">
-    <div class="section-title">⏳ Upcoming Matches</div>
+    <div class="section-title"> Upcoming Matches</div>
     <div id="upcoming-list"></div>
 </div>
 
 <!-- Finished -->
 <div id="finished-tab" class="tab-content" style="display:none;">
-    <div class="section-title">✅ Finished Matches</div>
+    <div class="section-title"> Finished Matches</div>
     <div id="finished-list"></div>
 </div>
 
     <div id="share-section" style="text-align: center;">
-    <button class="share-btn" onclick="shareApp()">🔗 Share AXiRON Sports</button>
+    <button class="share-btn" onclick="shareApp()"> Share AXiRON Sports</button>
 </div>
 
 <div id="highlights-tab" class="tab-content" style="display:none;">
-    <div class="section-title">🎬 Match Highlights</div>
+    <div class="section-title"> Match Highlights</div>
     <div id="highlights-list"></div>
 </div>
 <!-- Bottom Navigation -->
 <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab(0)">
-        <span>🔴</span><br>Live
+        <span></span><br>Live
     </div>
     <div class="nav-item" onclick="switchTab(1)">
-        <span>⏳</span><br>Upcoming
+        <span></span><br>Upcoming
     </div>
     <div class="nav-item" onclick="switchTab(2)">
-        <span>✅</span><br>Finished
+        <span></span><br>Finished
     </div>
     <div class="nav-item" onclick="switchTab(3)">
-        <span>🎬</span><br>Highlights
+        <span></span><br>Highlights
     </div>
 </div>
 <script>
 // ================== Firebase Config ==================
 const firebaseConfig = {
     apiKey: "AIzaSyBDFd5ppHf-CdFF2Vg4Th_P_FIvJmQZd9w",
-    databaseURL: "https://earnzip-a8766-default-rtdb.firebaseio.com/",   // উদাহরণ: https://your-project-default-rtdb.firebaseio.com/
+    databaseURL: "https://earnzip-a8766-default-rtdb.firebaseio.com/",   // : https://your-project-default-rtdb.firebaseio.com/
     projectId: "earnzip-a8766"
 };
 
@@ -369,6 +399,8 @@ function createCard(match) {
 // ================== Tab Switching ==================
 
 // ================== Firebase Real-time Listener ==================
+let allMatchesData = []; // সব ডাটা রাখার জন্য
+
 db.ref("matches").on("value", (snapshot) => {
     const data = snapshot.val();
     if (!data) {
@@ -376,26 +408,23 @@ db.ref("matches").on("value", (snapshot) => {
         return;
     }
 
-    let liveHTML = "", upcomingHTML = "", finishedHTML = "";
-
-    Object.values(data).forEach(match => {
-        if (!match || !match.status) return;
-
-        const card = createCard(match);
-
-        if (match.status === "LIVE") {
-            liveHTML += card;
-        } else if (match.status === "UPCOMING") {
-            upcomingHTML += card;
-        } else {
-            finishedHTML += card;
-        }
-    });
-
-    liveList.innerHTML = liveHTML || `<div class="empty">No Live Matches Right Now</div>`;
-    upcomingList.innerHTML = upcomingHTML || `<div class="empty">No Upcoming Matches</div>`;
-    finishedList.innerHTML = finishedHTML || `<div class="empty">No Finished Matches</div>`;
+    allMatchesData = Object.values(data);
+    updateCategoryCounts(); // আইকনের ওপর সংখ্যা আপডেট করবে
+    renderFilteredMatches(); // খেলাগুলো দেখাবে
 });
+
+function updateCategoryCounts() {
+    let counts = { all: 0, cricket: 0, football: 0 };
+    allMatchesData.forEach(m => {
+        if (!m || !m.status) return;
+        counts.all++;
+        if(m.category === 'cricket') counts.cricket++;
+        if(m.category === 'football') counts.football++;
+    });
+    document.getElementById("count-all").innerText = counts.all;
+    document.getElementById("count-cricket").innerText = counts.cricket;
+    document.getElementById("count-football").innerText = counts.football;
+}
 
 // Initial tab
 switchTab(0);
@@ -425,7 +454,7 @@ db.ref("highlights").on("value", (snapshot) => {
     Object.values(data).forEach(h => {
         list.innerHTML += `
         <div class="highlight-card" onclick="playLive('${h.link}')">
-            <div style="font-weight:bold;">📽️ ${h.title}</div>
+            <div style="font-weight:bold;"> ${h.title}</div>
             <div style="font-size:12px; color:var(--gray);">Click to watch highlights</div>
         </div>`;
     });
@@ -440,6 +469,37 @@ function switchTab(index) {
     document.getElementById(tabs[index]).style.display = 'block';
     document.querySelectorAll('.nav-item')[index].classList.add('active');
 }   
+
+let currentCategory = 'all';
+let allData = [];
+
+function setCategory(cat) {
+    currentCategory = cat;
+    document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('active'));
+    document.getElementById(`cat-${cat}`).classList.add('active');
+    renderFilteredMatches();
+}
+
+function renderFilteredMatches() {
+    let liveHTML = "", upcomingHTML = "", finishedHTML = "";
+
+    allMatchesData.forEach(match => {
+        if (!match || !match.status) return;
+        
+        // ক্যাটাগরি ফিল্টার চেক
+        if (currentCategory !== 'all' && match.category !== currentCategory) return;
+
+        const card = createCard(match);
+        if (match.status.toUpperCase() === "LIVE") liveHTML += card;
+        else if (match.status.toUpperCase() === "UPCOMING") upcomingHTML += card;
+        else finishedHTML += card;
+    });
+
+    liveList.innerHTML = liveHTML || `<div class="empty">No Live Matches</div>`;
+    upcomingList.innerHTML = upcomingHTML || `<div class="empty">No Upcoming Matches</div>`;
+    finishedList.innerHTML = finishedHTML || `<div class="empty">No Finished Matches</div>`;
+}
+
 </script>
 
 </body>

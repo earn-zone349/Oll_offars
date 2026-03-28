@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://acceptancesuicidegel.com/88/2d/34/882d348d749f77e132a1d5740ae5cd69.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AXiRON Sports Pro</title>
-    28900496
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -257,7 +258,6 @@ header h2 {
     </style>
 </head>
 <body>
-28900497
 
 <header>
     <h2> AXiRON Sports</h2>
@@ -290,7 +290,20 @@ header h2 {
     </div>
 
 </div>
-28900499
+
+<div style="text-align: center; margin: 15px 0;">
+<script>
+  atOptions = {
+    'key' : '3894c886e0066f6764c0b8963cd02480',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script src="https://acceptancesuicidegel.com/3894c886e0066f6764c0b8963cd02480/invoke.js"></script>
+</div>
+
 
 <!-- Video Player -->
 <div id="video-container">
@@ -396,10 +409,10 @@ function createCard(match) {
     const statusClass = (match.status || '').toLowerCase();
     let statusHTML = `<div class="status ${statusClass}">${match.status}</div>`;
     
-    // তোর কপি করা স্মার্টলিঙ্ক এখানে সেট করলাম
-    const smartLink = "https://www.profitablecpmratenetwork.com/u4r2wqek2?key=6c9c1d86d081f2dab49f0760b4c8c06d";
+    //       
+    const smartLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
 
-    // লজিক: লাইভ থাকলে খেলা চলবে, না থাকলে লিঙ্কে ক্লিক করলে অ্যাড দেখাবে
+    // :    ,       
     const clickAction = match.status.toUpperCase() === "LIVE" 
         ? `playLive('${match.live_link || ''}')` 
         : `window.open('${smartLink}', '_blank')`;
@@ -426,7 +439,7 @@ function createCard(match) {
 // ================== Tab Switching ==================
 
 // ================== Firebase Real-time Listener ==================
-let allMatchesData = []; // à¦¸à¦¬ à¦¡à¦¾à¦Ÿà¦¾ à¦°à¦¾à¦–à¦¾à¦° à¦œà¦¨à§à¦¯
+let allMatchesData = []; // সব ডাটা রাখার জন্য
 
 db.ref("matches").on("value", (snapshot) => {
     const data = snapshot.val();
@@ -436,8 +449,8 @@ db.ref("matches").on("value", (snapshot) => {
     }
 
     allMatchesData = Object.values(data);
-    updateCategoryCounts(); // à¦†à¦‡à¦•à¦¨à§‡à¦° à¦“à¦ªà¦° à¦¸à¦‚à¦–à§à¦¯à¦¾ à¦†à¦ªà¦¡à§‡à¦Ÿ à¦•à¦°à¦¬à§‡
-    renderFilteredMatches(); // à¦–à§‡à¦²à¦¾à¦—à§à¦²à§‹ à¦¦à§‡à¦–à¦¾à¦¬à§‡
+    updateCategoryCounts(); // আইকনের ওপর সংখ্যা আপডেট করবে
+    renderFilteredMatches(); // খেলাগুলো দেখাবে
 });
 
 function updateCategoryCounts() {
@@ -513,7 +526,7 @@ function renderFilteredMatches() {
     allMatchesData.forEach(match => {
         if (!match || !match.status) return;
         
-        // à¦•à§à¦¯à¦¾à¦Ÿà¦¾à¦—à¦°à¦¿ à¦«à¦¿à¦²à§à¦Ÿà¦¾à¦° à¦šà§‡à¦•
+        // ক্যাটাগরি ফিল্টার চেক
         if (currentCategory !== 'all' && match.category !== currentCategory) return;
 
         const card = createCard(match);
@@ -528,6 +541,6 @@ function renderFilteredMatches() {
 }
 
 </script>
-
+<script src="https://acceptancesuicidegel.com/2d/32/39/2d32392f450842f2143f0369c1ee7b60.js"></script>
 </body>
 </html>

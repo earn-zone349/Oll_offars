@@ -247,6 +247,12 @@ header h2 {
     border: 2px solid rgba(255, 255, 255, 0.05);
 }
 
+.cat-item.active div {
+    border-color: var(--accent) !important;
+    transform: scale(1.05);
+    background: rgba(0, 210, 255, 0.1);
+}
+
     </style>
 </head>
 <body>
@@ -257,23 +263,25 @@ header h2 {
 
 <div class="category-bar" style="display: flex; overflow-x: auto; padding: 15px; gap: 15px; background: rgba(5, 7, 10, 0.5);">
     <div class="cat-item active" onclick="setCategory('all')" id="cat-all" style="text-align: center; min-width: 65px;">
-        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
-            <span style="font-size: 24px;">ðŸ†</span>
-            <span id="count-all" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">0</span>
+        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1); overflow: hidden;">
+            <span style="font-size: 24px;">🏆</span>
+            <span id="count-all" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">0</span>
         </div>
         <div style="font-size: 11px; margin-top: 5px;">All</div>
     </div>
+
     <div class="cat-item" onclick="setCategory('cricket')" id="cat-cricket" style="text-align: center; min-width: 65px;">
-        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
-            <span style="font-size: 24px;">ðŸ</span>
-            <span id="count-cricket" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">0</span>
+        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1); overflow: hidden;">
+            <img src="https://flagcdn.com/w160/cricket_bat_and_ball_icon.png" onerror="this.src='🏏'" style="width: 26px; height: auto;">
+            <span id="count-cricket" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">0</span>
         </div>
         <div style="font-size: 11px; margin-top: 5px;">Cricket</div>
     </div>
+
     <div class="cat-item" onclick="setCategory('football')" id="cat-football" style="text-align: center; min-width: 65px;">
-        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
-            <span style="font-size: 24px;">âš½</span>
-            <span id="count-football" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">0</span>
+        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1); overflow: hidden;">
+            <img src="https://flagcdn.com/w160/football_icon.png" onerror="this.src='⚽'" style="width: 26px; height: auto;">
+            <span id="count-football" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">0</span>
         </div>
         <div style="font-size: 11px; margin-top: 5px;">Football</div>
     </div>

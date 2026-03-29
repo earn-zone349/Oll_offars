@@ -379,8 +379,8 @@ header h2 {
 <div id="highlights-tab" class="tab-content" style="display:none;">
     <div class="section-title"> Match Highlights</div>
         <div id="unlock-container">
-        <p style="text-align:center; font-size:13px; color:var(--gray); margin-top:15px;">Highlights দেখার জন্য ৩ বার ক্লিক করে অ্যাড দেখুন।</p>
-        <button class="unlock-btn" onclick="handleUnlockClick()">🔓 Unlock Highlights (<span id="ad-count">3</span> clicks left)</button>
+        <p style="text-align:center; font-size:13px; color:var(--gray); margin-top:15px;">Highlights দেখার জন্য ৫ বার ক্লিক করে অ্যাড দেখুন।</p>
+        <button class="unlock-btn" onclick="handleUnlockClick()">🔓 Unlock Highlights (<span id="ad-count">5</span> clicks left)</button>
     </div>
     <div style="text-align: center; margin: 15px 0;">
 <script>
@@ -599,27 +599,42 @@ function renderFilteredMatches() {
     finishedList.innerHTML = finishedHTML || `<div class="empty">No Finished Matches</div>`;
 }
 
-let adsWatched = 0; 
+// --- রাকিবের নতুন লজিক (৫টি অ্যাড এবং ১ ঘণ্টা মেমোরি) ---
+let adsWatched = parseInt(localStorage.getItem('rakib_ads')) || 0;
+let unlockTime = localStorage.getItem('rakib_unlock_time');
+
+function checkUnlockStatus() {
+    if (unlockTime && Date.now() < unlockTime) {
+        document.getElementById("unlock-container").style.display = "none";
+        document.getElementById("highlights-list").style.display = "block";
+    } else {
+        if (unlockTime && Date.now() >= unlockTime) {
+            adsWatched = 0;
+            localStorage.removeItem('rakib_ads');
+            localStorage.removeItem('rakib_unlock_time');
+        }
+        let el = document.getElementById("ad-count");
+        if(el) el.innerText = 5 - adsWatched;
+    }
+}
 
 function handleUnlockClick() {
-    // তোর পপ-আন্ডার লিঙ্ক (যা Adsterra থেকে পেয়েছিস)
-    const popunderLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
-    
-    if (adsWatched < 3) {
+    const adLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
+    if (adsWatched < 5) {
         adsWatched++;
-        // স্ক্রিনে সংখ্যা আপডেট করবে
-        document.getElementById("ad-count").innerText = 3 - adsWatched;
-        
-        // এটি সরাসরি পপ-আন্ডার হিসেবে কাজ করবে (নতুন ট্যাব খুলবে)
-        window.open(popunderLink, '_blank'); 
-        
-        // ৩ বার ক্লিক পূর্ণ হলে বাটন লুকিয়ে লিস্ট দেখাবে
-        if (adsWatched === 3) {
-            document.getElementById("unlock-container").style.display = "none";
-            document.getElementById("highlights-list").style.display = "block";
+        localStorage.setItem('rakib_ads', adsWatched);
+        let el = document.getElementById("ad-count");
+        if(el) el.innerText = 5 - adsWatched;
+        window.open(adLink, '_blank');
+        if (adsWatched >= 5) {
+            let expiry = Date.now() + (60 * 60 * 1000); 
+            localStorage.setItem('rakib_unlock_time', expiry);
+            location.reload(); 
         }
     }
 }
+checkUnlockStatus();
+
 
 // Full Screen করার মেইন কোড
 function makeFullScreen() {

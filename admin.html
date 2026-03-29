@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AXiRON Admin - Protected</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <style>
+        body { font-family: sans-serif; background: #05070a; color: white; padding: 20px; }
+        .box { background: #1c2b53; padding: 25px; border-radius: 15px; max-width: 500px; margin: auto; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; }
+        button { width: 100%; padding: 15px; background: #00d2ff; color: black; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; }
+        #admin-content { display: none; }
+    </style>
+</head>
+<body>
+
+<div id="login-box" class="box">
+    <h2>Admin Login</h2>
+    <input type="password" id="pass" placeholder="Enter Admin Password">
+    <button onclick="checkPass()">Login</button>
+</div>
+
+<div id="admin-content">
+    <div class="box">
+        <h2>Add Match (AXiRON)</h2>
+        <input type="text" id="teamA" placeholder="Team A Name">
+        <input type="text" id="logoA" placeholder="Team A Logo URL">
+        <input type="text" id="teamB" placeholder="Team B Name">
+        <input type="text" id="logoB" placeholder="Team B Logo URL">
+        <input type="text" id="link" placeholder="Stream Link (m3u8)">
+        <input type="datetime-local" id="matchDate">
+        <select id="category">
+            <option value="cricket">Cricket</option>
+            <option value="football">Football</option>
+        </select>
+        <button onclick="addMatch()">Add Match</button>
+        <div id="match-list" style="margin-top:20px;"></div>
+    </div>
+</div>
+
+<script>
+    // তোর Firebase Config (আগেরটাই থাকবে)
+    const firebaseConfig = {
+        apiKey: "AIzaSyBDFd5ppHf-CdFF2Vg4Th_P_FIvJmQZd9w",
+        databaseURL: "https://earnzip-a8766-default-rtdb.firebaseio.com/",
+        projectId: "earnzip-a8766"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // পাসওয়ার্ড চেক (তুই এখানে নিজের পাসওয়ার্ড সেট কর)
+    function checkPass() {
+        const p = document.getElementById('pass').value;
+        if(p === "rakib123") { // "rakib123" এর জায়গায় তোর নিজের পাসওয়ার্ড দে
+            document.getElementById('login-box').style.display = "none";
+            document.getElementById('admin-content').style.display = "block";
+            loadMatches();
+        } else {
+            alert("Wrong Password!");
+        }
+    }
+
+    function addMatch() {
+        const matchId = "match_" + Date.now();
+        const data = {
+            teamA_name: document.getElementById('teamA').value,
+            teamA_logo: document.getElementById('logoA').value,
+            teamB_name: document.getElementById('teamB').value,
+            teamB_logo: document.getElementById('logoB').value,
+            live_link: document.getElementById('link').value,
+            full_date_time: document.getElementById('matchDate').value.replace(" ", "T"),
+            category: document.getElementById('category').value,
+            status: "UPCOMING"
+        };
+        db.ref("matches/" + matchId).set(data).then(() => alert("Added!"));
+    }
+
+    function loadMatches() {
+        db.ref("matches").on("value", (snap) => {
+            const list = document.getElementById('match-list');
+            list.innerHTML = "<h4>Current Matches:</h4>";
+            snap.forEach(child => {
+                list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span>${child.val().teamA_name} vs ${child.val().teamB_name}</span>
+                    <button onclick="deleteMatch('${child.key}')" style="width:auto; padding:5px 10px; background:red;">Delete</button>
+                </div>`;
+            });
+        });
+    }
+
+    function deleteMatch(id) {
+        if(confirm("Delete?")) db.ref("matches/" + id).remove();
+    }
+</script>
+</body>
+</html>

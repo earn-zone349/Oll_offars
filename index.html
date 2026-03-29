@@ -465,14 +465,19 @@ function closePlayer() {
 
 // ================== Create Match Card ==================
 function createCard(match) {
-    const statusClass = (match.status || '').toLowerCase();
-    let statusHTML = `<div class="status ${statusClass}">${match.status}</div>`;
+    // ১. স্ট্যাটাস চেক করার নিরাপদ উপায়
+    const currentStatus = (match.status || 'UPCOMING').toUpperCase();
+    const statusClass = currentStatus.toLowerCase();
     
-    //       
+    let statusHTML = `<div class="status ${statusClass}">${currentStatus}</div>`;
+    
+    // টাইটেল দেখানোর লজিক
+    const titleHTML = match.title ? `<div style="font-size: 10px; color: var(--accent); background: rgba(0, 210, 255, 0.1); padding: 2px 8px; border-radius: 10px; margin-bottom: 5px; display: inline-block; border: 1px solid rgba(0, 210, 255, 0.2);">${match.title}</div>` : '';
+
     const smartLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
 
-    // :    ,       
-    const clickAction = match.status.toUpperCase() === "LIVE" 
+    // ২. এখানে currentStatus ব্যবহার করা হয়েছে যাতে ভুল না হয়
+    const clickAction = currentStatus === "LIVE" 
         ? `playLive('${match.live_link || ''}')` 
         : `window.open('${smartLink}', '_blank')`;
 
@@ -483,8 +488,9 @@ function createCard(match) {
             <div>${match.teamA_name}</div>
         </div>
         <div class="vs">
+            ${titleHTML} <br>
             ${statusHTML}
-            <div style="font-size:22px; font-weight:bold; color:var(--text); text-shadow: 0 0 15px var(--glow); margin:6px 0;">VS</div>
+            <div style="font-size:20px; font-weight:bold; color:var(--text); text-shadow: 0 0 15px var(--glow); margin:4px 0;">VS</div>
             <div class="time">${match.time || ''}</div>
         </div>
         <div class="team">
@@ -493,6 +499,7 @@ function createCard(match) {
         </div>
     </div>`;
 }
+
 
 
 // ================== Tab Switching ==================

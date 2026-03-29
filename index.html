@@ -660,6 +660,30 @@ document.addEventListener('fullscreenchange', () => {
         }
     }
 });
+// ইন্টারনেট কানেকশন চেক করার ফাংশন
+function checkInternet() {
+    if (!navigator.onLine) {
+        // নেট না থাকলে লাল রঙের একটা নোটিফিকেশন দেখাবে
+        const offlineBox = document.createElement('div');
+        offlineBox.id = "offline-notice";
+        offlineBox.innerHTML = `
+            <div style="position: fixed; top: 0; left: 0; width: 100%; background: #ff3333; color: white; text-align: center; padding: 10px; z-index: 9999; font-weight: bold; font-size: 14px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                ⚠️ No Internet Connection! Please check your data/WiFi.
+            </div>`;
+        document.body.appendChild(offlineBox);
+    } else {
+        // নেট ফিরে আসলে নোটিফিকেশন সরিয়ে ফেলবে
+        const notice = document.getElementById("offline-notice");
+        if (notice) notice.remove();
+    }
+}
+
+// নেট আসা বা যাওয়ার সাথে সাথে অটোমেটিক চেক হবে
+window.addEventListener('online', checkInternet);
+window.addEventListener('offline', checkInternet);
+
+// পেজ লোড হওয়ার সময় একবার চেক করবে
+checkInternet();
 
 
 </script>

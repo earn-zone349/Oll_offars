@@ -578,19 +578,41 @@ function setCategory(cat) {
     document.getElementById(`cat-${cat}`).classList.add('active');
     renderFilteredMatches();
 }
+// --- গ্লোবাল টাইম এবং অটো-স্ট্যাটাস লজিক (রাকিব ভাইয়ের জন্য) ---
 
+function formatMatchTime(matchStartTime) {
+    const event = new Date(matchStartTime);
+    return event.toLocaleString([], { hour: '2-digit', minute: '2-digit', hour12: true }); 
+}
+
+function updateMatchStatus(matchStartTime) {
+    const now = new Date().getTime();
+    const startTime = new Date(matchStartTime).getTime(); 
+    const endTime = startTime + (3 * 60 * 60 * 1000); // ৩ ঘণ্টা পর খেলা শেষ ধরবে 
+
+    if (now < startTime) return "UPCOMING";
+    else if (now >= startTime && now <= endTime) return "LIVE";
+    else return "FINISHED";
+}
+
+// এই ফাংশনটা তোর কোডে আগে থেকেই আছে, শুধু এটা দিয়ে রিপ্লেস কর
 function renderFilteredMatches() {
     let liveHTML = "", upcomingHTML = "", finishedHTML = "";
 
     allMatchesData.forEach(match => {
-        if (!match || !match.status) return;
+        if (!match || !match.full_date_time) return;
+
+        // অটোমেটিক স্ট্যাটাস এবং টাইম আপডেট
+        const currentStatus = updateMatchStatus(match.full_date_time);
+        const displayTime = formatMatchTime(match.full_date_time);
         
-        // ক্যাটাগরি ফিল্টার চেক
         if (currentCategory !== 'all' && match.category !== currentCategory) return;
 
-        const card = createCard(match);
-        if (match.status.toUpperCase() === "LIVE") liveHTML += card;
-        else if (match.status.toUpperCase() === "UPCOMING") upcomingHTML += card;
+        // কার্ড তৈরি করার সময় নতুন স্ট্যাটাস এবং টাইম পাঠানো হচ্ছে
+        const card = createCard({...match, status: currentStatus, time: displayTime});
+        
+        if (currentStatus === "LIVE") liveHTML += card;
+        else if (currentStatus === "UPCOMING") upcomingHTML += card;
         else finishedHTML += card;
     });
 
@@ -598,6 +620,8 @@ function renderFilteredMatches() {
     upcomingList.innerHTML = upcomingHTML || `<div class="empty">No Upcoming Matches</div>`;
     finishedList.innerHTML = finishedHTML || `<div class="empty">No Finished Matches</div>`;
 }
+
+
 
 // --- রাকিবের নতুন লজিক (৫টি অ্যাড এবং ১ ঘণ্টা মেমোরি) ---
 let adsWatched = parseInt(localStorage.getItem('rakib_ads')) || 0;

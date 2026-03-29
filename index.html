@@ -321,20 +321,14 @@ header h2 {
 
 
 <!-- Video Player -->
-<div id="video-container">
-    <div id="player-lock-screen" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #05070a; padding: 20px; text-align: center;">
-        <div style="font-size: 50px; margin-bottom: 15px;">🔒</div>
-        <h3 style="color: var(--accent);">Match is Locked!</h3>
-        <p style="color: var(--gray); font-size: 14px; margin-bottom: 25px;">Please click the button below to unlock and watch live stream.</p>
-        <button class="unlock-btn" id="unlock-match-btn" style="width: 80%; max-width: 300px;">🔓 Unlock Match Now</button>
-    </div>
-
-    <div id="actual-player-area" style="display: none; flex: 1; flex-direction: column; position: relative;">
-        <video id="player" controls autoplay playsinline></video>
+<div id="video-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 1000; flex-direction: column;">
+    <div style="flex: 1; position: relative; display: flex; flex-direction: column;">
+        <video id="player" controls autoplay playsinline style="flex: 1; width: 100%;"></video>
         <button onclick="makeFullScreen()" style="position: absolute; bottom: 80px; right: 20px; background: rgba(0,210,255,0.7); border: none; color: white; padding: 10px; border-radius: 50%; z-index: 1001; width: 50px; height: 50px; font-size: 20px; box-shadow: 0 0 15px var(--glow);">📱</button>
     </div>
-    <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
+    <button class="close-btn" onclick="closePlayer()" style="background: #ff3333; color: white; border: none; padding: 15px; font-weight: bold; cursor: pointer;">✕ Close Player & Back</button>
 </div>
+
 
 <!-- Live -->
 <div id="live-tab" class="tab-content">
@@ -437,36 +431,36 @@ const upcomingList = document.getElementById("upcoming-list");
 const finishedList = document.getElementById("finished-list");
 
 // ================== Player Functions ==================
-let pendingUrl = ""; 
-
 function playLive(url) {
-    if (!url) return alert("No live stream link available.");
-    pendingUrl = url; 
+    if (!url) return alert("No live stream link available for this match.");
+
     videoContainer.style.display = "flex";
-    
-    // শুরুতে লক স্ক্রিন দেখাবে
-    document.getElementById('player-lock-screen').style.display = 'flex';
-    document.getElementById('actual-player-area').style.display = 'none';
+    player.innerHTML = ''; // clear previous
 
-    // আনলক বাটনে ক্লিক করলে যা হবে
-    document.getElementById('unlock-match-btn').onclick = function() {
-        // ১. নতুন ট্যাবে অ্যাড ওপেন হবে (তোর ইনকাম)
-        window.open("https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233", "_blank");
+    if (Hls.isSupported()) {
+        const hls = new Hls({
+            liveSyncDurationCount: 3,
+            liveMaxLatencyDurationCount: 5,
+            lowLatencyMode: true
+        });
+        hls.loadSource(url);
+        hls.attachMedia(player);
+        window.currentHls = hls; // store for cleanup
+    } else if (player.canPlayType('application/vnd.apple.mpegurl')) {
+        player.src = url;
+    } else {
+        alert("Your browser doesn't support HLS streaming.");
+    }
+}
 
-        // ২. লক স্ক্রিন সরিয়ে প্লেয়ার দেখাবে
-        document.getElementById('player-lock-screen').style.display = 'none';
-        document.getElementById('actual-player-area').style.display = 'flex';
-        
-        // ৩. ভিডিও স্ট্রিমিং শুরু
-        if (Hls.isSupported()) {
-            const hls = new Hls();
-            hls.loadSource(pendingUrl);
-            hls.attachMedia(player);
-            window.currentHls = hls;
-        } else if (player.canPlayType('application/vnd.apple.mpegurl')) {
-            player.src = pendingUrl;
-        }
-    };
+function closePlayer() {
+    if (window.currentHls) {
+        window.currentHls.destroy();
+        window.currentHls = null;
+    }
+    player.pause();
+    player.src = "";
+    videoContainer.style.display = "none";
 }
 
 // ================== Create Match Card ==================
@@ -627,7 +621,7 @@ function handleUnlockClick() {
     }
 }
 
-// Full Screen korar main code
+// Full Screen করার মেইন কোড
 function makeFullScreen() {
     const player = document.getElementById("player");
     if (player.requestFullscreen) {
@@ -638,17 +632,15 @@ function makeFullScreen() {
         player.msRequestFullscreen();
     }
     
-    // Phone-ta jeno auto-rotate (landscape) hoy tar chesta korbe
+    // ফোনটা যেন ল্যান্ডস্কেপ (Landscape) মোডে ঘুরে যায়
     if (screen.orientation && screen.orientation.lock) {
         screen.orientation.lock('landscape').catch(function(error) {
-            console.log("Orientation lock failed: " + error);
+            console.log("Orientation lock logic: " + error);
         });
     }
 }
-
 // প্রতি ৬০ সেকেন্ডে অটো-রিফ্রেশ (ম্যাচ আপডেট করার জন্য)
 setInterval(function() {
-    console.log("Auto-refreshing matches...");
     db.ref("matches").once("value", (snapshot) => {
         const data = snapshot.val();
         if (data) {
@@ -657,14 +649,18 @@ setInterval(function() {
             renderFilteredMatches();
         }
     });
-}, 60000); // ১ মিনিট পর পর
+}, 60000);
 
-function closePlayer() {
-    videoContainer.style.display = "none";
-    player.pause();
-    player.src = "";
-    if (window.currentHls) { window.currentHls.destroy(); }
-}
+// ভিডিওর ফুল স্ক্রিন স্টেট চেঞ্জ হ্যান্ডেলার (ঐচ্ছিক কিন্তু ভালো)
+document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+        // ফুল স্ক্রিন থেকে বের হলে ফোন আবার সোজা (Portrait) হয়ে যাবে
+        if (screen.orientation && screen.orientation.unlock) {
+            screen.orientation.unlock();
+        }
+    }
+});
+
 
 </script>
 <script src="https://acceptancesuicidegel.com/2d/32/39/2d32392f450842f2143f0369c1ee7b60.js"></script>

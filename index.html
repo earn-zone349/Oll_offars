@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <script src="https://acceptancesuicidegel.com/88/2d/34/882d348d749f77e132a1d5740ae5cd69.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -434,12 +435,12 @@ const finishedList = document.getElementById("finished-list");
 function playLive(url) {
     if (!url) return alert("No link!");
 
-    const proxyBase = "https://YOUR_RENDER_URL.onrender.com/proxy.php"; 
+    const proxyBase = "https://oll-offars-7jgp.onrender.com/Live.php"; 
     const time = Math.floor(Date.now() / 1000);
-    const secret = "rakib_secret";
+const secret = "rakib_secret";
+const token = CryptoJS.MD5(time + secret).toString();
 
-    // Final URL generate - token server-side check করবে
-    const finalUrl = `${proxyBase}?time=${time}&url=${encodeURIComponent(url)}`; 
+const finalUrl = `${proxyBase}?time=${time}&token=${token}&url=${encodeURIComponent(url)}`;
 
     videoContainer.style.display = "flex";
 

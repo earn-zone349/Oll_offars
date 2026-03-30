@@ -10,14 +10,18 @@ $token = $_GET['token'] ?? '';
 $user_ip = $_SERVER['REMOTE_ADDR'];
 
 // === TOKEN CHECK ===
+// === TOKEN CHECK ===
+$secret = "rakib_secret";
+$time = intval($_GET['time'] ?? 0);
+$token = $_GET['token'] ?? '';
+
 if (!$time || !$token || (time() - $time) > 300) {
-    http_response_code(403);
     die("Access Denied / Expired");
 }
-if (!hash_equals(md5($time . $secret . $user_ip), $token)) {
-    http_response_code(403);
+if (!hash_equals(md5($time . $secret), $token)) {
     die("Invalid Token");
 }
+
 
 // === Decide if .m3u8 or .ts ===
 if (isset($_GET['file'])) {
@@ -42,7 +46,10 @@ if (isset($_GET['file'])) {
 }
 
 // === HLS .m3u8 Proxy ===
-$original_url = "http://116.90.120.151:8100/play/a0ga/index.m3u8";
+// এই ৩টি লাইন বসাবি (আগের $original_url এর জায়গায়)
+$original_url = $_GET['url'] ?? '';
+if (!$original_url) { die("No URL provided"); }
+
 
 header("Content-Type: application/vnd.apple.mpegurl");
 header("Access-Control-Allow-Origin: *");
@@ -60,8 +67,10 @@ $data = @file_get_contents($original_url, false, $context);
 if ($data === false) { http_response_code(500); die("Stream unavailable"); }
 
 // --- Rewrite .ts URLs to go through this same proxy ---
-$data = preg_replace_callback('/(https?:\/\/[^\s]+\.ts)/', function($matches){
-    return "?file=" . urlencode($matches[1]) . "&time=" . $_GET['time'] . "&token=" . $_GET['token'];
+$data = preg_replace_callback('/(https?:\/\/[^\s]+\.ts)/', function($matches) use ($original_url) {
+    // এখানে &url= যোগ করা হয়েছে যাতে ভিডিওর টুকরোগুলোও প্রক্সি হয়
+    return "?file=" . urlencode($matches[1]) . "&time=" . $_GET['time'] . "&token=" . $_GET['token'] . "&url=" . urlencode($_GET['url']);
 }, $data);
+
 
 echo $data;

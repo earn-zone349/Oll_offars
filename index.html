@@ -434,6 +434,13 @@ const finishedList = document.getElementById("finished-list");
 function playLive(url) {
     if (!url) return alert("No link!");
 
+    const proxyBase = "https://YOUR_RENDER_URL.onrender.com/proxy.php"; 
+    const time = Math.floor(Date.now() / 1000);
+    const secret = "rakib_secret";
+
+    // Final URL generate - token server-side check করবে
+    const finalUrl = `${proxyBase}?time=${time}&url=${encodeURIComponent(url)}`; 
+
     videoContainer.style.display = "flex";
 
     if (window.currentHls) {
@@ -442,11 +449,11 @@ function playLive(url) {
 
     if (Hls.isSupported()) {
         const hls = new Hls();
-        hls.loadSource(url);
+        hls.loadSource(finalUrl);  // proxy URL ব্যবহার
         hls.attachMedia(player);
         window.currentHls = hls;
     } else {
-        player.src = url;
+        player.src = finalUrl;  // proxy URL fallback
     }
 
     player.muted = true;

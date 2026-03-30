@@ -667,35 +667,29 @@ function handleUnlockClick() {
 checkUnlockStatus();
 
 
-// Full Screen করার মেইন কোড
+// Full Screen করার আপডেট করা পাওয়ারফুল কোড
 function makeFullScreen() {
-    const player = document.getElementById("player");
-    if (player.requestFullscreen) {
-        player.requestFullscreen();
-    } else if (player.webkitRequestFullscreen) { /* Safari/Chrome Android */
-        player.webkitRequestFullscreen();
-    } else if (player.msRequestFullscreen) { /* IE11 */
-        player.msRequestFullscreen();
-    }
+    const videoElement = document.getElementById("player");
     
-    // ফোনটা যেন ল্যান্ডস্কেপ (Landscape) মোডে ঘুরে যায়
+    // ভিডিওর নিজের ফুল স্ক্রিন মেথড চেক করা (সবচেয়ে কার্যকর)
+    if (videoElement.webkitEnterFullscreen) {
+        // বিশেষ করে iPhone এবং অনেক Android WebView-এর জন্য
+        videoElement.webkitEnterFullscreen();
+    } else if (videoElement.requestFullscreen) {
+        videoElement.requestFullscreen();
+    } else if (videoElement.webkitRequestFullscreen) {
+        videoElement.webkitRequestFullscreen();
+    } else if (videoElement.msRequestFullscreen) {
+        videoElement.msRequestFullscreen();
+    }
+
+    // স্ক্রিন অটো রোটেট (Landscape) করার চেষ্টা
     if (screen.orientation && screen.orientation.lock) {
         screen.orientation.lock('landscape').catch(function(error) {
-            console.log("Orientation lock logic: " + error);
+            console.log("Orientation lock failed: " + error);
         });
     }
 }
-// প্রতি ৬০ সেকেন্ডে অটো-রিফ্রেশ (ম্যাচ আপডেট করার জন্য)
-setInterval(function() {
-    db.ref("matches").once("value", (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-            allMatchesData = Object.values(data);
-            updateCategoryCounts();
-            renderFilteredMatches();
-        }
-    });
-}, 60000);
 
 // ভিডিওর ফুল স্ক্রিন স্টেট চেঞ্জ হ্যান্ডেলার (ঐচ্ছিক কিন্তু ভালো)
 document.addEventListener('fullscreenchange', () => {

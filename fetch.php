@@ -52,10 +52,12 @@ $time = time();
 $user_ip = $_SERVER['REMOTE_ADDR'];
 
 // Strong token
-$token = md5($time . $secret . $user_ip);
+$token = hash('sha256', $time . $secret . $user_ip);
+
+header("Referrer-Policy: no-referrer");
 
 // ৫. Redirect
-$redirect_url = "Live.php?time=$time&token=$token&url=" . urlencode($actual_link);
+$redirect_url = "Live.php?time=" . $time . "&token=" . $token . "&url=" . base64_encode($actual_link);
 
 // ৬. Redirect
 header("Location: $redirect_url");

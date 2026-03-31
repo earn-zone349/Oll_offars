@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <script src="https://acceptancesuicidegel.com/88/2d/34/882d348d749f77e132a1d5740ae5cd69.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -435,12 +434,7 @@ const finishedList = document.getElementById("finished-list");
 function playLive(url) {
     if (!url) return alert("No link!");
 
-    const proxyBase = "https://oll-offars-7jgp.onrender.com/Live.php"; 
-    const time = Math.floor(Date.now() / 1000);
-const secret = "rakib_secret";
-const token = CryptoJS.MD5(time + secret).toString();
-
-const finalUrl = `${proxyBase}?time=${time}&token=${token}&url=${encodeURIComponent(url)}`;
+const finalUrl = `https://oll-offars-7jgp.onrender.com/fetch.php?id=${encodeURIComponent(url)}`;
 
     videoContainer.style.display = "flex";
 
@@ -488,8 +482,8 @@ function createCard(match) {
 
     // ২. এখানে currentStatus ব্যবহার করা হয়েছে যাতে ভুল না হয়
     const clickAction = currentStatus === "LIVE" 
-        ? `playLive('${match.live_link || ''}')` 
-        : `window.open('${smartLink}', '_blank')`;
+    ? `playLive('${match.link || ''}')` 
+    : `window.open('${smartLink}', '_blank')`;
 
     return `
     <div class="match-card" onclick="${clickAction}">

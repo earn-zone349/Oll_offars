@@ -16,7 +16,7 @@ if (!$time || !$token || (time() - $time) > 300) {
 }
 
 // ✅ SAME LOGIC as fetch.php
-if (!hash_equals(md5($time . $secret . $user_ip), $token)) {
+if (!hash_equals(hash('sha256', $time . $secret . $user_ip), $token)) {
     die("Invalid Token");
 }
 

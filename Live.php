@@ -1,76 +1,77 @@
 <?php
-/*
-  1. Single-file HLS Proxy for 1M+ users
-  2. Supports token, IP binding, .m3u8 & .ts proxy, CORS, cache-control
-*/
 
+error_reporting(0);
+
+// === CONFIG ===
 $secret = "rakib_secret";
+
+// === INPUT ===
 $time = intval($_GET['time'] ?? 0);
 $token = $_GET['token'] ?? '';
 $user_ip = $_SERVER['REMOTE_ADDR'];
 
-// === TOKEN CHECK ===
-// === TOKEN CHECK ===
-$secret = "rakib_secret";
-$time = intval($_GET['time'] ?? 0);
-$token = $_GET['token'] ?? '';
-
+// === SECURITY CHECK ===
 if (!$time || !$token || (time() - $time) > 300) {
     die("Access Denied / Expired");
 }
-if (!hash_equals(md5($time . $secret), $token)) {
+
+// ✅ SAME LOGIC as fetch.php
+if (!hash_equals(md5($time . $secret . $user_ip), $token)) {
     die("Invalid Token");
 }
 
-
-// === Decide if .m3u8 or .ts ===
+// === TS FILE PROXY ===
 if (isset($_GET['file'])) {
-    // --- TS Segment Proxy ---
+
     $file = $_GET['file'];
+
     header("Content-Type: video/MP2T");
-    header("Cache-Control: no-store, no-cache, must-revalidate");
-    header("Pragma: no-cache");
     header("Access-Control-Allow-Origin: *");
 
-    $opts = [
-        "http" => [
-            "method" => "GET",
-            "header" => "User-Agent: Mozilla/5.0 (Linux; Android 10; Vivo Y19s)\r\n"
-        ]
-    ];
-    $context = stream_context_create($opts);
-    $data = @file_get_contents($file, false, $context);
-    if ($data === false) { http_response_code(500); die("Segment unavailable"); }
+    $data = @file_get_contents($file);
+
+    if ($data === false) {
+        http_response_code(500);
+        die("Segment unavailable");
+    }
+
     echo $data;
     exit;
 }
 
-// === HLS .m3u8 Proxy ===
-// এই ৩টি লাইন বসাবি (আগের $original_url এর জায়গায়)
-$original_url = $_GET['url'] ?? '';
-if (!$original_url) { die("No URL provided"); }
+// === MAIN STREAM ===
+$encoded = $_GET['url'] ?? '';
+if (!$encoded) die("No URL");
 
+// 🔐 Decode (if base64 used)
+$original_url = base64_decode($encoded);
 
+// === FETCH PLAYLIST ===
 header("Content-Type: application/vnd.apple.mpegurl");
 header("Access-Control-Allow-Origin: *");
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Pragma: no-cache");
 
-$opts = [
-    "http" => [
-        "method" => "GET",
-        "header" => "User-Agent: Mozilla/5.0 (Linux; Android 10; Vivo Y19s)\r\nAccept: */*\r\nConnection: keep-alive\r\n"
-    ]
-];
-$context = stream_context_create($opts);
-$data = @file_get_contents($original_url, false, $context);
-if ($data === false) { http_response_code(500); die("Stream unavailable"); }
+$data = @file_get_contents($original_url);
 
-// --- Rewrite .ts URLs to go through this same proxy ---
-$data = preg_replace_callback('/(https?:\/\/[^\s]+\.ts)/', function($matches) use ($original_url) {
-    // এখানে &url= যোগ করা হয়েছে যাতে ভিডিওর টুকরোগুলোও প্রক্সি হয়
-    return "?file=" . urlencode($matches[1]) . "&time=" . $_GET['time'] . "&token=" . $_GET['token'] . "&url=" . urlencode($_GET['url']);
+if (!$data) {
+    http_response_code(500);
+    die("Stream error");
+}
+
+// === FIX RELATIVE PATH ===
+$base = dirname($original_url);
+
+// === Rewrite TS ===
+$data = preg_replace_callback('/([^"\']+\.ts)/', function($m) use ($base, $time, $token, $encoded) {
+
+    $segment = $m[1];
+
+    if (strpos($segment, 'http') !== 0) {
+        $segment = $base . '/' . $segment;
+    }
+
+    return "?file=" . urlencode($segment) .
+           "&time=$time&token=$token&url=" . urlencode($encoded);
+
 }, $data);
-
 
 echo $data;

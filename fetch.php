@@ -1,66 +1,33 @@
 <?php
-
-// Error hide (security)
 error_reporting(0);
-
-// ১. Channel ID নেওয়া
 $channel_id = $_GET['id'] ?? '';
+if (empty($channel_id)) die("Channel ID missing!");
 
-if (empty($channel_id)) {
-    die("Channel ID missing!");
-}
+// তোর দেওয়া স্ক্রিনশটের সেই আসল গিটহাব JSON লিঙ্ক
+$source_url = "https://raw.githubusercontent.com/gtajisan/Toffee-Auto-Update-Playlist/main/toffee.json";
 
-// ২. GitHub JSON
-$source_url = "https://raw.githubusercontent.com/byte-capsule/Toffee-Channels-Link-Main/main/toffee_links.json";
-
-// Timeout + fallback
-$context = stream_context_create([
-    "http" => [
-        "timeout" => 5
-    ]
-]);
-
-$json_data = @file_get_contents($source_url, false, $context);
-
-if (!$json_data) {
-    die("Source load failed!");
-}
-
-$channels = json_decode($json_data, true);
-
-if (!$channels) {
-    die("Invalid JSON!");
-}
+$json_data = file_get_contents($source_url);
+$data = json_decode($json_data, true);
 
 $actual_link = "";
+$headers = [];
 
-// ৩. Channel খোঁজা
-foreach ($channels as $channel) {
+foreach ($data['channels'] as $channel) {
     if (isset($channel['name']) && strtolower($channel['name']) === strtolower($channel_id)) {
         $actual_link = $channel['link'];
+        $headers = $channel['headers']; // কুকি আর হোস্ট এখানে আছে
         break;
     }
 }
 
-if (empty($actual_link)) {
-    die("Channel not found!");
-}
+if (empty($actual_link)) die("Channel not found!");
 
-// --- 🔐 Security Part ---
 $secret = "rakib_secret";
 $time = time();
-$user_ip = $_SERVER['REMOTE_ADDR'];
+$token = hash('sha256', $time . $secret . $_SERVER['REMOTE_ADDR']);
 
-// Strong token
-$token = hash('sha256', $time . $secret . $user_ip);
-
-header("Referrer-Policy: no-referrer");
-
-// ৫. Redirect
-$redirect_url = "Live.php?time=" . $time . "&token=" . $token . "&url=" . base64_encode($actual_link);
-
-// ৬. Redirect
+// লিঙ্ক আর হেডার এনকোড করে Live.php-তে পাঠানো হচ্ছে
+$redirect_url = "Live.php?time=$time&token=$token&url=" . base64_encode($actual_link) . "&headers=" . base64_encode(json_encode($headers));
 header("Location: $redirect_url");
 exit;
-
 ?>

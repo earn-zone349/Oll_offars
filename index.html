@@ -329,6 +329,13 @@ header h2 {
     <button class="close-btn" onclick="closePlayer()" style="background: #ff3333; color: white; border: none; padding: 15px; font-weight: bold; cursor: pointer;">✕ Close Player & Back</button>
 </div>
 
+<div id="match-lock-container" style="text-align:center; padding:30px; background:rgba(255,255,255,0.05); margin:20px; border-radius:20px; border:1px solid #00d2ff;">
+    <h3 style="color:#00d2ff;">Matches Locked! 🔒</h3>
+    <p>বাকি ৫টি অ্যাড দেখলে সব খেলার সূচি আনলক হবে।</p>
+    <p>Ads Left: <span id="match-ad-count">6</span></p>
+    <button onclick="handleMatchUnlockClick()" style="background:#f1c40f; padding:10px 20px; border-radius:10px; border:none; font-weight:bold;">🔓 Unlock All Matches</button>
+</div>
+
 
 <!-- Live -->
 <div id="live-tab" class="tab-content">
@@ -412,6 +419,25 @@ header h2 {
     </div>
 </div>
 <script>
+
+let matchAdsCount = parseInt(localStorage.getItem('rakib_match_ads')) || 0;
+
+function handleMatchUnlockClick() {
+    const adLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
+    
+    if (matchAdsCount < 6) {
+        matchAdsCount++;
+        localStorage.setItem('rakib_match_ads', matchAdsCount);
+        document.getElementById("match-ad-count").innerText = 6 - matchAdsCount;
+        window.open(adLink, '_blank');
+        
+        if (matchAdsCount >= 6) {
+            localStorage.setItem('rakib_match_unlock_time', Date.now() + (60 * 60 * 1000));
+            location.reload(); 
+        }
+    }
+}
+
 // ================== Firebase Config ==================
 const firebaseConfig = {
     apiKey: "AIzaSyBDFd5ppHf-CdFF2Vg4Th_P_FIvJmQZd9w",
@@ -432,9 +458,10 @@ const finishedList = document.getElementById("finished-list");
 
 // ================== Player Functions ==================
 function playLive(url) {
-    if (!url) return alert("No link!");
+    if (!url) return alert("Channel ID missing in Firebase!");
 
-const finalUrl = `https://oll-offars-7jgp.onrender.com/fetch.php?id=${encodeURIComponent(url)}`;
+    // তোর রেন্ডার সার্ভারের লিঙ্ক
+    const finalUrl = `https://oll-offars-7jgp.onrender.com/fetch.php?id=${encodeURIComponent(url)}`;
 
     videoContainer.style.display = "flex";
 
@@ -444,18 +471,25 @@ const finalUrl = `https://oll-offars-7jgp.onrender.com/fetch.php?id=${encodeURIC
 
     if (Hls.isSupported()) {
         const hls = new Hls();
-        hls.loadSource(finalUrl);  // proxy URL ব্যবহার
+        hls.loadSource(finalUrl);
         hls.attachMedia(player);
+        
+        // যদি লিঙ্ক কাজ না করে তবে মেসেজ দেখাবে
+        hls.on(Hls.Events.ERROR, function (event, data) {
+            if (data.fatal) {
+                console.error("Streaming error:", data);
+                // alert("This channel is temporarily down. Please try again later.");
+            }
+        });
+        
         window.currentHls = hls;
     } else {
-        player.src = finalUrl;  // proxy URL fallback
+        player.src = finalUrl;
     }
 
-    player.muted = true;
-    player.play().then(()=>{
-        player.muted = false;
-    }).catch(()=>{});
+    player.play().catch(e => console.log("Auto-play blocked"));
 }
+
 
 function closePlayer() {
     if (window.currentHls) {
@@ -608,6 +642,11 @@ function updateMatchStatus(matchStartTime) {
 
 // এই ফাংশনটা তোর কোডে আগে থেকেই আছে, শুধু এটা দিয়ে রিপ্লেস কর
 function renderFilteredMatches() {
+    let expiry = localStorage.getItem('rakib_match_unlock_time');
+    if (!expiry || Date.now() >= expiry) {
+        liveList.innerHTML = ""; upcomingList.innerHTML = ""; finishedList.innerHTML = "";
+        return; 
+    }
     let liveHTML = "", upcomingHTML = "", finishedHTML = "";
 
     allMatchesData.forEach(match => {
@@ -722,6 +761,17 @@ function checkInternet() {
         if (notice) notice.remove();
     }
 }
+
+let matchUnlockExpiry = localStorage.getItem('rakib_match_unlock_time');
+
+if (matchUnlockExpiry && Date.now() < matchUnlockExpiry) {
+    document.getElementById("match-lock-container").style.display = "none";
+} else {
+    document.getElementById("live-tab").style.display = "none";
+    document.getElementById("upcoming-tab").style.display = "none";
+    document.getElementById("finished-tab").style.display = "none";
+}
+
 
 // নেট আসা বা যাওয়ার সাথে সাথে অটোমেটিক চেক হবে
 window.addEventListener('online', checkInternet);

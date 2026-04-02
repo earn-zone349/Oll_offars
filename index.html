@@ -333,9 +333,8 @@ header h2 {
     <h3 style="color:#00d2ff;">Matches Locked! 🔒</h3>
     <p>বাকি ৫টি অ্যাড দেখলে সব খেলার সূচি আনলক হবে।</p>
     <p>Ads Left: <span id="match-ad-count">6</span></p>
-    <button onclick="handleMatchUnlockClick()" style="background:#f1c40f; padding:10px 20px; border-radius:10px; border:none; font-weight:bold;">🔓 Unlock All Matches</button>
+    <button id="match-unlock-btn" onclick="handleMatchUnlockClick()" style="background:#f1c40f; padding:10px 20px; border-radius:10px; border:none; font-weight:bold;">🔓 Unlock All Matches</button>
 </div>
-
 
 <!-- Live -->
 <div id="live-tab" class="tab-content">
@@ -420,20 +419,32 @@ header h2 {
 </div>
 <script>
 
+// ================= Match Unlock Button Logic =================
 let matchAdsCount = parseInt(localStorage.getItem('rakib_match_ads')) || 0;
+const totalAdsRequired = 6; // কতটা ads দেখলে unlock হবে
 
 function handleMatchUnlockClick() {
-    const adLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
-    
-    if (matchAdsCount < 6) {
+    const adLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233"; // এখানে তোর real ad link বসাও
+
+    // যদি ad counter কম হয়
+    if (matchAdsCount < totalAdsRequired) {
         matchAdsCount++;
         localStorage.setItem('rakib_match_ads', matchAdsCount);
-        document.getElementById("match-ad-count").innerText = 6 - matchAdsCount;
+
+        // UI update
+        document.getElementById("match-ad-count").innerText = totalAdsRequired - matchAdsCount;
+
+        // Ad open
         window.open(adLink, '_blank');
-        
-        if (matchAdsCount >= 6) {
-            localStorage.setItem('rakib_match_unlock_time', Date.now() + (60 * 60 * 1000));
-            location.reload(); 
+
+        // যদি full ads দেখানো হয়
+        if (matchAdsCount >= totalAdsRequired) {
+            // Unlock time save করা optional
+            localStorage.setItem('rakib_match_unlock_time', Date.now());
+
+            // Match unlock UI update
+            document.getElementById("match-lock-container").style.display = "none";
+            alert("সকল ম্যাচ আনলক হয়েছে! 🔓");
         }
     }
 }

@@ -511,8 +511,8 @@ function createCard(match) {
 
     // ২. এখানে currentStatus ব্যবহার করা হয়েছে যাতে ভুল না হয়
     const clickAction = currentStatus === "LIVE" 
-    ? `playLive('${match.link || ''}')` 
-    : `window.open('${smartLink}', '_blank')`;
+    ? `playLive("${match.link}")` 
+    : `window.open("${smartLink}", "_blank")`;
 
     return `
     <div class="match-card" onclick="${clickAction}">

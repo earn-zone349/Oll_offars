@@ -329,12 +329,6 @@ header h2 {
     <button class="close-btn" onclick="closePlayer()" style="background: #ff3333; color: white; border: none; padding: 15px; font-weight: bold; cursor: pointer;">✕ Close Player & Back</button>
 </div>
 
-<div id="match-lock-container" style="text-align:center; padding:30px; background:rgba(255,255,255,0.05); margin:20px; border-radius:20px; border:1px solid #00d2ff;">
-    <h3 style="color:#00d2ff;">Matches Locked! 🔒</h3>
-    <p>বাকি ৫টি অ্যাড দেখলে সব খেলার সূচি আনলক হবে।</p>
-    <p>Ads Left: <span id="match-ad-count">6</span></p>
-    <button id="match-unlock-btn" onclick="handleMatchUnlockClick()" style="background:#f1c40f; padding:10px 20px; border-radius:10px; border:none; font-weight:bold;">🔓 Unlock All Matches</button>
-</div>
 
 <!-- Live -->
 <div id="live-tab" class="tab-content">
@@ -418,37 +412,6 @@ header h2 {
     </div>
 </div>
 <script>
-
-// ================= Match Unlock Button Logic =================
-let matchAdsCount = parseInt(localStorage.getItem('rakib_match_ads')) || 0;
-const totalAdsRequired = 6; // কতটা ads দেখলে unlock হবে
-
-function handleMatchUnlockClick() {
-    const adLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233"; // এখানে তোর real ad link বসাও
-
-    // যদি ad counter কম হয়
-    if (matchAdsCount < totalAdsRequired) {
-        matchAdsCount++;
-        localStorage.setItem('rakib_match_ads', matchAdsCount);
-
-        // UI update
-        document.getElementById("match-ad-count").innerText = totalAdsRequired - matchAdsCount;
-
-        // Ad open
-        window.open(adLink, '_blank');
-
-        // যদি full ads দেখানো হয়
-        if (matchAdsCount >= totalAdsRequired) {
-            // Unlock time save করা optional
-            localStorage.setItem('rakib_match_unlock_time', Date.now());
-
-            // Match unlock UI update
-            document.getElementById("match-lock-container").style.display = "none";
-            alert("সকল ম্যাচ আনলক হয়েছে! 🔓");
-        }
-    }
-}
-
 // ================== Firebase Config ==================
 const firebaseConfig = {
     apiKey: "AIzaSyBDFd5ppHf-CdFF2Vg4Th_P_FIvJmQZd9w",
@@ -469,13 +432,9 @@ const finishedList = document.getElementById("finished-list");
 
 // ================== Player Functions ==================
 function playLive(url) {
-    // Jodi Firebase-e link na thake
-    if (!url || url === "" || url === "undefined") {
-        return alert("Video link not found in Firebase!");
-    }
+    if (!url) return alert("No link!");
 
-    // Sora-sori Firebase theke asa link-ta ekhane bosbe
-    const finalUrl = url;
+const finalUrl = `https://oll-offars-7jgp.onrender.com/fetch.php?id=${encodeURIComponent(url)}`;
 
     videoContainer.style.display = "flex";
 
@@ -485,17 +444,18 @@ function playLive(url) {
 
     if (Hls.isSupported()) {
         const hls = new Hls();
-        hls.loadSource(finalUrl);
+        hls.loadSource(finalUrl);  // proxy URL ব্যবহার
         hls.attachMedia(player);
         window.currentHls = hls;
     } else {
-        player.src = finalUrl;
+        player.src = finalUrl;  // proxy URL fallback
     }
 
-    player.play().catch(e => console.log("Auto-play blocked"));
+    player.muted = true;
+    player.play().then(()=>{
+        player.muted = false;
+    }).catch(()=>{});
 }
-
-
 
 function closePlayer() {
     if (window.currentHls) {
@@ -522,8 +482,8 @@ function createCard(match) {
 
     // ২. এখানে currentStatus ব্যবহার করা হয়েছে যাতে ভুল না হয়
     const clickAction = currentStatus === "LIVE" 
-    ? `playLive("${match.link}")` 
-    : `window.open("${smartLink}", "_blank")`;
+    ? `playLive('${match.link || ''}')` 
+    : `window.open('${smartLink}', '_blank')`;
 
     return `
     <div class="match-card" onclick="${clickAction}">
@@ -648,11 +608,6 @@ function updateMatchStatus(matchStartTime) {
 
 // এই ফাংশনটা তোর কোডে আগে থেকেই আছে, শুধু এটা দিয়ে রিপ্লেস কর
 function renderFilteredMatches() {
-    let expiry = localStorage.getItem('rakib_match_unlock_time');
-    if (!expiry || Date.now() >= expiry) {
-        liveList.innerHTML = ""; upcomingList.innerHTML = ""; finishedList.innerHTML = "";
-        return; 
-    }
     let liveHTML = "", upcomingHTML = "", finishedHTML = "";
 
     allMatchesData.forEach(match => {
@@ -767,17 +722,6 @@ function checkInternet() {
         if (notice) notice.remove();
     }
 }
-
-let matchUnlockExpiry = localStorage.getItem('rakib_match_unlock_time');
-
-if (matchUnlockExpiry && Date.now() < matchUnlockExpiry) {
-    document.getElementById("match-lock-container").style.display = "none";
-} else {
-    document.getElementById("live-tab").style.display = "none";
-    document.getElementById("upcoming-tab").style.display = "none";
-    document.getElementById("finished-tab").style.display = "none";
-}
-
 
 // নেট আসা বা যাওয়ার সাথে সাথে অটোমেটিক চেক হবে
 window.addEventListener('online', checkInternet);

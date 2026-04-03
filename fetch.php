@@ -1,33 +1,46 @@
 <?php
-error_reporting(0);
-$channel_id = $_GET['id'] ?? '';
-if (empty($channel_id)) die("Channel ID missing!");
+/**
+ * AXiRON Sports Pro - High Performance Proxy
+ * Designed for HLS (.m3u8) Streaming
+ */
 
-// তোর দেওয়া স্ক্রিনশটের সেই আসল গিটহাব JSON লিঙ্ক
-$source_url = "https://raw.githubusercontent.com/gtajisan/Toffee-Auto-Update-Playlist/main/toffee.json";
+// ১. সব ধরনের অরিজিন (App/Web) থেকে রিকোয়েস্ট এলাউ করা (CORS Fix)
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET");
+header("Content-Type: application/vnd.apple.mpegurl"); // M3U8 ফরম্যাট সেট করা
 
-$json_data = file_get_contents($source_url);
-$data = json_decode($json_data, true);
-
-$actual_link = "";
-$headers = [];
-
-foreach ($data['channels'] as $channel) {
-    if (isset($channel['name']) && strtolower($channel['name']) === strtolower($channel_id)) {
-        $actual_link = $channel['link'];
-        $headers = $channel['headers']; // কুকি আর হোস্ট এখানে আছে
-        break;
-    }
+// ২. ইনপুট লিঙ্ক চেক করা
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    die("Error: No Stream ID (URL) provided.");
 }
 
-if (empty($actual_link)) die("Channel not found!");
+$stream_url = $_GET['id'];
 
-$secret = "rakib_secret";
-$time = time();
-$token = hash('sha256', $time . $secret . $_SERVER['REMOTE_ADDR']);
+// ৩. লিঙ্কের ভ্যালিডেশন (নিরাপত্তার জন্য)
+if (!filter_var($stream_url, FILTER_VALIDATE_URL)) {
+    die("Error: Invalid Stream URL.");
+}
 
-// লিঙ্ক আর হেডার এনকোড করে Live.php-তে পাঠানো হচ্ছে
-$redirect_url = "Live.php?time=$time&token=$token&url=" . base64_encode($actual_link) . "&headers=" . base64_encode(json_encode($headers));
-header("Location: $redirect_url");
-exit;
+// ৪. সোর্স ওয়েবসাইটকে বুঝানো যে এটি একটি আসল ব্রাউজার (User-Agent)
+$options = [
+    "http" => [
+        "method" => "GET",
+        "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36\r\n" .
+                    "Referer: https://google.com/\r\n" .
+                    "Accept: */*\r\n"
+    ]
+];
+
+$context = stream_context_create($options);
+
+// ৫. সোর্স থেকে ডাটা নিয়ে আসা এবং সরাসরি আউটপুট দেওয়া
+$data = @file_get_contents($stream_url, false, $context);
+
+if ($data === false) {
+    header("HTTP/1.1 404 Not Found");
+    echo "#EXTM3U\n#EXT-X-ERROR: Could not fetch stream data.";
+} else {
+    // যদি ডাটা পাওয়া যায়, তবে তা প্রিন্ট করা
+    echo $data;
+}
 ?>

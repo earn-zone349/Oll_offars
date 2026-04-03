@@ -1,46 +1,47 @@
 <?php
 /**
- * AXiRON Sports Pro - High Performance Proxy
- * Designed for HLS (.m3u8) Streaming
+ * AXiRON Sports Pro - Premium Header Proxy
+ * Optimized for Toffee and HLS Streams
  */
 
-// ১. সব ধরনের অরিজিন (App/Web) থেকে রিকোয়েস্ট এলাউ করা (CORS Fix)
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
-header("Content-Type: application/vnd.apple.mpegurl"); // M3U8 ফরম্যাট সেট করা
+header("Content-Type: application/vnd.apple.mpegurl");
 
-// ২. ইনপুট লিঙ্ক চেক করা
 if (!isset($_GET['id']) || empty($_GET['id'])) {
-    die("Error: No Stream ID (URL) provided.");
+    die("Error: No Stream URL provided.");
 }
 
 $stream_url = $_GET['id'];
 
-// ৩. লিঙ্কের ভ্যালিডেশন (নিরাপত্তার জন্য)
-if (!filter_var($stream_url, FILTER_VALIDATE_URL)) {
-    die("Error: Invalid Stream URL.");
-}
+// ১. ছবির মতো করে স্পেশাল হেডার এবং কুকি এখানে সেট করা হয়েছে
+$headers = [
+    "User-Agent: Toffee (Linux; Android 14) AndroidXMedia3/1.1.1/64103898/4d2ec8b8c7534adc",
+    "Host: bldcmprod-cdn.toffeelive.com",
+    "Connection: Keep-Alive",
+    "Accept-Encoding: gzip",
+    // নিচের কুকিটি Toffee-র ভিডিও চালানোর জন্য সবথেকে জরুরি
+    "Cookie: Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29tL2Nkbbi8;Expires=1705020493;KeyName=prod_linear;Signature=w2ySD7"
+];
 
-// ৪. সোর্স ওয়েবসাইটকে বুঝানো যে এটি একটি আসল ব্রাউজার (User-Agent)
+// ২. স্ট্রিম রিকোয়েস্ট কনফিগার করা
 $options = [
     "http" => [
         "method" => "GET",
-        "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36\r\n" .
-                    "Referer: https://google.com/\r\n" .
-                    "Accept: */*\r\n"
+        "header" => implode("\r\n", $headers) . "\r\n"
     ]
 ];
 
 $context = stream_context_create($options);
 
-// ৫. সোর্স থেকে ডাটা নিয়ে আসা এবং সরাসরি আউটপুট দেওয়া
+// ৩. সোর্স থেকে ভিডিও ডাটা রিড করা
 $data = @file_get_contents($stream_url, false, $context);
 
 if ($data === false) {
     header("HTTP/1.1 404 Not Found");
-    echo "#EXTM3U\n#EXT-X-ERROR: Could not fetch stream data.";
+    echo "#EXTM3U\n#EXT-X-ERROR: Could not fetch premium stream.";
 } else {
-    // যদি ডাটা পাওয়া যায়, তবে তা প্রিন্ট করা
+    // ৪. আউটপুট সরাসরি প্লেয়ারে পাঠিয়ে দেওয়া
     echo $data;
 }
 ?>

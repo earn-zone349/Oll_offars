@@ -329,12 +329,21 @@ header h2 {
     <button class="close-btn" onclick="closePlayer()" style="background: #ff3333; color: white; border: none; padding: 15px; font-weight: bold; cursor: pointer;">✕ Close Player & Back</button>
 </div>
 
+<div id="match-unlock-container" style="text-align: center; margin-bottom: 20px;">
+    <p style="text-align:center; font-size:13px; color:var(--gray); margin-top:15px;">সবগুলো লাইভ ম্যাচ দেখার জন্য ৬ বার ক্লিক করে অ্যাড দেখুন।</p>
+    <button class="unlock-btn" onclick="handleMatchUnlockClick()">🔓 Unlock All Matches (<span id="match-ad-count">6</span> clicks left)</button>
+</div>
 
 <!-- Live -->
 <div id="live-tab" class="tab-content">
-    <div class="section-title"> Live Matches</div>
+    <div id="match-unlock-container" style="text-align: center; margin-bottom: 20px; display:none;">
+        <p style="text-align:center; font-size:13px; color:var(--gray); margin-top:15px;">সবগুলো লাইভ ম্যাচ দেখার জন্য ৬ বার ক্লিক করে অ্যাড দেখুন।</p>
+        <button class="unlock-btn" onclick="handleMatchUnlockClick()">🔓 Unlock All Matches (<span id="match-ad-count">6</span> clicks left)</button>
+    </div>
+    <div class="section-title">⦿ Live Matches</div>
     <div id="live-list"></div>
 </div>
+
 
 <!-- Upcoming -->
 <div id="upcoming-tab" class="tab-content" style="display:none;">
@@ -504,9 +513,57 @@ function createCard(match) {
     </div>`;
 }
 
+let matchAdsWatched = parseInt(localStorage.getItem('axiron_match_ads')) || 0;
+let matchUnlockTime = localStorage.getItem('axiron_match_unlock_time');
+
+function checkMatchUnlockStatus() {
+    const liveContainer = document.getElementById("live-tab");
+    const lockBox = document.getElementById("match-unlock-container");
+
+    if (matchUnlockTime && Date.now() < matchUnlockTime) {
+        if(lockBox) lockBox.style.display = "none";
+        liveContainer.style.display = "block";
+    } else {
+        if (matchUnlockTime && Date.now() >= matchUnlockTime) {
+            matchAdsWatched = 0;
+            localStorage.removeItem('axiron_match_ads');
+            localStorage.removeItem('axiron_match_unlock_time');
+        }
+        
+        // লক থাকলে ম্যাচ লুকাবে আর লক বক্স দেখাবে
+        if(lockBox) lockBox.style.display = "block";
+        liveContainer.style.display = "none"; 
+        
+        let el = document.getElementById("match-ad-count");
+        if(el) el.innerText = 6 - matchAdsWatched;
+    }
+}
 
 
-// ================== Tab Switching ==================
+function handleMatchUnlockClick() {
+    const adLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233"; // আপনার অ্যাড লিঙ্ক
+    
+    if (matchAdsWatched < 6) {
+        matchAdsWatched++;
+        localStorage.setItem('axiron_match_ads', matchAdsWatched);
+        
+        let el = document.getElementById("match-ad-count");
+        if(el) el.innerText = 6 - matchAdsWatched;
+        
+        window.open(adLink, '_blank'); // অ্যাড ওপেন হবে
+        
+        if (matchAdsWatched >= 6) {
+            let expiry = Date.now() + (60 * 60 * 1000); // ১ ঘণ্টা (৩৬০০ সেকেন্ড)
+            localStorage.setItem('axiron_match_unlock_time', expiry);
+            alert("সবগুলো ম্যাচ ১ ঘণ্টার জন্য আনলক হয়েছে!");
+            location.reload(); 
+        }
+    }
+}
+
+// পেজ লোড হওয়ার সময় স্ট্যাটাস চেক করো
+checkMatchUnlockStatus();
+
 
 // ================== Firebase Real-time Listener ==================
 let allMatchesData = []; // সব ডাটা রাখার জন্য
@@ -573,12 +630,25 @@ db.ref("highlights").on("value", (snapshot) => {
 // 3. Update switch tab function (replace switchTab function)
 function switchTab(index) {
     const tabs = ['live-tab', 'upcoming-tab', 'finished-tab', 'highlights-tab'];
+    
+    // সব কন্টেন্ট হাইড করো
     document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     
-    document.getElementById(tabs[index]).style.display = 'block';
+    // বর্তমান মেনু আইটেম একটিভ করো
     document.querySelectorAll('.nav-item')[index].classList.add('active');
-}   
+
+    // লজিক চেক
+    if (index === 0) {
+        checkMatchUnlockStatus(); // লাইভ ম্যাচের লক চেক করবে
+    } else if (index === 3) {
+        document.getElementById('highlights-tab').style.display = 'block';
+        checkUnlockStatus(); // হাইলাইটস এর লক চেক করবে
+    } else {
+        document.getElementById(tabs[index]).style.display = 'block';
+    }
+}
+
 
 let currentCategory = 'all';
 let allData = [];

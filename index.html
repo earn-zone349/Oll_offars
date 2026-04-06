@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EarnCash Pro v3 - Official</title>
+<title>EarnCash Pro v3 - Final</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
-    body { background:#0f172a; color:white; font-family: sans-serif; }
+    body { background:#0f172a; color:white; font-family: sans-serif; overflow-x: hidden; }
     .tab { display:none; }
-    .active { display:block; }
+    .active { display:block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .glass-card {
         background: rgba(255,255,255,0.05);
         backdrop-filter: blur(10px);
@@ -20,21 +21,21 @@
     }
     .gradient-btn {
         background: linear-gradient(90deg,#fbbf24,#f59e0b);
-        transition: transform 0.2s;
+        transition: 0.2s;
     }
     .gradient-btn:active { transform: scale(0.95); }
     .nav-btn { color: #94a3b8; transition: 0.3s; }
-    .nav-btn.active-nav { color: #fbbf24; }
+    .nav-btn.active-nav { color: #fbbf24; transform: translateY(-5px); }
 </style>
 </head>
 
 <body class="max-w-md mx-auto p-4 pb-24">
 
 <h1 class="text-center text-2xl font-bold text-yellow-400 mb-6 italic">
-    EarnCash Pro <span class="text-white text-xs font-light">v3.0</span>
+    EarnCash Pro <span class="text-white text-xs font-light">v3.1</span>
 </h1>
 
-<div class="glass-card p-5 rounded-2xl mb-6 flex justify-between items-center border-b-2 border-yellow-500">
+<div class="glass-card p-5 rounded-2xl mb-6 flex justify-between items-center border-b-2 border-yellow-500 shadow-lg">
     <div>
         <p class="text-gray-400 text-xs" id="userName">Hi, User</p>
         <div class="flex items-center gap-1">
@@ -49,75 +50,88 @@
 </div>
 
 <div id="ads" class="tab active space-y-6">
-    <div class="glass-card p-8 rounded-3xl text-center">
-        <i class="fas fa-play-circle text-5xl text-yellow-400 mb-4"></i>
-        <p class="text-sm text-gray-300 mb-6">Watch unlimited ads and earn 25 coins per view!</p>
+    <div class="glass-card p-8 rounded-3xl text-center shadow-xl">
+        <div class="w-20 h-20 bg-yellow-500/20 rounded-full mx-auto mb-4 flex items-center justify-center text-yellow-400 text-3xl">
+            <i class="fas fa-play"></i>
+        </div>
+        <h2 class="text-xl font-bold mb-2">Watch & Earn</h2>
+        <p class="text-sm text-gray-400 mb-6">Watch ads and get 25 coins instantly.</p>
         <button onclick="watchAd()" class="w-full gradient-btn text-black py-4 rounded-2xl font-extrabold text-lg shadow-lg">
             WATCH VIDEO (+25)
         </button>
     </div>
 </div>
 
-<div id="withdraw" class="tab space-y-4">
+<div id="withdraw" class="tab">
     <div class="glass-card p-6 rounded-3xl">
-        <h3 class="text-lg font-semibold mb-4 text-yellow-400"><i class="fas fa-wallet mr-2"></i>Withdraw Funds</h3>
-        <input id="withdrawAmount" type="number" placeholder="Enter Amount (Min 50,000)"
-        class="w-full p-4 rounded-xl bg-gray-800 border border-gray-700 mb-4 outline-none focus:border-yellow-500 text-white">
+        <h3 class="text-lg font-semibold mb-4 text-yellow-400"><i class="fas fa-university mr-2"></i>Withdraw Funds</h3>
+        
+        <label class="text-xs text-gray-400 ml-1">Select Method</label>
+        <select id="method" class="w-full p-4 rounded-xl bg-gray-800 border border-gray-700 mt-1 mb-3 outline-none focus:border-yellow-500 text-white">
+            <option value="Bkash">Bkash</option>
+            <option value="Nagad">Nagad</option>
+            <option value="Rocket">Rocket</option>
+        </select>
+
+        <label class="text-xs text-gray-400 ml-1">Account Number</label>
+        <input id="payNumber" type="number" placeholder="017xxxxxxxx"
+        class="w-full p-4 rounded-xl bg-gray-800 border border-gray-700 mt-1 mb-3 outline-none focus:border-yellow-500 text-white">
+
+        <label class="text-xs text-gray-400 ml-1">Amount (Min 50k)</label>
+        <input id="withdrawAmount" type="number" placeholder="50000"
+        class="w-full p-4 rounded-xl bg-gray-800 border border-gray-700 mt-1 mb-6 outline-none focus:border-yellow-500 text-white">
 
         <button onclick="withdraw()" class="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-xl font-bold text-lg shadow-xl transition">
-            Submit Withdrawal
-        </button>
-        <p class="text-[10px] text-gray-500 mt-4 text-center">
-            * Requirements: 50,000 coins + 10 Refers + 1 Share
-        </p>
-    </div>
-</div>
-
-<div id="refer" class="tab text-center space-y-4">
-    <div class="glass-card p-8 rounded-3xl">
-        <i class="fas fa-users text-5xl text-blue-400 mb-4"></i>
-        <h3 class="text-xl font-bold mb-2">Refer & Earn</h3>
-        <p class="text-sm text-gray-400 mb-6">Invite your friends. Once you reach 10 refers, you can withdraw your balance!</p>
-        <button onclick="shareApp()" class="w-full bg-green-600 hover:bg-green-700 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2">
-            <i class="fas fa-share-alt"></i> SHARE LINK
+            Submit Request
         </button>
     </div>
 </div>
 
-<div id="profile" class="tab text-center space-y-4">
+<div id="refer" class="tab text-center">
     <div class="glass-card p-8 rounded-3xl">
-        <div class="w-20 h-20 bg-yellow-500 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl font-bold text-black">
-            <i class="fas fa-user"></i>
+        <i class="fas fa-gift text-5xl text-blue-400 mb-4"></i>
+        <h3 class="text-xl font-bold mb-2">Invite Friends</h3>
+        <p class="text-sm text-gray-400 mb-8">Share our app to unlock withdrawals. You need 10 referrals to cash out!</p>
+        <button onclick="shareApp()" class="w-full bg-green-600 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 shadow-lg">
+            <i class="fas fa-share-nodes"></i> SHARE NOW
+        </button>
+    </div>
+</div>
+
+<div id="profile" class="tab text-center">
+    <div class="glass-card p-8 rounded-3xl">
+        <div class="w-24 h-24 bg-gradient-to-tr from-yellow-400 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center text-4xl font-bold text-black border-4 border-gray-800">
+            <i class="fas fa-user-tie"></i>
         </div>
-        <h3 class="text-xl font-bold" id="profileName">User Name</h3>
-        <p class="text-gray-400 text-sm mb-4">Official Member</p>
-        <div class="bg-gray-800 p-4 rounded-2xl flex justify-around">
+        <h3 class="text-2xl font-bold" id="profileName">User</h3>
+        <p class="text-blue-400 text-sm mb-6">Verified Member</p>
+        <div class="bg-gray-800/50 p-4 rounded-2xl flex justify-around border border-gray-700">
             <div>
-                <p class="text-xs text-gray-500">Balance</p>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest">Balance</p>
                 <p class="font-bold text-yellow-400" id="profileCoins">0</p>
             </div>
             <div class="border-l border-gray-700"></div>
             <div>
-                <p class="text-xs text-gray-500">Status</p>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest">Account</p>
                 <p class="font-bold text-green-400">Active</p>
             </div>
         </div>
     </div>
 </div>
 
-<div class="fixed bottom-0 left-0 right-0 bg-gray-900/90 backdrop-blur-md flex justify-around p-4 border-t border-gray-800 shadow-2xl">
-    <button onclick="openTab('ads', this)" class="nav-btn active-nav text-xl"><i class="fas fa-home"></i></button>
+<div class="fixed bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-lg flex justify-around p-4 border-t border-gray-800 shadow-2xl">
+    <button onclick="openTab('ads', this)" class="nav-btn active-nav text-xl"><i class="fas fa-th-large"></i></button>
     <button onclick="openTab('withdraw', this)" class="nav-btn text-xl"><i class="fas fa-wallet"></i></button>
-    <button onclick="openTab('refer', this)" class="nav-btn text-xl"><i class="fas fa-user-plus"></i></button>
-    <button onclick="openTab('profile', this)" class="nav-btn text-xl"><i class="fas fa-user-circle"></i></button>
+    <button onclick="openTab('refer', this)" class="nav-btn text-xl"><i class="fas fa-users"></i></button>
+    <button onclick="openTab('profile', this)" class="nav-btn text-xl"><i class="fas fa-id-card"></i></button>
 </div>
 
 <script>
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-// CONFIGURATION (Setted with your data)
-const STORAGE_KEY = "earncash_pro_v3_data";
+// CONFIG
+const STORAGE_KEY = "earncash_v3_final";
 const SMART_LINK = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
 const BOT_TOKEN = "8624149947:AAETUC1_Ymb8UPXuJS0v7p-0tQ2d9LSzqDA";
 const ADMIN_CHAT_ID = "8161565053";
@@ -127,9 +141,8 @@ let userData = { coins:0, refers:0, shared:false };
 let userName = tg.initDataUnsafe?.user?.first_name || "Guest";
 
 window.onload = function(){
-    const savedData = localStorage.getItem(STORAGE_KEY);
-    if(savedData) userData = JSON.parse(savedData);
-    
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved) userData = JSON.parse(saved);
     document.getElementById("userName").innerText = "Hi, " + userName;
     document.getElementById("profileName").innerText = userName;
     updateUI();
@@ -143,11 +156,8 @@ function updateUI(){
 }
 
 function openTab(tabId, btn){
-    // Switch Tabs
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
     document.getElementById(tabId).classList.add("active");
-    
-    // Switch Nav Color
     document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active-nav"));
     btn.classList.add("active-nav");
 }
@@ -160,64 +170,64 @@ function watchAd(){
 
 function withdraw(){
     let amount = parseInt(document.getElementById("withdrawAmount").value);
+    let method = document.getElementById("method").value;
+    let payNumber = document.getElementById("payNumber").value;
 
     if(!userData.shared){
-        alert("You must share at least once before withdrawing!");
+        alert("Share with friends first!");
         window.open(SMART_LINK, '_blank');
         return;
     }
-
     if(userData.refers < 10){
-        alert("Minimum 10 refers required! Watch more ads to reach your goal.");
+        alert("Minimum 10 referrals needed!");
         window.open(SMART_LINK, '_blank');
         return;
     }
-
-    if(userData.coins < 50000){
-        alert("Minimum withdrawal is 50,000 coins.");
-        window.open(SMART_LINK, '_blank');
+    if(!payNumber || payNumber.length < 11){
+        alert("Enter a valid " + method + " number!");
         return;
     }
-
     if(isNaN(amount) || amount < 50000){
-        alert("Please enter a valid amount (Min 50,000)");
+        alert("Min withdrawal 50,000 coins!");
         return;
     }
-
     if(userData.coins >= amount){
         userData.coins -= amount;
         updateUI();
-        sendTelegram(amount);
-        alert("✅ Request Sent! Admin will review and pay within 7 days.");
+        sendToAdmin(amount, method, payNumber);
+        alert("✅ Success! Admin will pay you soon.");
     } else {
-        alert("Insufficient Balance!");
+        alert("Not enough coins!");
     }
 }
 
-function sendTelegram(amount){
-    const text = `🚀 *NEW WITHDRAW REQUEST* 🚀\n\n👤 *User:* ${userName}\n💰 *Amount:* ${amount} coins\n👥 *Refers:* ${userData.refers}/10\n🆔 *User ID:* ${tg.initDataUnsafe?.user?.id || 'N/A'}`;
+function sendToAdmin(amount, method, payNumber){
+    const text = `🚀 *NEW WITHDRAWAL* 🚀\n\n👤 *User:* ${userName}\n💰 *Amount:* ${amount}\n🏦 *Method:* ${method}\n📱 *Number:* ${payNumber}\n👥 *Refers:* ${userData.refers}/10`;
     fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`);
 }
 
 function shareApp(){
-    const shareText = "🔥 Earn money daily from Telegram! Join now: " + BOT_LINK;
+    const shareData = {
+        title: 'EarnCash Pro',
+        text: '🔥 Join and earn daily from Telegram!',
+        url: BOT_LINK
+    };
 
-    if(navigator.share){
-        navigator.share({ title: 'EarnCash Pro', text: shareText, url: BOT_LINK })
+    if (navigator.share) {
+        navigator.share(shareData)
         .then(() => {
-            handleShareSuccess();
-        });
+            userData.shared = true;
+            if(userData.refers < 10) userData.refers += 1;
+            updateUI();
+        })
+        .catch(console.error);
     } else {
-        navigator.clipboard.writeText(shareText);
-        handleShareSuccess();
-        alert("Referral link copied! Share it now.");
+        navigator.clipboard.writeText(shareData.text + " " + BOT_LINK);
+        userData.shared = true;
+        if(userData.refers < 10) userData.refers += 1;
+        updateUI();
+        alert("Link copied! Share it on FB/WhatsApp.");
     }
-}
-
-function handleShareSuccess(){
-    userData.shared = true;
-    if(userData.refers < 10) userData.refers += 1;
-    updateUI();
 }
 </script>
 </body>

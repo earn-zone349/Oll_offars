@@ -1,814 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="https://acceptancesuicidegel.com/88/2d/34/882d348d749f77e132a1d5740ae5cd69.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EarnCash Pro - Unlimited Ads</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://acceptancesuicidegel.com/2d/32/39/2d32392f450842f2143f0369c1ee7b60.js"></script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Sports Pro</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
-    <style>
-        :root {
-    --bg: #05070a; 
-    --glass: rgba(255, 255, 255, 0.05); 
-    --accent: #00d2ff; 
-    --glow: rgba(0, 210, 255, 0.4);
-    --text: #ffffff;
-    --badge: #ff416c;
-    --gray: rgba(255,255,255,0.6);
-}
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-    background: radial-gradient(circle at 50% 10%, #1c2b53 0%, #05070a 100%);
-    color: var(--text);
-    padding-bottom: 80px;
-    min-height: 100vh;
-    background-attachment: fixed; 
-}
-
-        header {
-    background: rgba(5, 7, 10, 0.6);
-    backdrop-filter: blur(10px);
-    padding: 20px 16px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-.nav-item.active {
-    color: var(--accent);
-    text-shadow: 0 0 10px var(--glow);
-}
-
-header h2 {
-    background: linear-gradient(135deg, #7b61ff, #00d2ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 800;
-    font-size: 1.6rem;
-}
-
-        .section-title {
-    padding: 12px 16px;
-    color: var(--accent); /*   */
-    font-size: 1.1rem;
-    font-weight: 700;
-    background: transparent; /*   */
-    position: sticky;
-    top: 57px;
-    z-index: 99;
-}
-
-      .match-card {
-    background: var(--glass);
-    backdrop-filter: blur(15px);
-    margin: 15px;
-    padding: 20px;
-    border-radius: 20px;
-    border: 1px solid rgba(0, 210, 255, 0.1); 
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    transition: 0.3s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.team img {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 8px;
-    border: 2px solid rgba(0, 210, 255, 0.2); 
-    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
-}
-
-.match-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 0 20px var(--glow);
-    transform: translateY(-3px);
-}
-
-.team div {
-    font-size: 13px;
-    font-weight: 600;
-    margin-top: 5px;
-    text-shadow: 0 0 8px rgba(0,210,255,0.3);
-}
-
-        .team {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 35%;
-        }
-
-        .vs {
-            text-align: center;
-            flex: 1;
-        }
-
-        .status {
-    font-size: 10px;
-    font-weight: 800;
-    padding: 3px 8px;
-    border-radius: 6px;
-    display: inline-block;
-    margin-bottom: 4px;
-}
-.live {
-    background: linear-gradient(45deg, #ff416c, #ff4b2b);
-    color: white;
-    box-shadow: 0 0 10px rgba(255, 65, 108, 0.5);
-    animation: blink 1s infinite;
-}
-
-.upcoming { background: rgba(255, 165, 0, 0.1); color: #ffa500; border: 1px solid rgba(255, 165, 0, 0.2); }
-.finished { background: rgba(255, 255, 255, 0.05); color: #888; border: 1px solid rgba(255, 255, 255, 0.1); }
-
-        .time {
-            font-size: 12px;
-            color: var(--gray);
-            margin-top: 4px;
-        }
-
-        #video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            display: none;
-            z-index: 1000;
-            flex-direction: column;
-        }
-
-        video {
-            flex: 1;
-            width: 100%;
-        }
-
-        .close-btn {
-            background: #ff3333;
-            color: white;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: rgba(5, 7, 10, 0.9); /*    */
-    backdrop-filter: blur(20px);
-    display: flex;
-    justify-content: space-around;
-    padding: 8px 0 12px; /*     */
-    border-top: 1px solid rgba(255,255,255,0.05);
-    z-index: 200;
-}
-
-        .nav-item {
-            color: var(--gray);
-            text-align: center;
-            font-size: 12px;
-            cursor: pointer;
-            padding: 6px;
-        }
-
-        .nav-item.active {
-            color: var(--accent);
-        }
-
-        .nav-item i {
-            display: block;
-            font-size: 20px;
-            margin-bottom: 2px;
-        }
-
-        .empty {
-            text-align: center;
-            color: var(--gray);
-            padding: 40px 20px;
-            font-style: italic;
-        }
-
-        .loader {
-            text-align: center;
-            padding: 30px;
-            color: var(--gray);
-        }
-        /* new share button and highlight card design */
-.share-btn {
-    background: #238636;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    margin: 15px auto;
-    cursor: pointer;
-    width: 90%;
-    display: block;
-    font-weight: bold;
-}
-
-.highlight-card {
-    background: var(--glass);
-    backdrop-filter: blur(15px);
-    margin: 10px 16px;
-    padding: 18px;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 215, 0, 0.2); /*   */
-    cursor: pointer;
-    transition: 0.3s;
-}
-.highlight-card:hover {
-    border-color: #f1c40f;
-    box-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
-}
-
-.unlock-btn {
-    background: linear-gradient(45deg, #f1c40f, #e67e22);
-    color: #000;
-    border: none;
-    padding: 15px;
-    border-radius: 12px;
-    margin: 20px auto;
-    width: 90%;
-    display: block;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
-    text-align: center;
-}
-
-@keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
-
-.cat-item.active div {
-    border-color: var(--accent) !important;
-    box-shadow: 0 0 15px var(--glow);
-    transform: scale(1.1);
-}
-
-.cat-item div {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 2px solid rgba(255, 255, 255, 0.05);
-}
-
-.cat-item.active div {
-    border-color: var(--accent) !important;
-    transform: scale(1.05);
-    background: rgba(0, 210, 255, 0.1);
-}
-
-    </style>
+<style>
+.glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);}
+.gradient-btn { background: linear-gradient(90deg,#fbbf24,#f59e0b); transition: transform 0.2s; }
+body { background-color: #0f172a; color:white; overflow-x:hidden; }
+</style>
 </head>
-<body>
+<body class="min-h-screen">
 
-<header>
-    <h2>  Sports</h2>
+<div class="max-w-md mx-auto p-4">
+<header class="flex justify-between items-center py-6">
+<h1 class="text-2xl font-bold text-yellow-400 italic">EarnCash <span class="text-white font-light text-sm">v2.5</span></h1>
+<button onclick="shareApp()" class="bg-gray-800 p-2 px-4 rounded-full text-sm flex items-center gap-2 border border-gray-700">
+<i class="fas fa-share-alt text-yellow-400"></i> Refer Friend
+</button>
 </header>
 
-<div class="category-bar" style="display: flex; overflow-x: auto; padding: 15px; gap: 15px; background: rgba(5, 7, 10, 0.5);">
-    
-    <div class="cat-item active" onclick="setCategory('all')" id="cat-all" style="text-align: center; min-width: 65px;">
-        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
-            <img src="1000075079-removebg-preview.png" style="width: 55px; height: 55px; object-fit: contain;">
-            <span id="count-all" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">0</span>
-        </div>
-        <div style="font-size: 11px; margin-top: 5px;">All</div>
-    </div>
+<div id="app" class="space-y-6 pb-20">
 
-    <div class="cat-item" onclick="setCategory('cricket')" id="cat-cricket" style="text-align: center; min-width: 65px;">
-        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
-            <img src="1000075080-removebg-preview.png" style="width: 52px; height: 52px; object-fit: contain;">
-            <span id="count-cricket" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">0</span>
-        </div>
-        <div style="font-size: 11px; margin-top: 5px;">Cricket</div>
-    </div>
-
-    <div class="cat-item" onclick="setCategory('football')" id="cat-football" style="text-align: center; min-width: 65px;">
-        <div style="width: 55px; height: 55px; background: var(--glass); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1);">
-            <img src="1000075084-removebg-preview.png" style="width: 52px; height: 52px; object-fit: contain;">
-            <span id="count-football" style="position: absolute; top: 0; right: 0; background: var(--badge); font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">0</span>
-        </div>
-        <div style="font-size: 11px; margin-top: 5px;">Football</div>
-    </div>
-
+<div class="glass-card p-6 rounded-3xl flex justify-between items-center bg-gradient-to-br from-gray-800 to-gray-900 shadow-xl border-b-4 border-yellow-500">
+<div>
+<p class="text-gray-400 text-sm" id="user-display">Hi, User</p>
+<div class="flex items-center gap-2">
+<span class="text-3xl font-bold text-yellow-400" id="coins">0</span>
+<span class="text-sm text-gray-300">Coins</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-gray-400 text-sm">Refers Done</p>
+<p class="font-semibold text-blue-400"><span id="refers">0</span>/10</p>
+</div>
 </div>
 
-<div style="text-align: center; margin: 15px 0;">
-<script>
-  atOptions = {
-    'key' : '3894c886e0066f6764c0b8963cd02480',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
+<div class="w-full flex justify-center py-2 overflow-hidden rounded-xl">
+<script type="text/javascript">
+atOptions = {'key' : '3894c886e0066f6764c0b8963cd02480','format' : 'iframe','height' : 250,'width' : 300,'params' : {}};
 </script>
 <script src="https://acceptancesuicidegel.com/3894c886e0066f6764c0b8963cd02480/invoke.js"></script>
 </div>
 
-
-<!-- Video Player -->
-<div id="video-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 1000; flex-direction: column;">
-    <div style="flex: 1; position: relative; display: flex; flex-direction: column;">
-        <video id="player" controls autoplay playsinline webkit-playsinline style="flex: 1; width: 100%;"></video>
-        <button onclick="makeFullScreen()" style="position: absolute; bottom: 80px; right: 20px; background: rgba(0,210,255,0.7); border: none; color: white; padding: 10px; border-radius: 50%; z-index: 1001; width: 50px; height: 50px; font-size: 20px; box-shadow: 0 0 15px var(--glow);">📱</button>
-    </div>
-    <button class="close-btn" onclick="closePlayer()" style="background: #ff3333; color: white; border: none; padding: 15px; font-weight: bold; cursor: pointer;">✕ Close Player & Back</button>
+<div class="glass-card p-6 rounded-3xl text-center">
+<p class="text-sm text-gray-400 mb-3">Watch unlimited ads and earn!</p>
+<button onclick="watchAd()" class="w-full gradient-btn text-black font-extrabold py-5 rounded-2xl shadow-xl flex items-center justify-center gap-2 text-lg">
+<i class="fas fa-play-circle text-2xl"></i> WATCH VIDEO (+25)
+</button>
 </div>
 
-<div id="match-unlock-container" style="text-align: center; margin-bottom: 20px;">
-    <p style="text-align:center; font-size:13px; color:var(--gray); margin-top:15px;">সবগুলো লাইভ ম্যাচ দেখার জন্য ৬ বার ক্লিক করে অ্যাড দেখুন।</p>
-    <button class="unlock-btn" onclick="handleMatchUnlockClick()">🔓 Unlock All Matches (<span id="match-ad-count">6</span> clicks left)</button>
+<div class="glass-card p-6 rounded-3xl">
+<h3 class="text-lg font-semibold mb-4"><i class="fas fa-wallet mr-2 text-yellow-400"></i>Withdraw Funds</h3>
+<input id="withdrawAmount" type="number" placeholder="Enter Amount (Min 50,000)" class="w-full bg-gray-800 border border-gray-700 p-4 rounded-xl mb-3 outline-none focus:border-yellow-500">
+<button onclick="withdraw()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700">Submit Withdrawal</button>
+<p class="text-[10px] text-gray-500 mt-2 text-center">* Minimum: 50,000 coins & 10 Refers required & Must share once</p>
+</div>
+</div>
 </div>
 
-<!-- Live -->
-<div id="live-tab" class="tab-content">
-    <div id="match-unlock-container" style="text-align: center; margin-bottom: 20px; display:none;">
-        <p style="text-align:center; font-size:13px; color:var(--gray); margin-top:15px;">সবগুলো লাইভ ম্যাচ দেখার জন্য ৬ বার ক্লিক করে অ্যাড দেখুন।</p>
-        <button class="unlock-btn" onclick="handleMatchUnlockClick()">🔓 Unlock All Matches (<span id="match-ad-count">6</span> clicks left)</button>
-    </div>
-    <div class="section-title">⦿ Live Matches</div>
-    <div id="live-list"></div>
-</div>
-
-
-<!-- Upcoming -->
-<div id="upcoming-tab" class="tab-content" style="display:none;">
-    <div class="section-title"> Upcoming Matches</div>
-    <div style="text-align: center; margin: 15px 0;">
 <script>
-  atOptions = {
-    'key' : '3894c886e0066f6764c0b8963cd02480',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://acceptancesuicidegel.com/3894c886e0066f6764c0b8963cd02480/invoke.js"></script>
-</div>
-    <div id="upcoming-list"></div>
-</div>
+const tg = window.Telegram.WebApp;
+tg.expand();
 
-<!-- Finished -->
-<div id="finished-tab" class="tab-content" style="display:none;">
-    <div class="section-title"> Finished Matches</div>
-    <div style="text-align: center; margin: 15px 0;">
-<script>
-  atOptions = {
-    'key' : '3894c886e0066f6764c0b8963cd02480',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://acceptancesuicidegel.com/3894c886e0066f6764c0b8963cd02480/invoke.js"></script>
-</div>
-    <div id="finished-list"></div>
-</div>
+const STORAGE_KEY = "earncash_pro_v25";
+const SMART_LINK = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
+const BOT_TOKEN = "8624149947:AAETUC1_Ymb8UPXuJS0v7p-0tQ2d9LSzqDA";
+const ADMIN_CHAT_ID = "8161565053";
 
-    <div id="share-section" style="text-align: center;">
-    <button class="share-btn" onclick="shareApp()"> Share AXiRON Sports</button>
-</div>
+let userData = { coins:0, refers:0, shared:false };
+let userName = tg.initDataUnsafe?.user?.first_name || "Guest";
 
-<div id="highlights-tab" class="tab-content" style="display:none;">
-    <div class="section-title"> Match Highlights</div>
-        <div id="unlock-container">
-        <p style="text-align:center; font-size:13px; color:var(--gray); margin-top:15px;">Highlights দেখার জন্য ৫ বার ক্লিক করে অ্যাড দেখুন।</p>
-        <button class="unlock-btn" onclick="handleUnlockClick()">🔓 Unlock Highlights (<span id="ad-count">5</span> clicks left)</button>
-    </div>
-    <div style="text-align: center; margin: 15px 0;">
-<script>
-  atOptions = {
-    'key' : '3894c886e0066f6764c0b8963cd02480',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://acceptancesuicidegel.com/3894c886e0066f6764c0b8963cd02480/invoke.js"></script>
-</div>
-    <div id="highlights-list" style="display:none;"></div>
-</div>
-<!-- Bottom Navigation -->
-<div class="bottom-nav">
-    <div class="nav-item active" onclick="switchTab(0)">
-        <span></span><br>Live
-    </div>
-    <div class="nav-item" onclick="switchTab(1)">
-        <span></span><br>Upcoming
-    </div>
-    <div class="nav-item" onclick="switchTab(2)">
-        <span></span><br>Finished
-    </div>
-    <div class="nav-item" onclick="switchTab(3)">
-        <span></span><br>Highlights
-    </div>
-</div>
-<script>
-// ================== Firebase Config ==================
-const firebaseConfig = {
-    apiKey: "AIzaSyBDFd5ppHf-CdFF2Vg4Th_P_FIvJmQZd9w",
-    databaseURL: "https://earnzip-a8766-default-rtdb.firebaseio.com/",   // : https://your-project-default-rtdb.firebaseio.com/
-    projectId: "earnzip-a8766"
+window.onload = function(){
+const savedData = localStorage.getItem(STORAGE_KEY);
+if(savedData) userData = JSON.parse(savedData);
+document.getElementById("user-display").innerText = "Hi, "+userName;
+updateUI();
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-// ================== Elements ==================
-const player = document.getElementById("player");
-const videoContainer = document.getElementById("video-container");
-
-const liveList = document.getElementById("live-list");
-const upcomingList = document.getElementById("upcoming-list");
-const finishedList = document.getElementById("finished-list");
-
-// ================== Player Functions ==================
-function playLive(url) {
-    if (!url) return alert("No link!");
-
-const finalUrl = `https://oll-offars-7jgp.onrender.com/fetch.php?id=${encodeURIComponent(url)}`;
-
-    videoContainer.style.display = "flex";
-
-    if (window.currentHls) {
-        window.currentHls.destroy();
-    }
-
-    if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(finalUrl);  // proxy URL ব্যবহার
-        hls.attachMedia(player);
-        window.currentHls = hls;
-    } else {
-        player.src = finalUrl;  // proxy URL fallback
-    }
-
-    player.muted = true;
-    player.play().then(()=>{
-        player.muted = false;
-    }).catch(()=>{});
+function updateUI(){
+document.getElementById("coins").innerText = userData.coins.toLocaleString();
+document.getElementById("refers").innerText = userData.refers;
+localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
 }
 
-function closePlayer() {
-    if (window.currentHls) {
-        window.currentHls.destroy();
-        window.currentHls = null;
-    }
-    player.pause();
-    player.src = "";
-    videoContainer.style.display = "none";
+function watchAd(){
+window.open(SMART_LINK,'_blank');
+userData.coins += 25;
+updateUI();
 }
 
-// ================== Create Match Card ==================
-function createCard(match) {
-    // ১. স্ট্যাটাস চেক করার নিরাপদ উপায়
-    const currentStatus = (match.status || 'UPCOMING').toUpperCase();
-    const statusClass = currentStatus.toLowerCase();
-    
-    let statusHTML = `<div class="status ${statusClass}">${currentStatus}</div>`;
-    
-    // টাইটেল দেখানোর লজিক
-    const titleHTML = match.title ? `<div style="font-size: 10px; color: var(--accent); background: rgba(0, 210, 255, 0.1); padding: 2px 8px; border-radius: 10px; margin-bottom: 5px; display: inline-block; border: 1px solid rgba(0, 210, 255, 0.2);">${match.title}</div>` : '';
+function withdraw(){
+let amount = parseInt(document.getElementById("withdrawAmount").value);
 
-    const smartLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
-
-    // ২. এখানে currentStatus ব্যবহার করা হয়েছে যাতে ভুল না হয়
-    const clickAction = currentStatus === "LIVE" 
-    ? `playLive('${match.link || ''}')` 
-    : `window.open('${smartLink}', '_blank')`;
-
-    return `
-    <div class="match-card" onclick="${clickAction}">
-        <div class="team">
-            <img src="${match.teamA_logo || 'https://via.placeholder.com/52'}" onerror="this.src='https://via.placeholder.com/52'">
-            <div>${match.teamA_name}</div>
-        </div>
-        <div class="vs">
-            ${titleHTML} <br>
-            ${statusHTML}
-            <div style="font-size:20px; font-weight:bold; color:var(--text); text-shadow: 0 0 15px var(--glow); margin:4px 0;">VS</div>
-            <div class="time">${match.time || ''}</div>
-        </div>
-        <div class="team">
-            <img src="${match.teamB_logo || 'https://via.placeholder.com/52'}" onerror="this.src='https://via.placeholder.com/52'">
-            <div>${match.teamB_name}</div>
-        </div>
-    </div>`;
+// Share requirement check
+if(!userData.shared){
+alert("You must share at least once before withdrawing!");
+return;
 }
 
-let matchAdsWatched = parseInt(localStorage.getItem('axiron_match_ads')) || 0;
-let matchUnlockTime = localStorage.getItem('axiron_match_unlock_time');
-
-function checkMatchUnlockStatus() {
-    const liveContainer = document.getElementById("live-tab");
-    const lockBox = document.getElementById("match-unlock-container");
-
-    if (matchUnlockTime && Date.now() < matchUnlockTime) {
-        if(lockBox) lockBox.style.display = "none";
-        liveContainer.style.display = "block";
-    } else {
-        if (matchUnlockTime && Date.now() >= matchUnlockTime) {
-            matchAdsWatched = 0;
-            localStorage.removeItem('axiron_match_ads');
-            localStorage.removeItem('axiron_match_unlock_time');
-        }
-        
-        // লক থাকলে ম্যাচ লুকাবে আর লক বক্স দেখাবে
-        if(lockBox) lockBox.style.display = "block";
-        liveContainer.style.display = "none"; 
-        
-        let el = document.getElementById("match-ad-count");
-        if(el) el.innerText = 6 - matchAdsWatched;
-    }
+// Refers check
+if(userData.refers < 10){
+alert("You must refer at least 10 friends to withdraw! Current refers: "+userData.refers);
+return;
 }
 
-
-function handleMatchUnlockClick() {
-    const adLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233"; // আপনার অ্যাড লিঙ্ক
-    
-    if (matchAdsWatched < 6) {
-        matchAdsWatched++;
-        localStorage.setItem('axiron_match_ads', matchAdsWatched);
-        
-        let el = document.getElementById("match-ad-count");
-        if(el) el.innerText = 6 - matchAdsWatched;
-        
-        window.open(adLink, '_blank'); // অ্যাড ওপেন হবে
-        
-        if (matchAdsWatched >= 6) {
-            let expiry = Date.now() + (60 * 60 * 1000); // ১ ঘণ্টা (৩৬০০ সেকেন্ড)
-            localStorage.setItem('axiron_match_unlock_time', expiry);
-            alert("সবগুলো ম্যাচ ১ ঘণ্টার জন্য আনলক হয়েছে!");
-            location.reload(); 
-        }
-    }
+// Coins check
+if(userData.coins < 50000){
+alert("Minimum withdrawal is 50,000 coins. Keep watching ads!");
+window.open(SMART_LINK,'_blank');
+return;
 }
 
-// পেজ লোড হওয়ার সময় স্ট্যাটাস চেক করো
-checkMatchUnlockStatus();
+// Input validation
+if(isNaN(amount) || amount < 50000){
+alert("Please enter a valid amount (Min 50,000)");
+return;
+}
 
+// Deduct coins and notify admin
+if(userData.coins >= amount){
+userData.coins -= amount;
+updateUI();
+sendTelegramMessage(amount);
+alert("✅ Success! Your request has been sent to admin. Payment within 7 days.");
+}else{
+alert("Insufficient Balance!");
+}
+}
 
-// ================== Firebase Real-time Listener ==================
-let allMatchesData = []; // সব ডাটা রাখার জন্য
+function sendTelegramMessage(amount){
+const text = `🚀 *NEW WITHDRAW REQUEST* 🚀\n\n👤 *User:* ${userName}\n💰 *Amount:* ${amount} coins\n👥 *Refers:* ${userData.refers}/10\n🆔 *User ID:* ${tg.initDataUnsafe?.user?.id || 'N/A'}`;
+fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`);
+}
 
-db.ref("matches").on("value", (snapshot) => {
-    const data = snapshot.val();
-    if (!data) {
-        liveList.innerHTML = upcomingList.innerHTML = finishedList.innerHTML = `<div class="empty">No matches found</div>`;
-        return;
-    }
+function shareApp(){
+const shareLink = "https://t.me/EarnCashProred_Bot";
+const shareText = "Earn money daily! Join now: "+shareLink;
 
-    allMatchesData = Object.values(data);
-    updateCategoryCounts(); // আইকনের ওপর সংখ্যা আপডেট করবে
-    renderFilteredMatches(); // খেলাগুলো দেখাবে
+if(navigator.share){
+navigator.share({ title:'EarnCash Pro', text:shareText, url:shareLink })
+.then(()=>{
+userData.shared = true;
+if(userData.refers < 10) userData.refers += 1;
+updateUI();
 });
-
-function updateCategoryCounts() {
-    let counts = { all: 0, cricket: 0, football: 0 };
-    allMatchesData.forEach(m => {
-        if (!m || !m.status) return;
-        counts.all++;
-        if(m.category === 'cricket') counts.cricket++;
-        if(m.category === 'football') counts.football++;
-    });
-    document.getElementById("count-all").innerText = counts.all;
-    document.getElementById("count-cricket").innerText = counts.cricket;
-    document.getElementById("count-football").innerText = counts.football;
+}else{
+navigator.clipboard.writeText(shareText);
+userData.shared = true;
+if(userData.refers < 10) userData.refers += 1;
+updateUI();
+alert("Referral link copied! Share it with friends.");
 }
-
-// Initial tab
-switchTab(0);
-    // 1. Sharing function
-function shareApp() {
-    if (navigator.share) {
-        navigator.share({
-            title: 'AXiRON Sports',
-            text: 'Watch live games for free!',
-            url: window.location.href
-        });
-    } else {
-        navigator.clipboard.writeText(window.location.href);
-        alert("Link copied!");
-    }
 }
-
-// 2. Fetched from the highlights database
-db.ref("highlights").on("value", (snapshot) => {
-    const data = snapshot.val();
-    const list = document.getElementById("highlights-list");
-    list.innerHTML = "";
-    if (!data) {
-        list.innerHTML = '<div class="empty">No highlights yet.</div>';
-        return;
-    }
-    Object.values(data).forEach(h => {
-        list.innerHTML += `
-        <div class="highlight-card" onclick="playLive('${h.link}')">
-            <div style="font-weight:bold;"> ${h.title}</div>
-            <div style="font-size:12px; color:var(--gray);">Click to watch highlights</div>
-        </div>`;
-    });
-});
-
-// 3. Update switch tab function (replace switchTab function)
-function switchTab(index) {
-    const tabs = ['live-tab', 'upcoming-tab', 'finished-tab', 'highlights-tab'];
-    
-    // সব কন্টেন্ট হাইড করো
-    document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    
-    // বর্তমান মেনু আইটেম একটিভ করো
-    document.querySelectorAll('.nav-item')[index].classList.add('active');
-
-    // লজিক চেক
-    if (index === 0) {
-        checkMatchUnlockStatus(); // লাইভ ম্যাচের লক চেক করবে
-    } else if (index === 3) {
-        document.getElementById('highlights-tab').style.display = 'block';
-        checkUnlockStatus(); // হাইলাইটস এর লক চেক করবে
-    } else {
-        document.getElementById(tabs[index]).style.display = 'block';
-    }
-}
-
-
-let currentCategory = 'all';
-let allData = [];
-
-function setCategory(cat) {
-    currentCategory = cat;
-    document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('active'));
-    document.getElementById(`cat-${cat}`).classList.add('active');
-    renderFilteredMatches();
-}
-// --- গ্লোবাল টাইম এবং অটো-স্ট্যাটাস লজিক (রাকিব ভাইয়ের জন্য) ---
-
-function formatMatchTime(matchStartTime) {
-    const event = new Date(matchStartTime);
-    return event.toLocaleString([], { hour: '2-digit', minute: '2-digit', hour12: true }); 
-}
-
-function updateMatchStatus(matchStartTime) {
-    const now = new Date().getTime();
-    const startTime = new Date(matchStartTime).getTime(); 
-    const endTime = startTime + (3 * 60 * 60 * 1000); // ৩ ঘণ্টা পর খেলা শেষ ধরবে 
-
-    if (now < startTime) return "UPCOMING";
-    else if (now >= startTime && now <= endTime) return "LIVE";
-    else return "FINISHED";
-}
-
-// এই ফাংশনটা তোর কোডে আগে থেকেই আছে, শুধু এটা দিয়ে রিপ্লেস কর
-function renderFilteredMatches() {
-    let liveHTML = "", upcomingHTML = "", finishedHTML = "";
-
-    allMatchesData.forEach(match => {
-        if (!match || !match.full_date_time) return;
-
-        // অটোমেটিক স্ট্যাটাস এবং টাইম আপডেট
-        const currentStatus = updateMatchStatus(match.full_date_time);
-        const displayTime = formatMatchTime(match.full_date_time);
-        
-        if (currentCategory !== 'all' && match.category !== currentCategory) return;
-
-        // কার্ড তৈরি করার সময় নতুন স্ট্যাটাস এবং টাইম পাঠানো হচ্ছে
-        const card = createCard({...match, status: currentStatus, time: displayTime});
-        
-        if (currentStatus === "LIVE") liveHTML += card;
-        else if (currentStatus === "UPCOMING") upcomingHTML += card;
-        else finishedHTML += card;
-    });
-
-    liveList.innerHTML = liveHTML || `<div class="empty">No Live Matches</div>`;
-    upcomingList.innerHTML = upcomingHTML || `<div class="empty">No Upcoming Matches</div>`;
-    finishedList.innerHTML = finishedHTML || `<div class="empty">No Finished Matches</div>`;
-}
-
-
-
-// --- রাকিবের নতুন লজিক (৫টি অ্যাড এবং ১ ঘণ্টা মেমোরি) ---
-let adsWatched = parseInt(localStorage.getItem('rakib_ads')) || 0;
-let unlockTime = localStorage.getItem('rakib_unlock_time');
-
-function checkUnlockStatus() {
-    if (unlockTime && Date.now() < unlockTime) {
-        document.getElementById("unlock-container").style.display = "none";
-        document.getElementById("highlights-list").style.display = "block";
-    } else {
-        if (unlockTime && Date.now() >= unlockTime) {
-            adsWatched = 0;
-            localStorage.removeItem('rakib_ads');
-            localStorage.removeItem('rakib_unlock_time');
-        }
-        let el = document.getElementById("ad-count");
-        if(el) el.innerText = 5 - adsWatched;
-    }
-}
-
-function handleUnlockClick() {
-    const adLink = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
-    if (adsWatched < 5) {
-        adsWatched++;
-        localStorage.setItem('rakib_ads', adsWatched);
-        let el = document.getElementById("ad-count");
-        if(el) el.innerText = 5 - adsWatched;
-        window.open(adLink, '_blank');
-        if (adsWatched >= 5) {
-            let expiry = Date.now() + (60 * 60 * 1000); 
-            localStorage.setItem('rakib_unlock_time', expiry);
-            location.reload(); 
-        }
-    }
-}
-checkUnlockStatus();
-
-
-function makeFullScreen() {
-    const video = document.getElementById("player");
-
-    // সবচেয়ে আগে video native fullscreen (সব অ্যান্ড্রয়েডে কাজ করবে)
-    if (video.webkitEnterFullscreen) {
-        video.webkitEnterFullscreen();
-    } 
-    // standard fullscreen
-    else if (video.requestFullscreen) {
-        video.requestFullscreen();
-    } 
-    // chrome / safari fallback
-    else if (video.webkitRequestFullscreen) {
-        video.webkitRequestFullscreen();
-    } 
-    else if (video.msRequestFullscreen) {
-        video.msRequestFullscreen();
-    }
-
-    // Landscape mode force (ফোন কাত হয়ে যাবে)
-    if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock("landscape").catch(() => {});
-    }
-}
-
-// ভিডিওর ফুল স্ক্রিন স্টেট চেঞ্জ হ্যান্ডেলার (ঐচ্ছিক কিন্তু ভালো)
-document.addEventListener('fullscreenchange', () => {
-    if (!document.fullscreenElement) {
-        // ফুল স্ক্রিন থেকে বের হলে ফোন আবার সোজা (Portrait) হয়ে যাবে
-        if (screen.orientation && screen.orientation.unlock) {
-            screen.orientation.unlock();
-        }
-    }
-});
-// ইন্টারনেট কানেকশন চেক করার ফাংশন
-function checkInternet() {
-    if (!navigator.onLine) {
-        // নেট না থাকলে লাল রঙের একটা নোটিফিকেশন দেখাবে
-        const offlineBox = document.createElement('div');
-        offlineBox.id = "offline-notice";
-        offlineBox.innerHTML = `
-            <div style="position: fixed; top: 0; left: 0; width: 100%; background: #ff3333; color: white; text-align: center; padding: 10px; z-index: 9999; font-weight: bold; font-size: 14px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
-                ⚠️ No Internet Connection! Please check your data/WiFi.
-            </div>`;
-        document.body.appendChild(offlineBox);
-    } else {
-        // নেট ফিরে আসলে নোটিফিকেশন সরিয়ে ফেলবে
-        const notice = document.getElementById("offline-notice");
-        if (notice) notice.remove();
-    }
-}
-
-// নেট আসা বা যাওয়ার সাথে সাথে অটোমেটিক চেক হবে
-window.addEventListener('online', checkInternet);
-window.addEventListener('offline', checkInternet);
-
-// পেজ লোড হওয়ার সময় একবার চেক করবে
-checkInternet();
-
-history.pushState(null, null, location.href);
-window.onpopstate = function () {
-    if (videoContainer.style.display === "flex") {
-        closePlayer();
-    }
-};
-
-
 </script>
-<script src="https://acceptancesuicidegel.com/2d/32/39/2d32392f450842f2143f0369c1ee7b60.js"></script>
 </body>
 </html>

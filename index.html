@@ -174,8 +174,12 @@ function watchAd(){
 }
 
 function doTask(url, reward){
+    // The video or page will always be open
+    window.open(url, '_blank');
+
+    // Check if the coin has already been received or not
     if(userData.doneTasks.includes(url)){
-        alert("আপনি এই টাস্কটি আগেই করেছেন!");
+        // If you got coins before, will not give new coins, just show video
         return;
     }
     window.open(url, '_blank');

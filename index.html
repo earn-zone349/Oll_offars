@@ -3,226 +3,1037 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EarnCash Pro v3.3 - Final Setup</title>
-<script src="https://acceptancesuicidegel.com/2d/32/39/2d32392f450842f2143f0369c1ee7b60.js"></script>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
+<title>MindLock Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
 <style>
-    body { background:#0f172a; color:white; font-family: sans-serif; overflow-x: hidden; }
-    .tab { display:none; }
-    .active { display:block; animation: slideUp 0.3s ease; }
-    @keyframes slideUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .glass-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-    .gradient-btn { background: linear-gradient(90deg,#fbbf24,#f59e0b); transition: 0.2s; }
-    .gradient-btn:active { transform: scale(0.95); }
-    .nav-btn { color: #94a3b8; transition: 0.3s; }
-    .nav-btn.active-nav { color: #fbbf24; transform: translateY(-5px); }
-    .instruction-text { font-size: 11px; color: #94a3b8; line-height: 1.4; margin-top: 10px; }
-    .task-card { background: rgba(30, 41, 59, 0.5); border-left: 4px solid #fbbf24; }
+  :root {
+    --bg: #050a0f;
+    --panel: #0d1620;
+    --border: #1a2d42;
+    --cyan: #00f5ff;
+    --green: #00ff88;
+    --red: #ff2d55;
+    --orange: #ff9500;
+    --gold: #ffd700;
+    --text: #c8dde8;
+    --glow-cyan: 0 0 20px #00f5ff88;
+    --glow-green: 0 0 20px #00ff8888;
+    --glow-red: 0 0 20px #ff2d5588;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  /* Animated background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Radial glow top center */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(0,245,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 620px;
+    padding: 20px 16px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  .logo {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(26px, 6vw, 38px);
+    font-weight: 900;
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, var(--cyan), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 18px rgba(0,245,255,0.5));
+  }
+
+  .tagline {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #4a6a7a;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  /* ===== STATS BAR ===== */
+  .stats-bar {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .stat-card {
+    flex: 1;
+    max-width: 130px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 8px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0.6;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4a6a7a;
+  }
+
+  .stat-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cyan);
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+
+  .stat-value.gold { color: var(--gold); }
+  .stat-value.orange { color: var(--orange); }
+  .stat-value.green { color: var(--green); }
+
+  /* ===== HIGH SCORE BADGE ===== */
+  .highscore-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #1a1400, #241c00);
+    border: 1px solid #3a2e00;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .highscore-bar .trophy { font-size: 18px; }
+  .highscore-bar span { color: #8a7a40; letter-spacing: 1px; }
+  .highscore-bar strong { color: var(--gold); font-family: 'Orbitron', monospace; font-size: 15px; }
+
+  /* ===== STATUS MESSAGE ===== */
+  #status-msg {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    height: 20px;
+    text-align: center;
+    transition: color 0.3s;
+  }
+
+  #status-msg.error { color: var(--red); }
+  #status-msg.success { color: var(--green); }
+
+  /* ===== TIMER ===== */
+  .timer-wrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .timer-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #4a6a7a;
+    white-space: nowrap;
+  }
+
+  .timer-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: #0d1620;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .timer-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--cyan));
+    border-radius: 3px;
+    transition: width 0.9s linear, background 0.3s;
+    width: 100%;
+  }
+
+  .timer-bar-fill.urgent {
+    background: linear-gradient(90deg, var(--red), var(--orange));
+    animation: pulse-bar 0.5s infinite alternate;
+  }
+
+  @keyframes pulse-bar {
+    from { opacity: 1; }
+    to { opacity: 0.5; }
+  }
+
+  #timer-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 16px;
+    color: var(--orange);
+    min-width: 28px;
+    text-align: right;
+  }
+
+  #timer-num.urgent { color: var(--red); }
+
+  /* ===== GRID ===== */
+  #grid-wrap {
+    position: relative;
+  }
+
+  #grid {
+    display: grid;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .box {
+    width: 65px;
+    height: 65px;
+    background: #0d1620;
+    border: 1px solid #1a2d42;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.12s, background 0.15s, border-color 0.15s, box-shadow 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 60%);
+    border-radius: 12px;
+  }
+
+  .box:hover:not(.disabled) {
+    background: #162230;
+    border-color: #2a4a62;
+    transform: scale(1.05);
+  }
+
+  .box:active:not(.disabled) {
+    transform: scale(0.95);
+  }
+
+  .box.disabled { cursor: default; pointer-events: none; }
+
+  /* Pattern flash - color coded */
+  .box.flash-0 { background: #00f5ff33; border-color: var(--cyan); box-shadow: var(--glow-cyan), inset 0 0 20px rgba(0,245,255,0.2); }
+  .box.flash-1 { background: #00ff8833; border-color: var(--green); box-shadow: var(--glow-green), inset 0 0 20px rgba(0,255,136,0.2); }
+  .box.flash-2 { background: #ff950033; border-color: var(--orange); box-shadow: 0 0 20px #ff950088, inset 0 0 20px rgba(255,149,0,0.2); }
+  .box.flash-3 { background: #ffd70033; border-color: var(--gold); box-shadow: 0 0 20px #ffd70088, inset 0 0 20px rgba(255,215,0,0.2); }
+  .box.flash-4 { background: #bf5fff33; border-color: #bf5fff; box-shadow: 0 0 20px #bf5fff88, inset 0 0 20px rgba(191,95,255,0.2); }
+
+  /* Clicked */
+  .box.clicked {
+    background: #00f5ff22;
+    border-color: var(--cyan);
+    box-shadow: var(--glow-cyan);
+    transform: scale(0.93);
+  }
+
+  /* Wrong */
+  .box.wrong {
+    background: #ff2d5533;
+    border-color: var(--red);
+    box-shadow: var(--glow-red);
+    animation: shake 0.3s ease;
+  }
+
+  /* Correct tick */
+  .box.correct {
+    background: #00ff8833;
+    border-color: var(--green);
+    box-shadow: var(--glow-green);
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  /* Game over flash */
+  .box.gameover {
+    background: #ff2d5522 !important;
+    border-color: var(--red) !important;
+    box-shadow: var(--glow-red) !important;
+    animation: gameover-flash 0.4s ease 3;
+  }
+
+  @keyframes gameover-flash {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    border: 1px solid;
+    border-radius: 8px;
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .btn:hover::before { opacity: 0.1; }
+  .btn:active { transform: scale(0.96); }
+
+  .btn-primary {
+    background: transparent;
+    color: var(--cyan);
+    border-color: var(--cyan);
+    box-shadow: var(--glow-cyan);
+  }
+
+  .btn-danger {
+    background: transparent;
+    color: var(--red);
+    border-color: var(--red);
+    box-shadow: var(--glow-red);
+  }
+
+  .btn-muted {
+    background: transparent;
+    color: #4a6a7a;
+    border-color: #1a2d42;
+    font-size: 11px;
+  }
+
+  .btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* ===== PAUSE OVERLAY ===== */
+  #pause-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5,10,15,0.92);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  #pause-overlay.show { display: flex; }
+
+  #pause-overlay h2 {
+    font-family: 'Orbitron', monospace;
+    font-size: 32px;
+    color: var(--cyan);
+    letter-spacing: 6px;
+    filter: drop-shadow(0 0 20px var(--cyan));
+  }
+
+  /* ===== STATS MODAL ===== */
+  #stats-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5,10,15,0.95);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #stats-modal.show { display: flex; }
+
+  .modal-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 360px;
+    width: 90%;
+    position: relative;
+  }
+
+  .modal-box h2 {
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+
+  .stat-row:last-of-type { border-bottom: none; }
+  .stat-row .s-label { color: #4a6a7a; }
+  .stat-row .s-val { color: var(--cyan); font-family: 'Orbitron', monospace; font-size: 13px; }
+
+  .modal-close {
+    position: absolute;
+    top: 12px; right: 16px;
+    background: none;
+    border: none;
+    color: #4a6a7a;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  /* ===== COLOR MODE INDICATOR ===== */
+  .mode-pills {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .pill {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    font-family: 'Orbitron', monospace;
+  }
+
+  .pill.active-pill {
+    background: rgba(0,245,255,0.1);
+    color: var(--cyan);
+    border-color: var(--cyan);
+  }
+
+  .pill.inactive-pill {
+    color: #4a6a7a;
+    border-color: #1a2d42;
+  }
+
+  .pill:hover { opacity: 0.8; }
+
+  /* ===== COMBO BAR ===== */
+  .combo-display {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    height: 16px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  /* ===== SOUND BTN ===== */
+  #sound-btn {
+    position: fixed;
+    top: 14px;
+    right: 16px;
+    z-index: 50;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  #sound-btn:hover { border-color: var(--cyan); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 480px) {
+    .box { width: 54px; height: 54px; }
+    #grid { gap: 8px; }
+    .stat-value { font-size: 18px; }
+  }
+
+  /* ===== SCORE POP ===== */
+  .score-pop {
+    position: fixed;
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--green);
+    pointer-events: none;
+    z-index: 200;
+    animation: pop-up 1s ease forwards;
+    text-shadow: var(--glow-green);
+  }
+
+  @keyframes pop-up {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-60px) scale(1.3); }
+  }
 </style>
 </head>
+<body>
 
-<body class="max-w-md mx-auto p-4 pb-24">
+<!-- Sound Toggle -->
+<button id="sound-btn" onclick="toggleSound()" title="Toggle Sound">🔊</button>
 
-<h1 class="text-center text-2xl font-bold text-yellow-400 mb-6 italic">
-    EarnCash Pro <span class="text-white text-xs font-light">v3.3</span>
-</h1>
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">🧠 MINDLOCK PRO</div>
+    <div class="tagline">Neural Pattern Training System</div>
+  </div>
 
-<script>
-  atOptions = {
-    'key' : '3894c886e0066f6764c0b8963cd02480',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://acceptancesuicidegel.com/3894c886e0066f6764c0b8963cd02480/invoke.js"></script>
+  <!-- High Score -->
+  <div class="highscore-bar">
+    <span class="trophy">🏆</span>
+    <span>BEST SCORE</span>
+    <strong id="highscore-display">0</strong>
+  </div>
 
-
-<div class="glass-card p-5 rounded-2xl mb-6 flex justify-between items-center border-b-2 border-yellow-500 shadow-lg">
-    <div>
-        <p class="text-gray-400 text-xs" id="userName">Hi, User</p>
-        <div class="flex items-center gap-1">
-            <span class="text-2xl font-bold text-yellow-400" id="coins">0</span>
-            <span class="text-xs text-gray-300">Coins</span>
-        </div>
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-value" id="level-disp">1</div>
     </div>
-    <div class="text-right">
-        <p class="text-gray-400 text-xs">Total Refers</p>
-        <p class="font-bold text-blue-400" id="refers">0/10</p>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value gold" id="score-disp">0</div>
     </div>
+    <div class="stat-card">
+      <div class="stat-label">Streak</div>
+      <div class="stat-value green" id="streak-disp">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg Time</div>
+      <div class="stat-value orange" id="avgtime-disp">-</div>
+    </div>
+  </div>
+
+  <!-- Combo -->
+  <div class="combo-display" id="combo-disp"></div>
+
+  <!-- Mode Pills -->
+  <div class="mode-pills">
+    <div class="pill active-pill" id="pill-normal" onclick="setMode('normal')">NORMAL</div>
+    <div class="pill inactive-pill" id="pill-color" onclick="setMode('color')">COLOR +</div>
+  </div>
+
+  <!-- Status -->
+  <div id="status-msg">PRESS START TO BEGIN</div>
+
+  <!-- Timer -->
+  <div class="timer-wrap">
+    <span class="timer-label">TIME</span>
+    <div class="timer-bar-bg">
+      <div class="timer-bar-fill" id="timer-fill"></div>
+    </div>
+    <span id="timer-num">--</span>
+  </div>
+
+  <!-- Grid -->
+  <div id="grid-wrap">
+    <div id="grid"></div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="btn btn-primary" id="start-btn" onclick="startGame()">▶ START</button>
+    <button class="btn btn-muted" id="pause-btn" onclick="togglePause()" disabled>⏸ PAUSE</button>
+    <button class="btn btn-muted" onclick="showStats()">📊 STATS</button>
+  </div>
 </div>
 
-<div id="ads" class="tab active space-y-4">
-    <div class="glass-card p-8 rounded-3xl text-center shadow-xl border-t border-gray-700">
-        <div class="w-16 h-16 bg-yellow-500/20 rounded-full mx-auto mb-4 flex items-center justify-center text-yellow-400 text-2xl">
-            <i class="fas fa-play"></i>
-        </div>
-        <h2 class="text-xl font-bold mb-2">Daily Ad Rewards</h2>
-        <button onclick="watchAd()" class="w-full gradient-btn text-black py-4 rounded-2xl font-extrabold text-lg shadow-lg">
-            WATCH VIDEO (+25)
-        </button>
-        <div class="instruction-text bg-gray-900/50 p-3 rounded-xl mt-4 text-left border border-gray-800">
-            <p><i class="fas fa-info-circle mr-1"></i> <b>কিভাবে কাজ করবেন:</b> বাটনে ক্লিক করার পর একটি বিজ্ঞাপন ওপেন হবে। বিজ্ঞাপনটি সম্পূর্ণ দেখে ব্যাক করলেই আপনার ব্যালেন্সে ২৫ কয়েন যোগ হবে। আপনি আনলিমিটেড বার এটি করতে পারবেন।</p>
-        </div>
-    </div>
+<!-- Pause Overlay -->
+<div id="pause-overlay">
+  <h2>⏸ PAUSED</h2>
+  <button class="btn btn-primary" onclick="togglePause()">▶ RESUME</button>
 </div>
 
-<div id="tasks" class="tab space-y-4">
-    <h3 class="text-lg font-bold text-yellow-400 mb-2 px-1"><i class="fas fa-tasks mr-2"></i>Social Tasks</h3>
-    
-    <div class="task-card p-4 rounded-xl flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <i class="fab fa-youtube text-red-600 text-2xl"></i>
-            <div><p class="text-sm font-bold">Subscribe YouTube</p><p class="text-[10px] text-gray-400">+300 Coins</p></div>
-        </div>
-        <button onclick="doTask('https://www.youtube.com/@EarnCashBD_Official', 300)" class="bg-red-600 text-white px-4 py-2 rounded-lg text-xs font-bold">JOIN</button>
+<!-- Stats Modal -->
+<div id="stats-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeStats()">✕</button>
+    <h2>📊 STATISTICS</h2>
+    <div class="stat-row"><span class="s-label">Games Played</span><span class="s-val" id="st-games">0</span></div>
+    <div class="stat-row"><span class="s-label">Best Score</span><span class="s-val" id="st-best">0</span></div>
+    <div class="stat-row"><span class="s-label">Best Level</span><span class="s-val" id="st-level">0</span></div>
+    <div class="stat-row"><span class="s-label">Best Streak</span><span class="s-val" id="st-streak">0</span></div>
+    <div class="stat-row"><span class="s-label">Avg Response Time</span><span class="s-val" id="st-avgtime">-</span></div>
+    <div class="stat-row"><span class="s-label">Total Patterns Done</span><span class="s-val" id="st-patterns">0</span></div>
+    <br>
+    <div style="text-align:center">
+      <button class="btn btn-danger" onclick="resetStats()">🗑 RESET STATS</button>
     </div>
-
-    <div class="task-card p-4 rounded-xl flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <i class="fab fa-facebook text-blue-500 text-2xl"></i>
-            <div><p class="text-sm font-bold">Follow Facebook</p><p class="text-[10px] text-gray-400">+200 Coins</p></div>
-        </div>
-        <button onclick="doTask('https://www.facebook.com/profile.php?id=61575372614117', 200)" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-xs font-bold">FOLLOW</button>
-    </div>
-
-    <div class="instruction-text bg-gray-900/50 p-3 rounded-xl border border-gray-800">
-        <p><i class="fas fa-exclamation-triangle mr-1 text-yellow-500"></i> <b>নিয়ম:</b> জয়েন বাটনে ক্লিক করে আমাদের সোশ্যাল মিডিয়া সাবস্ক্রাইব বা ফলো করতে হবে। একবার কমপ্লিট করলে রিওয়ার্ড পয়েন্ট অটো যোগ হবে। প্রতারণা করলে পেমেন্ট পাবেন না।</p>
-    </div>
-</div>
-
-<div id="withdraw" class="tab">
-    <div class="glass-card p-6 rounded-3xl">
-        <h3 class="text-lg font-semibold mb-4 text-yellow-400"><i class="fas fa-university mr-2"></i>Withdraw</h3>
-        <select id="method" class="w-full p-4 rounded-xl bg-gray-800 border border-gray-700 mb-3 text-white outline-none">
-            <option value="Bkash">Bkash</option>
-            <option value="Nagad">Nagad</option>
-            <option value="Rocket">Rocket</option>
-        </select>
-        <input id="payNumber" type="number" placeholder="Enter Number" class="w-full p-4 rounded-xl bg-gray-800 border border-gray-700 mb-3 text-white outline-none">
-        <input id="withdrawAmount" type="number" placeholder="Amount (Min 50,000)" class="w-full p-4 rounded-xl bg-gray-800 border border-gray-700 mb-6 text-white outline-none">
-        
-        <button onclick="withdraw()" class="w-full bg-blue-600 py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition">Submit Withdrawal</button>
-        
-        <div class="instruction-text bg-gray-900/50 p-3 rounded-xl mt-4 border border-gray-800">
-            <p><b>উইথড্রর শর্তাবলী:</b><br>১. সর্বনিম্ন ৫০,০০০ কয়েন থাকতে হবে।<br>২. কমপক্ষে ১০ জন বন্ধুকে রেফার করতে হবে।<br>৩. অন্তত একবার শেয়ার বাটনে ক্লিক করতে হবে।<br>৪. পেমেন্ট ৭ দিনের মধ্যে আপনার নম্বরে পাঠিয়ে দেয়া হবে।</p>
-        </div>
-    </div>
-</div>
-
-<div id="refer" class="tab text-center">
-    <div class="glass-card p-8 rounded-3xl">
-        <i class="fas fa-gift text-5xl text-blue-400 mb-4"></i>
-        <h3 class="text-xl font-bold mb-2">Invite & Earn</h3>
-        <button onclick="shareApp()" class="w-full bg-green-600 py-4 rounded-xl font-bold text-lg mt-4 shadow-lg flex items-center justify-center gap-2"><i class="fas fa-share-nodes"></i> SHARE NOW</button>
-        
-        <div class="instruction-text bg-gray-900/50 p-3 rounded-xl mt-6 text-left border border-gray-800">
-            <p><i class="fas fa-users mr-1"></i> শেয়ার বাটনে ক্লিক করে আপনার বন্ধুদের ইনভাইট করুন। প্রতি সফল রেফারে আপনার একাউন্টে পয়েন্ট যোগ হবে এবং উইথড্র অপশন আনলক হবে।</p>
-        </div>
-    </div>
-</div>
-
-<div class="fixed bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-lg flex justify-around p-4 border-t border-gray-800 shadow-2xl z-50">
-    <button onclick="openTab('ads', this)" class="nav-btn active-nav text-xl"><i class="fas fa-home"></i></button>
-    <button onclick="openTab('tasks', this)" class="nav-btn text-xl"><i class="fas fa-tasks"></i></button>
-    <button onclick="openTab('withdraw', this)" class="nav-btn text-xl"><i class="fas fa-wallet"></i></button>
-    <button onclick="openTab('refer', this)" class="nav-btn text-xl"><i class="fas fa-share-nodes"></i></button>
+  </div>
 </div>
 
 <script>
-const tg = window.Telegram.WebApp;
-tg.expand();
+  // ===== STATE =====
+  let level = 1, score = 0, streak = 0, combo = 0;
+  let pattern = [], patternColors = [], userPattern = [];
+  let timerInterval = null;
+  let timeLeft = 0, maxTime = 0;
+  let isPlaying = false, isPaused = false, gameActive = false;
+  let colorMode = false;
+  let soundOn = true;
+  let responseTimes = [], patternStartTime = 0;
+  let totalPatterns = 0;
 
-const STORAGE_KEY = "earncash_v3_3_final_data";
-const SMART_LINK = "https://acceptancesuicidegel.com/wuaw1fnkac?key=c0aaab542e005284cf06c34fc39bf233";
-const BOT_TOKEN = "8624149947:AAETUC1_Ymb8UPXuJS0v7p-0tQ2d9LSzqDA";
-const ADMIN_CHAT_ID = "8161565053";
-const BOT_LINK = "https://t.me/EarnCashProred_Bot";
+  // Stats stored in localStorage
+  let stats = JSON.parse(localStorage.getItem('mindlock_stats') || '{"games":0,"best":0,"bestLevel":0,"bestStreak":0,"totalPatterns":0,"responseTimes":[]}');
 
-let userData = { coins:0, refers:0, shared:false, doneTasks: [] };
-let userName = tg.initDataUnsafe?.user?.first_name || "Guest";
+  const COLORS = ['flash-0','flash-1','flash-2','flash-3','flash-4'];
+  const grid = document.getElementById('grid');
 
-window.onload = function(){
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if(saved) userData = JSON.parse(saved);
-    document.getElementById("userName").innerText = "Hi, " + userName;
+  // ===== AUDIO =====
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  let ctx = null;
+
+  function getCtx() {
+    if (!ctx) ctx = new AudioCtx();
+    return ctx;
+  }
+
+  function playTone(freq, dur = 0.12, type = 'sine', vol = 0.3) {
+    if (!soundOn) return;
+    try {
+      const ac = getCtx();
+      const o = ac.createOscillator();
+      const g = ac.createGain();
+      o.connect(g); g.connect(ac.destination);
+      o.frequency.value = freq;
+      o.type = type;
+      g.gain.setValueAtTime(vol, ac.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur);
+      o.start(); o.stop(ac.currentTime + dur);
+    } catch(e){}
+  }
+
+  function playSuccess() { playTone(880, 0.1); setTimeout(()=>playTone(1100,0.12),120); }
+  function playError() { playTone(200, 0.3, 'sawtooth', 0.25); }
+  function playClick() { playTone(660, 0.07, 'sine', 0.2); }
+  function playFlash(i) { playTone(400 + i * 80, 0.15, 'sine', 0.15); }
+  function playLevelUp() {
+    [523,659,784,1047].forEach((f,i) => setTimeout(()=>playTone(f,0.15),i*100));
+  }
+  function playGameOver() {
+    [300,250,200,150].forEach((f,i) => setTimeout(()=>playTone(f,0.2,'sawtooth',0.2),i*120));
+  }
+
+  function toggleSound() {
+    soundOn = !soundOn;
+    document.getElementById('sound-btn').textContent = soundOn ? '🔊' : '🔇';
+  }
+
+  // ===== GRID =====
+  function createGrid(size) {
+    grid.innerHTML = '';
+    grid.style.gridTemplateColumns = `repeat(${size}, ${window.innerWidth < 480 ? 54 : 65}px)`;
+    for (let i = 0; i < size * size; i++) {
+      const box = document.createElement('div');
+      box.classList.add('box', 'disabled');
+      box.dataset.index = i;
+      box.onclick = handleClick;
+      grid.appendChild(box);
+    }
+  }
+
+  // ===== GAME FLOW =====
+  function startGame() {
+    level = 1; score = 0; streak = 0; combo = 0;
+    responseTimes = []; totalPatterns = 0;
+    isPlaying = true; gameActive = true;
+    stats.games++;
+    saveStats();
     updateUI();
-};
+    document.getElementById('start-btn').textContent = '↺ RESTART';
+    document.getElementById('pause-btn').disabled = false;
+    nextLevel();
+  }
 
-function updateUI(){
-    document.getElementById("coins").innerText = userData.coins.toLocaleString();
-    document.getElementById("refers").innerText = userData.refers + "/10";
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
-}
-
-function openTab(tabId, btn){
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    document.getElementById(tabId).classList.add("active");
-    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active-nav"));
-    btn.classList.add("active-nav");
-}
-
-function watchAd(){
-    window.open(SMART_LINK, '_blank');
-    userData.coins += 25;
+  function nextLevel() {
+    userPattern = [];
+    combo = 0;
     updateUI();
-}
 
-function doTask(url, reward){
-    // The video or page will always be open
-    window.open(url, '_blank');
+    const size = Math.min(2 + Math.floor(level / 2), 5);
+    createGrid(size);
+    generatePattern(size);
+    setStatus('MEMORIZE...', '');
+    showPattern();
+  }
 
-    // Check if the coin has already been received or not
-    if(userData.doneTasks.includes(url)){
-        // If you got coins before, will not give new coins, just show video
-        return;
+  function generatePattern(size) {
+    const total = size * size;
+    const count = level + 1;
+    pattern = [];
+    patternColors = [];
+
+    // No consecutive repeats
+    for (let i = 0; i < count; i++) {
+      let idx;
+      do { idx = Math.floor(Math.random() * total); } while (idx === pattern[i-1]);
+      pattern.push(idx);
+      patternColors.push(Math.floor(Math.random() * COLORS.length));
     }
-    window.open(url, '_blank');
-    userData.coins += reward;
-    userData.doneTasks.push(url);
-    updateUI();
-    alert("অভিনন্দন! রিওয়ার্ড যোগ হয়েছে। নিশ্চিত করুন আপনি ফলো করেছেন।");
-}
+  }
 
-function withdraw(){
-    let amount = parseInt(document.getElementById("withdrawAmount").value);
-    let method = document.getElementById("method").value;
-    let payNumber = document.getElementById("payNumber").value;
+  function showPattern() {
+    const boxes = document.querySelectorAll('.box');
+    boxes.forEach(b => b.classList.add('disabled'));
+    clearTimer();
 
-    if(!userData.shared || userData.refers < 10 || userData.coins < 50000){
-        alert("শর্তাবলী পূরণ হয়নি! দয়া করে নিয়মগুলো পড়ুন।");
-        window.open(SMART_LINK, '_blank');
-        return;
+    pattern.forEach((idx, i) => {
+      setTimeout(() => {
+        const colorClass = COLORS[colorMode ? patternColors[i] : 0];
+        boxes[idx].classList.add(colorClass);
+        playFlash(colorMode ? patternColors[i] : 0);
+
+        setTimeout(() => {
+          boxes[idx].classList.remove(colorClass);
+        }, 400);
+      }, i * 600);
+    });
+
+    const delay = pattern.length * 600 + 500;
+    setTimeout(() => {
+      boxes.forEach(b => b.classList.remove('disabled'));
+      setStatus('YOUR TURN!', '');
+      patternStartTime = Date.now();
+      startTimer();
+    }, delay);
+  }
+
+  // ===== TIMER =====
+  function startTimer() {
+    maxTime = Math.max(8 - Math.floor(level / 4), 2);
+    timeLeft = maxTime;
+    updateTimerUI();
+
+    timerInterval = setInterval(() => {
+      if (isPaused) return;
+      timeLeft -= 0.1;
+      updateTimerUI();
+      if (timeLeft <= 0) {
+        clearTimer();
+        triggerGameOver();
+      }
+    }, 100);
+  }
+
+  function updateTimerUI() {
+    const fill = document.getElementById('timer-fill');
+    const num = document.getElementById('timer-num');
+    const pct = Math.max(0, (timeLeft / maxTime) * 100);
+    fill.style.width = pct + '%';
+    num.textContent = Math.ceil(timeLeft);
+    const urgent = timeLeft <= 2;
+    fill.classList.toggle('urgent', urgent);
+    num.classList.toggle('urgent', urgent);
+  }
+
+  function clearTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+
+  // ===== INPUT =====
+  function handleClick(e) {
+    if (!gameActive || isPaused) return;
+    const box = e.currentTarget;
+    const index = Number(box.dataset.index);
+
+    playClick();
+    userPattern.push(index);
+    box.classList.add('clicked');
+    setTimeout(() => box.classList.remove('clicked'), 180);
+
+    checkAnswer();
+  }
+
+  function checkAnswer() {
+    const i = userPattern.length - 1;
+
+    if (userPattern[i] !== pattern[i]) {
+      // Wrong
+      const boxes = document.querySelectorAll('.box');
+      boxes[userPattern[i]].classList.add('wrong');
+      setTimeout(() => boxes[userPattern[i]].classList.remove('wrong'), 400);
+      playError();
+      clearTimer();
+      setTimeout(triggerGameOver, 400);
+      return;
     }
-    if(!payNumber || payNumber.length < 11) { alert("সঠিক পেমেন্ট নম্বর দিন!"); return; }
 
-    if(userData.coins >= amount){
-        userData.coins -= amount;
-        updateUI();
-        const text = `🚀 *WITHDRAWAL* 🚀\n\n👤 *User:* ${userName}\n💰 *Amount:* ${amount}\n🏦 *Method:* ${method}\n📱 *Number:* ${payNumber}`;
-        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`);
-        alert("✅ সফল হয়েছে! অ্যাডমিন ৭ দিনের মধ্যে পেমেন্ট করে দিবে।");
-    } else {
-        alert("ব্যালেন্স পর্যাপ্ত নয়!");
-    }
-}
+    // Correct so far
+    const boxes = document.querySelectorAll('.box');
+    boxes[userPattern[i]].classList.add('correct');
+    setTimeout(() => boxes[userPattern[i]].classList.remove('correct'), 200);
 
-function shareApp(){
-    const shareText = "🔥 এই বোট থেকে প্রতিদিন ইনকাম করুন। জয়েন করুন: " + BOT_LINK;
-    if (navigator.share) {
-        navigator.share({ title: 'EarnCash', text: shareText, url: BOT_LINK })
-        .then(() => { userData.shared = true; if(userData.refers < 10) userData.refers++; updateUI(); });
-    } else {
-        navigator.clipboard.writeText(shareText);
-        userData.shared = true; if(userData.refers < 10) userData.refers++; updateUI();
-        alert("লিঙ্ক কপি হয়েছে! শেয়ার করুন।");
+    if (userPattern.length === pattern.length) {
+      // Level complete!
+      clearTimer();
+      const elapsed = (Date.now() - patternStartTime) / 1000;
+      responseTimes.push(elapsed);
+      totalPatterns++;
+      combo++;
+      streak++;
+
+      const bonusMultiplier = combo >= 5 ? 3 : combo >= 3 ? 2 : 1;
+      const timeBonus = Math.floor(timeLeft * 5);
+      const levelPoints = level * 10 * bonusMultiplier + timeBonus;
+      score += levelPoints;
+
+      if (score > stats.best) stats.best = score;
+      if (level > stats.bestLevel) stats.bestLevel = level;
+      if (streak > stats.bestStreak) stats.bestStreak = streak;
+      stats.totalPatterns = (stats.totalPatterns || 0) + 1;
+      saveStats();
+
+      showScorePop(levelPoints, bonusMultiplier > 1 ? `x${bonusMultiplier} COMBO!` : null);
+      playSuccess();
+
+      if (combo >= 3) {
+        setStatus(`🔥 ${combo}x COMBO!`, 'success');
+        document.getElementById('combo-disp').textContent = `🔥 ${combo}x COMBO BONUS`;
+      } else {
+        setStatus('✓ CORRECT!', 'success');
+        document.getElementById('combo-disp').textContent = '';
+      }
+
+      level++;
+      updateUI();
+
+      if (level % 5 === 0) playLevelUp();
+
+      setTimeout(() => { setStatus('GET READY...', ''); setTimeout(nextLevel, 600); }, 700);
     }
-}
+  }
+
+  // ===== GAME OVER =====
+  function triggerGameOver() {
+    gameActive = false;
+    playGameOver();
+
+    const boxes = document.querySelectorAll('.box');
+    boxes.forEach(b => { b.classList.add('disabled', 'gameover'); });
+
+    setStatus('GAME OVER', 'error');
+    document.getElementById('combo-disp').textContent = '';
+
+    // Reveal correct pattern
+    setTimeout(() => {
+      pattern.forEach(idx => {
+        boxes[idx].classList.remove('gameover');
+        boxes[idx].classList.add('flash-0');
+      });
+    }, 600);
+
+    setTimeout(() => {
+      document.getElementById('pause-btn').disabled = true;
+      showGameOverModal();
+    }, 1800);
+  }
+
+  function showGameOverModal() {
+    const avg = responseTimes.length
+      ? (responseTimes.reduce((a,b)=>a+b,0)/responseTimes.length).toFixed(1) + 's'
+      : '-';
+
+    const msg = [
+      '╔══════════════════╗',
+      '║   GAME OVER   ║',
+      '╚══════════════════╝',
+      '',
+      `Score   : ${score}`,
+      `Level   : ${level - 1}`,
+      `Streak  : ${streak}`,
+      `Avg Time: ${avg}`,
+      '',
+      `🏆 Best : ${stats.best}`,
+      '',
+      'Press OK to play again'
+    ].join('\n');
+
+    // Small delay so user sees the pattern reveal
+    setTimeout(() => {
+      alert(msg);
+      level = 1; score = 0; streak = 0; combo = 0;
+      responseTimes = [];
+      updateUI();
+      setStatus('PRESS START TO BEGIN', '');
+      document.getElementById('timer-num').textContent = '--';
+      document.getElementById('timer-fill').style.width = '100%';
+      document.getElementById('timer-fill').classList.remove('urgent');
+      document.getElementById('highscore-display').textContent = stats.best;
+      isPlaying = false;
+    }, 200);
+  }
+
+  // ===== PAUSE =====
+  function togglePause() {
+    if (!gameActive) return;
+    isPaused = !isPaused;
+    document.getElementById('pause-overlay').classList.toggle('show', isPaused);
+    document.getElementById('pause-btn').textContent = isPaused ? '▶ RESUME' : '⏸ PAUSE';
+  }
+
+  // ===== MODE =====
+  function setMode(m) {
+    colorMode = (m === 'color');
+    document.getElementById('pill-normal').className = 'pill ' + (!colorMode ? 'active-pill' : 'inactive-pill');
+    document.getElementById('pill-color').className = 'pill ' + (colorMode ? 'active-pill' : 'inactive-pill');
+  }
+
+  // ===== STATS MODAL =====
+  function showStats() {
+    const avg = (stats.responseTimes && stats.responseTimes.length)
+      ? (stats.responseTimes.reduce((a,b)=>a+b,0)/stats.responseTimes.length).toFixed(1) + 's'
+      : '-';
+
+    document.getElementById('st-games').textContent = stats.games || 0;
+    document.getElementById('st-best').textContent = stats.best || 0;
+    document.getElementById('st-level').textContent = stats.bestLevel || 0;
+    document.getElementById('st-streak').textContent = stats.bestStreak || 0;
+    document.getElementById('st-avgtime').textContent = avg;
+    document.getElementById('st-patterns').textContent = stats.totalPatterns || 0;
+    document.getElementById('stats-modal').classList.add('show');
+  }
+
+  function closeStats() {
+    document.getElementById('stats-modal').classList.remove('show');
+  }
+
+  function resetStats() {
+    if (confirm('Reset all statistics?')) {
+      stats = {games:0,best:0,bestLevel:0,bestStreak:0,totalPatterns:0,responseTimes:[]};
+      saveStats();
+      document.getElementById('highscore-display').textContent = 0;
+      closeStats();
+    }
+  }
+
+  function saveStats() {
+    localStorage.setItem('mindlock_stats', JSON.stringify(stats));
+  }
+
+  // ===== SCORE POP =====
+  function showScorePop(pts, label) {
+    const el = document.createElement('div');
+    el.className = 'score-pop';
+    el.textContent = (label ? label + ' ' : '') + '+' + pts;
+    const gridRect = document.getElementById('grid-wrap').getBoundingClientRect();
+    el.style.left = (gridRect.left + gridRect.width/2 - 40) + 'px';
+    el.style.top = (gridRect.top + window.scrollY + 10) + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1000);
+  }
+
+  // ===== UI =====
+  function updateUI() {
+    document.getElementById('level-disp').textContent = level;
+    document.getElementById('score-disp').textContent = score;
+    document.getElementById('streak-disp').textContent = streak;
+    document.getElementById('highscore-display').textContent = stats.best || 0;
+
+    const avg = responseTimes.length
+      ? (responseTimes.reduce((a,b)=>a+b,0)/responseTimes.length).toFixed(1) + 's'
+      : '-';
+    document.getElementById('avgtime-disp').textContent = avg;
+  }
+
+  function setStatus(msg, cls) {
+    const el = document.getElementById('status-msg');
+    el.textContent = msg;
+    el.className = cls ? cls : '';
+  }
+
+  // Init display
+  updateUI();
+  createGrid(2);
+
+  // Close stats modal on backdrop click
+  document.getElementById('stats-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeStats();
+  });
 </script>
 </body>
 </html>

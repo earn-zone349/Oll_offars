@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#2563eb">
+<title>About Us — EarnZone Pro</title>
+<meta name="description" content="Learn about EarnZone Pro — the trusted platform to earn real money worldwide by completing offers, watching ads, and referring friends.">
+<meta property="og:title" content="About Us — EarnZone Pro">
+<meta property="og:description" content="Trusted earning platform with millions of users worldwide.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,::before,::after{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#f0f7ff;color:#0f172a;font-family:'DM Sans',sans-serif;min-height:100%;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#bfdbfe;border-radius:4px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:88;height:56px;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-bottom:2px solid #bfdbfe;display:flex;align-items:center;padding:0 16px;gap:10px;box-shadow:0 2px 12px rgba(37,99,235,.08)}
+.nav-bnd{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;background:linear-gradient(135deg,#2563eb,#059669);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;flex:1}
+.nav-back{background:none;border:none;cursor:pointer;color:#3b82f6;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:5px;padding:6px 10px;border-radius:8px;text-decoration:none}
+.nav-back:hover{background:#eff6ff}
+
+.ctr{max-width:600px;margin:0 auto;padding:0 15px 60px}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#1e40af 0%,#065f46 100%);border-radius:20px;padding:32px 22px;text-align:center;margin:20px 0;position:relative;overflow:hidden;box-shadow:0 8px 30px rgba(37,99,235,.25);animation:fadeUp .4s ease}
+.hero-glow1{position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.12),transparent);pointer-events:none}
+.hero-glow2{position:absolute;bottom:-30px;left:-30px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.08),transparent);pointer-events:none}
+.hero-ico{font-size:52px;animation:floatY 3s ease-in-out infinite;display:block;margin-bottom:12px}
+.hero h1{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#fff;margin-bottom:8px}
+.hero p{font-size:14px;color:rgba(255,255,255,.75);line-height:1.7;max-width:400px;margin:0 auto}
+
+/* CARDS */
+.card{background:#fff;border:1.5px solid #dbeafe;border-radius:17px;padding:20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(37,99,235,.06);animation:fadeUp .4s ease}
+.card-hd{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:#0f172a}
+.card p{font-size:14px;color:#475569;line-height:1.8;margin-bottom:10px}
+.card p:last-child{margin-bottom:0}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.stat{background:#fff;border:1.5px solid #dbeafe;border-radius:14px;padding:16px 12px;text-align:center;box-shadow:0 2px 8px rgba(37,99,235,.05)}
+.stat-v{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:linear-gradient(135deg,#2563eb,#059669);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-l{font-size:12px;color:#64748b;margin-top:4px}
+
+/* TEAM */
+.team-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1.5px solid #f1f5f9}
+.team-item:last-child{border-bottom:none}
+.team-av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#059669);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.team-nm{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#0f172a}
+.team-rl{font-size:12px;color:#64748b;margin-top:2px}
+
+/* VALUES */
+.val-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.val-item:last-child{margin-bottom:0}
+.val-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.val-t{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#0f172a;margin-bottom:3px}
+.val-d{font-size:13px;color:#64748b;line-height:1.6}
+
+/* FOOTER */
+.foot{text-align:center;padding:20px 0 40px;font-size:12px;color:#94a3b8}
+.foot a{color:#3b82f6;text-decoration:none;margin:0 6px}
+.foot a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-back">← Back</a>
+  <a href="index.html" class="nav-bnd">◆ EarnZone Pro</a>
+</nav>
+
+<div class="ctr">
+
+  <div class="hero">
+    <div class="hero-glow1"></div>
+    <div class="hero-glow2"></div>
+    <span class="hero-ico">🌍</span>
+    <h1>About EarnZone Pro</h1>
+    <p>We're on a mission to help people worldwide earn real money from their spare time — no skills required.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-v">500K+</div><div class="stat-l">Active Users</div></div>
+    <div class="stat"><div class="stat-v">$2M+</div><div class="stat-l">Paid Out</div></div>
+    <div class="stat"><div class="stat-v">150+</div><div class="stat-l">Countries</div></div>
+    <div class="stat"><div class="stat-v">99.8%</div><div class="stat-l">Uptime</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd">📖 Who We Are</div>
+    <p>EarnZone Pro is a trusted online earning platform that connects users with advertisers, survey companies, and app developers worldwide. Our platform enables anyone with an internet connection to earn real money by completing simple tasks.</p>
+    <p>Founded with the belief that everyone deserves an opportunity to earn extra income, we have built a transparent, fair, and secure platform that has helped hundreds of thousands of people around the world.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-hd">🎯 Our Mission</div>
+    <p>To democratize earning opportunities by providing a simple, accessible, and rewarding platform for people of all backgrounds and skill levels to generate real income online.</p>
+    <p>We believe that earning money online should be straightforward, transparent, and available to everyone — not just those with technical skills or large capital.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-hd">💎 Our Values</div>
+    <div class="val-item">
+      <div class="val-ico" style="background:rgba(37,99,235,.1)">🔒</div>
+      <div><div class="val-t">Transparency</div><div class="val-d">We are fully transparent about how our earning system works, how much you can earn, and exactly how payouts are processed.</div></div>
+    </div>
+    <div class="val-item">
+      <div class="val-ico" style="background:rgba(5,150,105,.1)">🤝</div>
+      <div><div class="val-t">Fairness</div><div class="val-d">Every user gets equal opportunities to earn. Our system is designed to reward effort and consistency.</div></div>
+    </div>
+    <div class="val-item">
+      <div class="val-ico" style="background:rgba(245,158,11,.1)">⚡</div>
+      <div><div class="val-t">Innovation</div><div class="val-d">We continuously improve our platform with new earning methods, better UX, and faster payout systems.</div></div>
+    </div>
+    <div class="val-item">
+      <div class="val-ico" style="background:rgba(220,38,38,.1)">🛡️</div>
+      <div><div class="val-t">Security</div><div class="val-d">Your data and earnings are protected with industry-standard security protocols and encryption.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd">💼 How It Works</div>
+    <p>EarnZone Pro partners with top CPA networks, survey companies, and app developers to bring you verified earning opportunities. When you complete an offer, we receive a commission and share a portion with you.</p>
+    <p>Our referral system lets you earn passive income by inviting friends. Every active referral adds to your earning potential.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-hd">📬 Contact &amp; Support</div>
+    <p>Have questions? Our support team is available to help you. Visit our <a href="contact.html" style="color:#2563eb;font-weight:600">Contact page</a> or check our <a href="faq.html" style="color:#2563eb;font-weight:600">FAQ</a> for quick answers.</p>
+  </div>
+
+  <div class="foot">
+    <div style="margin-bottom:8px">
+      <a href="index.html">Home</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    © 2025 EarnZone Pro. All rights reserved.
+  </div>
+
+</div>
+</body>
+</html>

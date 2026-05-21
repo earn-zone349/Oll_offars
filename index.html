@@ -125,8 +125,12 @@ select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+x
 
 /* STATS GRID */
 .sgd{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
-.sc{background:#ffffff;border:1.5px solid #dbeafe;border-radius:14px;padding:14px 12px;box-shadow:0 2px 8px rgba(37,99,235,.05)}
-.sc-i{font-size:22px;margin-bottom:6px}.sc-v{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#0f172a}.sc-l{font-size:11px;color:#64748b;margin-top:2px}
+.sc{border:none;border-radius:14px;padding:11px 12px;box-shadow:0 4px 14px rgba(0,0,0,.10)}
+.sc-i{font-size:18px;margin-bottom:4px}.sc-v{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:#fff}.sc-l{font-size:10px;color:rgba(255,255,255,.75);margin-top:1px}
+.sc-1{background:linear-gradient(135deg,#2563eb,#1d4ed8)}
+.sc-2{background:linear-gradient(135deg,#059669,#047857)}
+.sc-3{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
+.sc-4{background:linear-gradient(135deg,#ea580c,#c2410c)}
 
 /* BADGES */
 .bdg{display:inline-flex;align-items:center;padding:2px 9px;border-radius:6px;font-size:10px;font-weight:600}
@@ -2061,10 +2065,10 @@ function buildHome(){
     <div style="font-size:12px;color:#475569;margin-top:4px">Rate: ${fmt$(S.countryEarn)} per offer · ${S.country||'Detecting…'}</div>
   </div>
   <div class="sgd">
-    <div class="sc"><div class="sc-i">📺</div><div class="sc-v cp">${ud.adsWatched||0}</div><div class="sc-l">${T('aw')}</div></div>
-    <div class="sc"><div class="sc-i">✅</div><div class="sc-v cgr">${ud.offersCompleted||0}</div><div class="sc-l">${T('oc')}</div></div>
-    <div class="sc"><div class="sc-i">👥</div><div class="sc-v cb">${ud.activeReferrals||0}</div><div class="sc-l">${T('refCount')}</div></div>
-    <div class="sc"><div class="sc-i">💵</div><div class="sc-v cy">${fmt$(todayEarn)}</div><div class="sc-l">${T('todayEarn')}</div></div>
+    <div class="sc sc-1"><div class="sc-i">📺</div><div class="sc-v cp">${ud.adsWatched||0}</div><div class="sc-l">${T('aw')}</div></div>
+    <div class="sc sc-2"><div class="sc-i">✅</div><div class="sc-v cgr">${ud.offersCompleted||0}</div><div class="sc-l">${T('oc')}</div></div>
+    <div class="sc sc-3"><div class="sc-i">👥</div><div class="sc-v cb">${ud.activeReferrals||0}</div><div class="sc-l">${T('refCount')}</div></div>
+    <div class="sc sc-4"><div class="sc-i">💵</div><div class="sc-v cy">${fmt$(todayEarn)}</div><div class="sc-l">${T('todayEarn')}</div></div>
   </div>
   <div class="sl">${T('of')}</div>
   ${CFG.walls.slice(0,4).map(w=>`<div class="wc" data-goto-wall="${w.id}">

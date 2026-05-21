@@ -1384,6 +1384,8 @@ async function processPostbacks(){
         // Add user earning
         await fDB.ref(`users/${uid}/usdEarned`).transaction(v=>(v||0)+userAmt);
         await fDB.ref(`users/${uid}/offersCompleted`).transaction(v=>(v||0)+1);
+        // Atomic counter — global total earned
+        await fDB.ref('stats/totalEarned').transaction(v=>(v||0)+userAmt);
         // Today's earning
         const today=new Date().toDateString();
         const todaySnap=await fDB.ref(`users/${uid}/todayDate`).once('value');
@@ -1560,6 +1562,8 @@ async function doRegister(name,email,pw,refCode){
       deviceId:devId, emailVerified:false,
     };
     await fDB.ref(`users/${uid}`).set(userData);
+    // Atomic counter — total users +1
+    await fDB.ref('stats/totalUsers').transaction(v=>(v||0)+1);
     // Add referral
     if(refByUid){
       //await fDB.ref(`users/${refByUid}/pendingReferrals/${uid}`).set(Date.now());
@@ -1736,7 +1740,7 @@ function render(){
 function renderAuth(){
   const app=$('#app');
   const dir=LANGS[S.lang]?.d||'ltr';
-  if(S.page==='welcome') app.innerHTML=buildWelcome();
+  if(S.page==='welcome') { app.innerHTML=buildWelcome(); loadWelcomeStats(); }
   else if(S.page==='login') app.innerHTML=buildLogin();
   else if(S.page==='register') app.innerHTML=buildRegister();
   else if(S.page==='verify') app.innerHTML=buildVerify();
@@ -1746,10 +1750,24 @@ function renderAuth(){
 }
 
 // ─── WELCOME / INTRO SCREEN ───────────────────────────
+async function loadWelcomeStats(){
+  try{
+    // Read from atomic counters — fast, no full scan
+    const snap = await fDB.ref('stats').once('value');
+    const stats = snap.val()||{};
+    const userCount = stats.totalUsers || 0;
+    const totalEarned = stats.totalEarned || 0;
+    // Update DOM
+    const el1 = document.getElementById('wlUserCount');
+    const el2 = document.getElementById('wlEarned');
+    const el3 = document.getElementById('wlOnline');
+    if(el1) el1.textContent = userCount.toLocaleString();
+    if(el2) el2.textContent = '$'+totalEarned.toFixed(2);
+    if(el3) el3.textContent = '🟢 LIVE — '+userCount.toLocaleString()+' Members';
+  } catch(e){ console.log('Stats load error',e); }
+}
+
 function buildWelcome(){
-  // Simulated stats (replace with real Firebase counts if needed)
-  const users = (Math.floor(Math.random()*500)+12400).toLocaleString();
-  const earned = '$'+(Math.floor(Math.random()*2000)+48000).toLocaleString();
   return `
   <div style="min-height:100vh;background:linear-gradient(160deg,#0f172a 0%,#1e3a5f 50%,#064e3b 100%);display:flex;flex-direction:column;align-items:center;padding:0 0 40px">
 
@@ -1760,19 +1778,19 @@ function buildWelcome(){
     </div>
 
     <!-- Hero -->
-    <div style="text-align:center;padding:20px 24px 0;max-width:480px">
-      <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;color:#4ade80;margin-bottom:16px;letter-spacing:.04em">🟢 LIVE — ${users} Users Online</div>
+    <div style="text-align:center;padding:20px 24px 0;max-width:480px;width:100%">
+      <div id="wlOnline" style="display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;color:#4ade80;margin-bottom:16px;letter-spacing:.04em">🟢 Loading…</div>
       <h1 style="font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:12px">Earn Real Money<br><span style="background:linear-gradient(90deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent">From Your Phone</span></h1>
       <p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:24px">Complete offers, watch ads & refer friends.<br>Withdraw via bKash, Nagad, PayPal, USDT.</p>
 
-      <!-- Stats -->
+      <!-- Stats — Real Firebase data -->
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px">
         <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 8px;text-align:center">
-          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#22c55e">${users}</div>
+          <div id="wlUserCount" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#22c55e">…</div>
           <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:3px">Members</div>
         </div>
         <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 8px;text-align:center">
-          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#3b82f6">${earned}</div>
+          <div id="wlEarned" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#3b82f6">…</div>
           <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:3px">Total Paid</div>
         </div>
         <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 8px;text-align:center">
@@ -1793,7 +1811,7 @@ function buildWelcome(){
             allowfullscreen>
           </iframe>
         </div>
-        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:8px;text-align:center">Replace this with your own tutorial video</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:8px;text-align:center">⚠️ Replace YouTube link with your own tutorial video</div>
       </div>
 
       <!-- How it works -->
@@ -1809,7 +1827,6 @@ function buildWelcome(){
       <!-- Buttons -->
       <button onclick="S.page='register';renderAuth()" style="width:100%;background:linear-gradient(135deg,#2563eb,#059669);border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:800;color:#fff;cursor:pointer;font-family:'Syne',sans-serif;box-shadow:0 6px 24px rgba(37,99,235,.4);margin-bottom:10px">🚀 Start Earning Free</button>
       <button onclick="S.page='login';renderAuth()" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;padding:13px;font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif">Already have an account? Login</button>
-
       <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:16px;line-height:1.6">By registering, you agree to our <a href="terms.html" target="_blank" style="color:#3b82f6">Terms</a> & <a href="privacy.html" target="_blank" style="color:#3b82f6">Privacy Policy</a></div>
     </div>
   </div>`;
@@ -1966,18 +1983,15 @@ function renderApp(){
 function buildNav(){
   const ud=S.userData||{};
   const hasNotice=S.noticeQueue.length>0;
-  // Live visitor counter (simulated)
-  const baseVisitors = 1200;
-  const visitors = baseVisitors + Math.floor(Math.random()*300);
-  // Announcement banner from admin settings
   const announcement = S.siteSettings?.announcement||'';
+  const onlineCount = S.realUserCount || '…';
   return `
   ${announcement?`<div style="background:linear-gradient(90deg,#1e40af,#065f46);color:#fff;font-size:11px;font-weight:600;padding:7px 16px;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px">📢 ${announcement} <button onclick="this.parentElement.style.display='none'" style="background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:14px;margin-left:8px">✕</button></div>`:''}
   <nav class="nav">
   <button class="nav-mn" id="navMenu"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></button>
   <div class="nav-bnd" id="navBrand">◆ ${T('appName')}</div>
   <div style="display:flex;align-items:center;gap:8px">
-    <div style="display:flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:#059669"><div style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 1.5s infinite"></div>${visitors}</div>
+    <div style="display:flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:#059669"><div style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 1.5s infinite"></div><span id="navOnlineCount">${onlineCount}</span></div>
     <div class="nav-bal" id="navBal">${fmt$(ud.usdEarned||0)}</div>
   </div>
   <button class="nav-av${hasNotice?' nb-dot':''}" id="navAv">
@@ -2929,6 +2943,12 @@ fAuth.onAuthStateChanged(async user=>{
     $('#ldr').style.display='none'; $('#app').style.display='block';
     startLiveTicker();
     startActivityToasts();
+    // Load real user count for nav from atomic counter
+    fDB.ref('stats/totalUsers').once('value').then(snap=>{
+      S.realUserCount = snap.val()||0;
+      const el = document.getElementById('navOnlineCount');
+      if(el) el.textContent = S.realUserCount;
+    });
     render();
   } else {
     S.user=null; S.userData=null;

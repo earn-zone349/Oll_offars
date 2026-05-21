@@ -46,9 +46,15 @@ html,body{background:#f0f7ff;color:#0f172a;font-family:'DM Sans',sans-serif;min-
 .pi{animation:popIn .2s ease forwards}
 
 /* LOADER */
-#ldr{position:fixed;inset:0;background:#f0f7ff;display:flex;align-items:center;justify-content:center;z-index:9995;flex-direction:column;gap:16px}
-.sp{width:44px;height:44px;border:3px solid #bfdbfe;border-top-color:#2563eb;border-radius:50%;animation:spin .85s linear infinite}
-.sl-t{font-family:'Syne',sans-serif;font-size:13px;color:#3b82f6;animation:blink 1.5s infinite}
+#ldr{position:fixed;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#065f46 100%);display:flex;align-items:center;justify-content:center;z-index:9995;flex-direction:column;gap:0}
+.ldr-logo{font-family:'Syne',sans-serif;font-size:52px;font-weight:800;color:#fff;margin-bottom:4px;animation:popIn .5s ease}
+.ldr-brand{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:6px;letter-spacing:.03em}
+.ldr-tag{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:28px;letter-spacing:.06em;text-transform:uppercase}
+.ldr-bar-wrap{width:180px;height:4px;background:rgba(255,255,255,.15);border-radius:10px;overflow:hidden;margin-bottom:14px}
+.ldr-bar{height:100%;background:linear-gradient(90deg,#3b82f6,#22c55e);border-radius:10px;animation:ldrProgress 2s ease forwards}
+@keyframes ldrProgress{0%{width:0%}60%{width:75%}100%{width:100%}}
+.sl-t{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.05em}
+.sp{display:none}
 
 /* LAYOUT */
 #app{min-height:100vh}
@@ -247,8 +253,32 @@ select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+x
 <!-- Adsterra Social Bar -->
 <script src="https://pl29327205.profitablecpmratenetwork.com/b1/4e/fc/b14efc2b98e49b3942ea2d168a4e1f1c.js"></script>
 
+<!-- LIVE TICKER -->
+<div id="liveTicker" style="display:none;background:linear-gradient(90deg,#1e40af,#065f46);color:#fff;font-size:11px;font-weight:600;padding:6px 0;text-align:center;overflow:hidden;white-space:nowrap;position:relative;z-index:5">
+  <span id="tickerText" style="display:inline-block;animation:tickerMove 18s linear infinite">🌍 Welcome to EarnZone Pro — Earn Real Money Online!</span>
+</div>
+<style>
+@keyframes tickerMove{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
+#toastBox{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;width:90%;max-width:360px}
+.toast{background:rgba(15,23,42,.92);backdrop-filter:blur(12px);color:#fff;border-radius:14px;padding:10px 16px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.25);animation:toastIn .35s ease;border:1px solid rgba(255,255,255,.1);width:100%}
+.toast.green{border-left:3px solid #22c55e}
+.toast.blue{border-left:3px solid #3b82f6}
+.toast.yellow{border-left:3px solid #f59e0b}
+@keyframes toastIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toastOut{from{opacity:1}to{opacity:0}}
+</style>
+
+<!-- TOAST BOX -->
+<div id="toastBox"></div>
+
 <!-- LOADER -->
-<div id="ldr"><div class="sp"></div><div class="sl-t">Loading EarnZone Pro…</div></div>
+<div id="ldr">
+  <div class="ldr-logo">◆</div>
+  <div class="ldr-brand">EarnZone Pro</div>
+  <div class="ldr-tag">Earn Real Money Online</div>
+  <div class="ldr-bar-wrap"><div class="ldr-bar"></div></div>
+  <div class="sl-t" id="ldrMsg">Initializing secure connection…</div>
+</div>
 
 <!-- MAIN APP -->
 <div id="app" style="display:none"></div>
@@ -1052,6 +1082,9 @@ async function loadPayoutSettings(){
     S.payoutMode=d.mode||'custom';
     S.payoutRates=d.rates||S.payoutRates;
   }
+  // Load site announcement
+  const aSnap=await fDB.ref('settings/announcement').once('value');
+  if(aSnap.val()) S.siteSettings={announcement:aSnap.val()};
 }
 
 function getUserPayout(cpaAmount){
@@ -1703,12 +1736,83 @@ function render(){
 function renderAuth(){
   const app=$('#app');
   const dir=LANGS[S.lang]?.d||'ltr';
-  if(S.page==='login') app.innerHTML=buildLogin();
+  if(S.page==='welcome') app.innerHTML=buildWelcome();
+  else if(S.page==='login') app.innerHTML=buildLogin();
   else if(S.page==='register') app.innerHTML=buildRegister();
   else if(S.page==='verify') app.innerHTML=buildVerify();
   else if(S.page==='forgot') app.innerHTML=buildForgot();
-  else app.innerHTML=buildLogin();
+  else { S.page='welcome'; app.innerHTML=buildWelcome(); }
   attachAuthEvents();
+}
+
+// ─── WELCOME / INTRO SCREEN ───────────────────────────
+function buildWelcome(){
+  // Simulated stats (replace with real Firebase counts if needed)
+  const users = (Math.floor(Math.random()*500)+12400).toLocaleString();
+  const earned = '$'+(Math.floor(Math.random()*2000)+48000).toLocaleString();
+  return `
+  <div style="min-height:100vh;background:linear-gradient(160deg,#0f172a 0%,#1e3a5f 50%,#064e3b 100%);display:flex;flex-direction:column;align-items:center;padding:0 0 40px">
+
+    <!-- Header -->
+    <div style="width:100%;padding:18px 20px;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#fff">◆ EarnZone Pro</div>
+      <button onclick="S.page='login';renderAuth()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:7px 16px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Login</button>
+    </div>
+
+    <!-- Hero -->
+    <div style="text-align:center;padding:20px 24px 0;max-width:480px">
+      <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;color:#4ade80;margin-bottom:16px;letter-spacing:.04em">🟢 LIVE — ${users} Users Online</div>
+      <h1 style="font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:12px">Earn Real Money<br><span style="background:linear-gradient(90deg,#3b82f6,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent">From Your Phone</span></h1>
+      <p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:24px">Complete offers, watch ads & refer friends.<br>Withdraw via bKash, Nagad, PayPal, USDT.</p>
+
+      <!-- Stats -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px">
+        <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 8px;text-align:center">
+          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#22c55e">${users}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:3px">Members</div>
+        </div>
+        <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 8px;text-align:center">
+          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#3b82f6">${earned}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:3px">Total Paid</div>
+        </div>
+        <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 8px;text-align:center">
+          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#f59e0b">150+</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:3px">Countries</div>
+        </div>
+      </div>
+
+      <!-- YouTube Tutorial -->
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px;margin-bottom:22px;text-align:left">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">📺 Watch How It Works</div>
+        <div style="position:relative;width:100%;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#000">
+          <iframe
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:none"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="How to earn on EarnZone Pro"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:8px;text-align:center">Replace this with your own tutorial video</div>
+      </div>
+
+      <!-- How it works -->
+      <div style="text-align:left;margin-bottom:22px">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">⚡ How It Works</div>
+        ${[['1️⃣','Register Free','Create your free account in 30 seconds'],['2️⃣','Complete Offers','Do tasks, surveys & watch ads to earn'],['3️⃣','Refer Friends','Get 5 active referrals to unlock withdrawals'],['4️⃣','Get Paid','Withdraw via bKash, Nagad, PayPal or USDT']].map(([n,t,d])=>`
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">
+          <div style="font-size:22px;flex-shrink:0">${n}</div>
+          <div><div style="font-size:13px;font-weight:700;color:#fff">${t}</div><div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:2px">${d}</div></div>
+        </div>`).join('')}
+      </div>
+
+      <!-- Buttons -->
+      <button onclick="S.page='register';renderAuth()" style="width:100%;background:linear-gradient(135deg,#2563eb,#059669);border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:800;color:#fff;cursor:pointer;font-family:'Syne',sans-serif;box-shadow:0 6px 24px rgba(37,99,235,.4);margin-bottom:10px">🚀 Start Earning Free</button>
+      <button onclick="S.page='login';renderAuth()" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;padding:13px;font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif">Already have an account? Login</button>
+
+      <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:16px;line-height:1.6">By registering, you agree to our <a href="terms.html" target="_blank" style="color:#3b82f6">Terms</a> & <a href="privacy.html" target="_blank" style="color:#3b82f6">Privacy Policy</a></div>
+    </div>
+  </div>`;
 }
 
 // ─── LOGIN PAGE ───────────────────────────────────────
@@ -1862,10 +1966,20 @@ function renderApp(){
 function buildNav(){
   const ud=S.userData||{};
   const hasNotice=S.noticeQueue.length>0;
-  return `<nav class="nav">
+  // Live visitor counter (simulated)
+  const baseVisitors = 1200;
+  const visitors = baseVisitors + Math.floor(Math.random()*300);
+  // Announcement banner from admin settings
+  const announcement = S.siteSettings?.announcement||'';
+  return `
+  ${announcement?`<div style="background:linear-gradient(90deg,#1e40af,#065f46);color:#fff;font-size:11px;font-weight:600;padding:7px 16px;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px">📢 ${announcement} <button onclick="this.parentElement.style.display='none'" style="background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:14px;margin-left:8px">✕</button></div>`:''}
+  <nav class="nav">
   <button class="nav-mn" id="navMenu"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></button>
   <div class="nav-bnd" id="navBrand">◆ ${T('appName')}</div>
-  <div class="nav-bal" id="navBal">${fmt$(ud.usdEarned||0)}</div>
+  <div style="display:flex;align-items:center;gap:8px">
+    <div style="display:flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:#059669"><div style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 1.5s infinite"></div>${visitors}</div>
+    <div class="nav-bal" id="navBal">${fmt$(ud.usdEarned||0)}</div>
+  </div>
   <button class="nav-av${hasNotice?' nb-dot':''}" id="navAv">
     ${(ud.name||ud.email||'?')[0].toUpperCase()}
     ${hasNotice?'<div class="nav-nd"></div>':''}
@@ -2813,6 +2927,8 @@ fAuth.onAuthStateChanged(async user=>{
     // Go to home
     if(S.page==='login'||S.page==='register'||S.page==='verify') S.page='home';
     $('#ldr').style.display='none'; $('#app').style.display='block';
+    startLiveTicker();
+    startActivityToasts();
     render();
   } else {
     S.user=null; S.userData=null;
@@ -2864,6 +2980,17 @@ async function loadAdminSettings(c){
   const mode=payout.mode||'custom';
 
   c.innerHTML=`
+  <!-- Announcement Banner -->
+  <div class="card mb12">
+    <div class="card-hd">📢 Announcement Banner</div>
+    <div style="font-size:12px;color:#475569;margin-bottom:10px">এই message টা সব user এর app এর উপরে দেখাবে। খালি রাখলে banner দেখাবে না।</div>
+    <input type="text" id="announcementInput" placeholder="e.g. 🎉 New offers added! Complete now to earn more." value="${cfg.announcement||''}" style="width:100%;padding:10px 13px;border:1.5px solid #dbeafe;border-radius:10px;font-size:13px;background:#f8fafc;color:#0f172a;outline:none;font-family:inherit;margin-bottom:10px">
+    <div style="display:flex;gap:8px">
+      <button class="btn bp bau" style="flex:1" onclick="saveAnnouncement()">💾 Save Banner</button>
+      <button class="btn br bau" onclick="clearAnnouncement()">🗑️ Clear</button>
+    </div>
+  </div>
+
   <!-- 6-Platform RSS Credentials -->
   <div class="card mb12">
     <div class="card-hd">🔑 RSS Platform Credentials</div>
@@ -3007,6 +3134,75 @@ async function loadAdminSettings(c){
     await fDB.ref(`postbacks/${uid}/${key}`).set({amount:amt||S.payoutRates.default||0.30,wallId:wall,offer_id:key,processed:false});
     toast('Test postback sent! User balance will update.','s');
   };
+}
+
+// ─── TOAST NOTIFICATIONS ──────────────────────────────
+function showToast(msg, type='blue', duration=3500){
+  const box=document.getElementById('toastBox');
+  if(!box) return;
+  const t=document.createElement('div');
+  t.className=`toast ${type}`;
+  t.innerHTML=msg;
+  box.appendChild(t);
+  setTimeout(()=>{t.style.animation='toastOut .4s ease forwards';setTimeout(()=>t.remove(),400);},duration);
+}
+
+// ─── LIVE TICKER ──────────────────────────────────────
+function startLiveTicker(){
+  const ticker=document.getElementById('liveTicker');
+  const tickerText=document.getElementById('tickerText');
+  if(!ticker||!tickerText) return;
+  ticker.style.display='block';
+  const msgs=[
+    '🌍 Welcome to EarnZone Pro — Earn Real Money Online!',
+    '💰 Complete offers & earn real cash — Withdraw via bKash, PayPal, USDT',
+    '👥 Refer friends and unlock withdrawals faster!',
+    '🎯 New offers available — Complete tasks and earn today!',
+    '🔒 Secure & trusted platform — 150+ countries supported',
+    '💸 Minimum withdrawal just $5 — Fast payments guaranteed!',
+  ];
+  let i=0;
+  setInterval(()=>{
+    i=(i+1)%msgs.length;
+    tickerText.style.animation='none';
+    tickerText.textContent=msgs[i];
+    setTimeout(()=>{ tickerText.style.animation='tickerMove 18s linear infinite'; },50);
+  },18000);
+}
+
+// ─── LIVE ACTIVITY TOASTS ─────────────────────────────
+function startActivityToasts(){
+  const names=['Rahim','Karim','Sohel','Arif','Nadia','Priya','Sakib','Farhan','Mitu','Rubel','Tania','Hasan'];
+  const countries=['🇧🇩','🇮🇳','🇵🇰','🇳🇬','🇵🇭','🇧🇷','🇮🇩','🇬🇭'];
+  const actions=[
+    (n,c)=>`${c} <strong>${n}</strong> just earned <strong>$0.10</strong> 🎯`,
+    (n,c)=>`${c} <strong>${n}</strong> completed a withdrawal 💸`,
+    (n,c)=>`${c} <strong>${n}</strong> joined via referral 👥`,
+    (n,c)=>`${c} <strong>${n}</strong> unlocked an offerwall ✅`,
+  ];
+  function showRandom(){
+    const n=names[Math.floor(Math.random()*names.length)];
+    const c=countries[Math.floor(Math.random()*countries.length)];
+    const a=actions[Math.floor(Math.random()*actions.length)];
+    showToast(a(n,c), Math.random()>.5?'green':'blue', 3500);
+    setTimeout(showRandom, 8000+Math.random()*12000);
+  }
+  setTimeout(showRandom, 5000);
+}
+
+// ─── ANNOUNCEMENT FUNCTIONS ───────────────────────────
+async function saveAnnouncement(){
+  const val=document.getElementById('announcementInput')?.value?.trim()||'';
+  await fDB.ref('settings/announcement').set(val);
+  S.siteSettings={announcement:val};
+  showToast('✅ Announcement saved!','green');
+}
+async function clearAnnouncement(){
+  await fDB.ref('settings/announcement').set('');
+  S.siteSettings={announcement:''};
+  const inp=document.getElementById('announcementInput');
+  if(inp) inp.value='';
+  showToast('🗑️ Announcement cleared','blue');
 }
 
 console.log('%c◆ EarnZone Pro v3 — RSS + Custom Payout + Postback', 'color:#2563eb;font-size:14px;font-weight:700');

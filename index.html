@@ -1101,15 +1101,25 @@ async function onAdCompleteForWall(wallId){
 
 // ─── RSS FEED SYSTEM ──────────────────────────────────
 async function loadPayoutSettings(){
-  const snap=await fDB.ref('settings/payout').once('value');
-  const d=snap.val();
-  if(d){
-    S.payoutMode=d.mode||'custom';
-    S.payoutRates=d.rates||S.payoutRates;
+  // Use cache
+  let cached = EZCache.get('settings_payout');
+  if(!cached){
+    const snap = await fDB.ref('settings/payout').once('value');
+    cached = snap.val()||{};
+    EZCache.set('settings_payout', cached);
   }
-  // Load site announcement
-  const aSnap=await fDB.ref('settings/announcement').once('value');
-  if(aSnap.val()) S.siteSettings={announcement:aSnap.val()};
+  if(cached){
+    S.payoutMode = cached.mode||'custom';
+    S.payoutRates = cached.rates||S.payoutRates;
+  }
+  // Load announcement — cached
+  let ann = EZCache.get('settings_announcement');
+  if(ann===null || ann===undefined){
+    const aSnap = await fDB.ref('settings/announcement').once('value');
+    ann = aSnap.val()||'';
+    EZCache.set('settings_announcement', ann);
+  }
+  if(ann) S.siteSettings={announcement:ann};
 }
 
 function getUserPayout(cpaAmount){
@@ -1704,28 +1714,75 @@ async function markOfferComplete(uid,wallId,amount){
   render();
 }
 
+// ─── SMART CACHE SYSTEM ───────────────────────────────
+const CACHE_TTL = 12 * 60 * 60 * 1000; // 12 hours in ms
+const EZCache = {
+  _store: {},
+
+  set(key, value){
+    this._store[key] = { value, ts: Date.now() };
+  },
+
+  get(key){
+    const item = this._store[key];
+    if(!item) return null;
+    // Expired?
+    if(Date.now() - item.ts > CACHE_TTL){
+      delete this._store[key];
+      return null;
+    }
+    return item.value;
+  },
+
+  invalidate(key){
+    delete this._store[key];
+  },
+
+  invalidateAll(){
+    this._store = {};
+  }
+};
+
+// Smart Firebase read — cache first, Firebase only if expired or forced
+async function smartRead(path, forceRefresh=false){
+  const cached = EZCache.get(path);
+  if(cached && !forceRefresh) return cached;
+  const snap = await fDB.ref(path).once('value');
+  const val = snap.val();
+  EZCache.set(path, val);
+  return val;
+}
+
 // ─── REALTIME LISTENERS ───────────────────────────────
 function setupListeners(uid){
   // Clean old
   S.unsubscribes.forEach(u=>u());
   S.unsubscribes=[];
-  // User data
+  // User data — realtime listener but throttled
   const uRef=fDB.ref(`users/${uid}`);
   const unsubUser=uRef.on('value',snap=>{
     S.userData=snap.val();
+    // Update cache
+    EZCache.set(`users/${uid}`, S.userData);
     if(S.userData?.banned){ doLogout(); toast(T('banned'),'e'); return; }
     updateNavBar();
   });
   S.unsubscribes.push(()=>uRef.off('value',unsubUser));
-  // Notices (new ones)
-  const nRef=fDB.ref('notices');
-  const unsubN=nRef.on('value',snap=>{
-    const data=snap.val()||{};
-    const readSnap=S.userData?.readNotices||{};
-    const unread=Object.entries(data).filter(([id])=>!readSnap[id]).map(([id,v])=>({...v,id}));
-    if(unread.length>0) activateNoticeDot(unread);
-  });
-  S.unsubscribes.push(()=>nRef.off('value',unsubN));
+  // Notices — check once, cache for 12h
+  loadNoticesCached(uid);
+}
+
+async function loadNoticesCached(uid){
+  const cacheKey = `notices_${uid}`;
+  let cached = EZCache.get(cacheKey);
+  if(!cached){
+    const snap = await fDB.ref('notices').orderByChild('createdAt').limitToLast(20).once('value');
+    cached = snap.val()||{};
+    EZCache.set(cacheKey, cached);
+  }
+  const readSnap = S.userData?.readNotices||{};
+  const unread = Object.entries(cached).filter(([id])=>!readSnap[id]).map(([id,v])=>({...v,id}));
+  if(unread.length>0) activateNoticeDot(unread);
 }
 
 function activateNoticeDot(notices){
@@ -2536,20 +2593,29 @@ async function loadSocialTasks(){
   const el = document.getElementById('socialTasksList');
   if(!el) return;
   try{
-    const snap = await fDB.ref('socialTasks').orderByChild('status').equalTo('active').once('value');
-    const tasks = snap.val()||{};
+    // Use cache — only call Firebase if cache expired
+    let tasks = EZCache.get('socialTasks');
+    if(!tasks){
+      const snap = await fDB.ref('socialTasks').orderByChild('status').equalTo('active').once('value');
+      tasks = snap.val()||{};
+      EZCache.set('socialTasks', tasks);
+    }
     const list = Object.entries(tasks);
     if(!list.length){
       el.innerHTML='<div class="card" style="text-align:center;padding:30px"><div style="font-size:32px;margin-bottom:10px">😔</div><div style="font-size:13px;color:#64748b">No tasks available right now.<br>Check back soon!</div></div>';
       return;
     }
 
-    // Get user's completed tasks
+    // Get user's completed tasks — cached
     const uid = S.user?.uid;
     let completedTasks = {};
     if(uid){
-      const cSnap = await fDB.ref(`users/${uid}/completedTasks`).once('value');
-      completedTasks = cSnap.val()||{};
+      completedTasks = EZCache.get(`completedTasks_${uid}`);
+      if(!completedTasks){
+        const cSnap = await fDB.ref(`users/${uid}/completedTasks`).once('value');
+        completedTasks = cSnap.val()||{};
+        EZCache.set(`completedTasks_${uid}`, completedTasks);
+      }
     }
 
     el.innerHTML = list.map(([id,t])=>{
@@ -2805,10 +2871,13 @@ async function approveSubmission(subId, uid, reward){
   await fDB.ref('submissions/'+subId+'/status').set('approved');
   await fDB.ref('users/'+uid+'/usdEarned').transaction(v=>(v||0)+parseFloat(reward));
   await fDB.ref('stats/totalEarned').transaction(v=>(v||0)+parseFloat(reward));
-  // Mark task as completed for this user
   const subSnap = await fDB.ref('submissions/'+subId).once('value');
   const taskId = subSnap.val()?.taskId;
-  if(taskId) await fDB.ref(`users/${uid}/completedTasks/${taskId}`).set(true);
+  if(taskId){
+    await fDB.ref(`users/${uid}/completedTasks/${taskId}`).set(true);
+    // Invalidate completed tasks cache for this user
+    EZCache.invalidate(`completedTasks_${uid}`);
+  }
   showToast('✅ Approved! $'+parseFloat(reward).toFixed(2)+' added','green');
   loadPendingSubmissions();
 }
@@ -3578,11 +3647,13 @@ async function saveAnnouncement(){
   const val=document.getElementById('announcementInput')?.value?.trim()||'';
   await fDB.ref('settings/announcement').set(val);
   S.siteSettings={announcement:val};
+  EZCache.invalidate('settings_announcement');
   showToast('✅ Announcement saved!','green');
 }
 async function clearAnnouncement(){
   await fDB.ref('settings/announcement').set('');
   S.siteSettings={announcement:''};
+  EZCache.invalidate('settings_announcement');
   const inp=document.getElementById('announcementInput');
   if(inp) inp.value='';
   showToast('🗑️ Announcement cleared','blue');

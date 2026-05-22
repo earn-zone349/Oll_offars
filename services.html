@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Services & Pricing — EarnZone Pro</title>
+<meta name="description" content="Buy real Facebook likes, YouTube subscribers, Instagram followers and more.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%232563eb'/><stop offset='100%25' stop-color='%23059669'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23g)'/><text y='.9em' font-size='70' x='15' fill='white' font-family='serif'>◆</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#f0f7ff;color:#0f172a;font-family:'DM Sans',sans-serif}
+.nav{background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-bottom:2px solid #bfdbfe;padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:0 2px 12px rgba(37,99,235,.08)}
+.brand{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;background:linear-gradient(135deg,#2563eb,#059669);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+.back{background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:9px;padding:6px 14px;font-size:12px;color:#2563eb;font-weight:600;text-decoration:none}
+.wrap{max-width:700px;margin:0 auto;padding:24px 16px 80px}
+.hero{background:linear-gradient(135deg,#1e40af,#065f46);border-radius:20px;padding:28px 24px;margin-bottom:24px;text-align:center;box-shadow:0 8px 30px rgba(37,99,235,.2)}
+.hero h1{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#fff;margin-bottom:8px}
+.hero p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.7}
+.section-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#1e40af;margin:20px 0 12px;display:flex;align-items:center;gap:8px}
+.services-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.svc-card{background:#fff;border:1.5px solid #dbeafe;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(37,99,235,.06);position:relative;overflow:hidden}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.svc-fb::before{background:linear-gradient(90deg,#1877F2,#0d5dbf)}
+.svc-yt::before{background:linear-gradient(90deg,#FF0000,#cc0000)}
+.svc-ig::before{background:linear-gradient(90deg,#E1306C,#833AB4)}
+.svc-tk::before{background:linear-gradient(90deg,#000000,#69C9D0)}
+.svc-icon{font-size:28px;margin-bottom:8px}
+.svc-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#0f172a;margin-bottom:4px}
+.svc-type{font-size:11px;color:#64748b;margin-bottom:10px}
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #f1f5f9;font-size:12px}
+.price-row:last-child{border-bottom:none}
+.price-qty{color:#475569;font-weight:500}
+.price-amt{color:#2563eb;font-weight:700;font-family:'Syne',sans-serif}
+.order-btn{display:block;width:100%;margin-top:10px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;border-radius:10px;padding:9px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;text-align:center;text-decoration:none;font-family:'DM Sans',sans-serif}
+.how-card{background:#fff;border:1.5px solid #dbeafe;border-radius:16px;padding:18px;margin-bottom:10px;box-shadow:0 2px 10px rgba(37,99,235,.06)}
+.how-card h3{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#1e40af;margin-bottom:12px}
+.step{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.step-num{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#059669);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Syne',sans-serif}
+.step-tx .t{font-size:13px;font-weight:600;color:#0f172a}
+.step-tx .d{font-size:11px;color:#64748b;margin-top:2px;line-height:1.5}
+.faq-item{background:#fff;border:1.5px solid #dbeafe;border-radius:14px;padding:14px 16px;margin-bottom:8px;cursor:pointer}
+.faq-q{font-size:13px;font-weight:600;color:#0f172a;display:flex;justify-content:space-between;align-items:center}
+.faq-a{font-size:12px;color:#475569;margin-top:10px;line-height:1.7;display:none}
+.cta{background:linear-gradient(135deg,#2563eb,#059669);border-radius:18px;padding:24px;text-align:center;margin-top:20px}
+.cta h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;margin-bottom:8px}
+.cta p{font-size:13px;color:rgba(255,255,255,.8);margin-bottom:16px}
+.cta a{display:inline-block;background:#fff;color:#2563eb;border-radius:11px;padding:12px 28px;font-size:14px;font-weight:700;text-decoration:none;font-family:'Syne',sans-serif}
+footer{text-align:center;padding:20px;font-size:11px;color:#94a3b8;border-top:1px solid #dbeafe;margin-top:20px}
+footer a{color:#3b82f6;text-decoration:none;margin:0 6px}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="brand">◆ EarnZone Pro</a>
+  <a href="order.html" class="back">Order Now →</a>
+</nav>
+<div class="wrap">
+  <div class="hero">
+    <h1>📱 Social Media Services</h1>
+    <p>Real followers, likes, subscribers & comments.<br>Fast delivery · Secure payment · 24/7 support</p>
+  </div>
+
+  <!-- Facebook -->
+  <div class="section-title">🔵 Facebook Services</div>
+  <div class="services-grid">
+    <div class="svc-card svc-fb">
+      <div class="svc-icon">👍</div>
+      <div class="svc-name">Page Likes</div>
+      <div class="svc-type">Facebook</div>
+      <div class="price-row"><span class="price-qty">100 likes</span><span class="price-amt">$0.50</span></div>
+      <div class="price-row"><span class="price-qty">500 likes</span><span class="price-amt">$2.00</span></div>
+      <div class="price-row"><span class="price-qty">1000 likes</span><span class="price-amt">$3.50</span></div>
+      <a href="order.html?type=fb_like" class="order-btn">Order Now</a>
+    </div>
+    <div class="svc-card svc-fb">
+      <div class="svc-icon">👥</div>
+      <div class="svc-name">Followers</div>
+      <div class="svc-type">Facebook</div>
+      <div class="price-row"><span class="price-qty">100</span><span class="price-amt">$0.80</span></div>
+      <div class="price-row"><span class="price-qty">500</span><span class="price-amt">$3.00</span></div>
+      <div class="price-row"><span class="price-qty">1000</span><span class="price-amt">$5.00</span></div>
+      <a href="order.html?type=fb_follow" class="order-btn">Order Now</a>
+    </div>
+    <div class="svc-card svc-fb">
+      <div class="svc-icon">💬</div>
+      <div class="svc-name">Comments</div>
+      <div class="svc-type">Facebook</div>
+      <div class="price-row"><span class="price-qty">10</span><span class="price-amt">$0.50</span></div>
+      <div class="price-row"><span class="price-qty">50</span><span class="price-amt">$2.00</span></div>
+      <div class="price-row"><span class="price-qty">100</span><span class="price-amt">$3.50</span></div>
+      <a href="order.html?type=fb_comment" class="order-btn">Order Now</a>
+    </div>
+    <div class="svc-card svc-fb">
+      <div class="svc-icon">🔁</div>
+      <div class="svc-name">Post Share</div>
+      <div class="svc-type">Facebook</div>
+      <div class="price-row"><span class="price-qty">50</span><span class="price-amt">$0.50</span></div>
+      <div class="price-row"><span class="price-qty">200</span><span class="price-amt">$1.50</span></div>
+      <div class="price-row"><span class="price-qty">500</span><span class="price-amt">$3.00</span></div>
+      <a href="order.html?type=fb_share" class="order-btn">Order Now</a>
+    </div>
+  </div>
+
+  <!-- YouTube -->
+  <div class="section-title">🔴 YouTube Services</div>
+  <div class="services-grid">
+    <div class="svc-card svc-yt">
+      <div class="svc-icon">🔔</div>
+      <div class="svc-name">Subscribers</div>
+      <div class="svc-type">YouTube</div>
+      <div class="price-row"><span class="price-qty">100</span><span class="price-amt">$1.50</span></div>
+      <div class="price-row"><span class="price-qty">500</span><span class="price-amt">$6.00</span></div>
+      <div class="price-row"><span class="price-qty">1000</span><span class="price-amt">$10.00</span></div>
+      <a href="order.html?type=yt_sub" class="order-btn">Order Now</a>
+    </div>
+    <div class="svc-card svc-yt">
+      <div class="svc-icon">👍</div>
+      <div class="svc-name">Video Likes</div>
+      <div class="svc-type">YouTube</div>
+      <div class="price-row"><span class="price-qty">100</span><span class="price-amt">$0.80</span></div>
+      <div class="price-row"><span class="price-qty">500</span><span class="price-amt">$3.50</span></div>
+      <div class="price-row"><span class="price-qty">1000</span><span class="price-amt">$6.00</span></div>
+      <a href="order.html?type=yt_like" class="order-btn">Order Now</a>
+    </div>
+    <div class="svc-card svc-yt">
+      <div class="svc-icon">👁️</div>
+      <div class="svc-name">Views</div>
+      <div class="svc-type">YouTube</div>
+      <div class="price-row"><span class="price-qty">1000</span><span class="price-amt">$1.00</span></div>
+      <div class="price-row"><span class="price-qty">5000</span><span class="price-amt">$4.00</span></div>
+      <div class="price-row"><span class="price-qty">10000</span><span class="price-amt">$7.00</span></div>
+      <a href="order.html?type=yt_view" class="order-btn">Order Now</a>
+    </div>
+    <div class="svc-card svc-yt">
+      <div class="svc-icon">💬</div>
+      <div class="svc-name">Comments</div>
+      <div class="svc-type">YouTube</div>
+      <div class="price-row"><span class="price-qty">10</span><span class="price-amt">$1.00</span></div>
+      <div class="price-row"><span class="price-qty">50</span><span class="price-amt">$4.00</span></div>
+      <div class="price-row"><span class="price-qty">100</span><span class="price-amt">$7.00</span></div>
+      <a href="order.html?type=yt_comment" class="order-btn">Order Now</a>
+    </div>
+  </div>
+
+  <!-- Instagram -->
+  <div class="section-title">💜 Instagram Services</div>
+  <div class="services-grid">
+    <div class="svc-card svc-ig">
+      <div class="svc-icon">👥</div>
+      <div class="svc-name">Followers</div>
+      <div class="svc-type">Instagram</div>
+      <div class="price-row"><span class="price-qty">100</span><span class="price-amt">$1.00</span></div>
+      <div class="price-row"><span class="price-qty">500</span><span class="price-amt">$4.00</span></div>
+      <div class="price-row"><span class="price-qty">1000</span><span class="price-amt">$7.00</span></div>
+      <a href="order.html?type=ig_follow" class="order-btn">Order Now</a>
+    </div>
+    <div class="svc-card svc-ig">
+      <div class="svc-icon">❤️</div>
+      <div class="svc-name">Post Likes</div>
+      <div class="svc-type">Instagram</div>
+      <div class="price-row"><span class="price-qty">100</span><span class="price-amt">$0.50</span></div>
+      <div class="price-row"><span class="price-qty">500</span><span class="price-amt">$2.00</span></div>
+      <div class="price-row"><span class="price-qty">1000</span><span class="price-amt">$3.50</span></div>
+      <a href="order.html?type=ig_like" class="order-btn">Order Now</a>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="section-title">⚡ How to Order</div>
+  <div class="how-card">
+    <h3>Simple 4-Step Process</h3>
+    <div class="step"><div class="step-num">1</div><div class="step-tx"><div class="t">Choose Service</div><div class="d">Select the platform and service type you need</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-tx"><div class="t">Place Order</div><div class="d">Enter your link, quantity, and contact info</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-tx"><div class="t">Make Payment</div><div class="d">Pay via bKash or Nagad to our number</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-tx"><div class="t">Get Delivered</div><div class="d">We start delivery within 1–24 hours</div></div></div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section-title">❓ FAQ</div>
+  <div class="faq-item" onclick="toggle(this)">
+    <div class="faq-q">Are these real followers? <span>+</span></div>
+    <div class="faq-a">Yes, all followers, likes and subscribers are from real human workers. We do not use bots.</div>
+  </div>
+  <div class="faq-item" onclick="toggle(this)">
+    <div class="faq-q">How long does delivery take? <span>+</span></div>
+    <div class="faq-a">Usually starts within 1–6 hours. Large orders may take up to 24–48 hours.</div>
+  </div>
+  <div class="faq-item" onclick="toggle(this)">
+    <div class="faq-q">What payment methods are accepted? <span>+</span></div>
+    <div class="faq-a">We accept bKash and Nagad. Payment details will be shown after placing your order.</div>
+  </div>
+  <div class="faq-item" onclick="toggle(this)">
+    <div class="faq-q">Is my account safe? <span>+</span></div>
+    <div class="faq-a">Yes. We never ask for your password. We only need your public profile/page link.</div>
+  </div>
+  <div class="faq-item" onclick="toggle(this)">
+    <div class="faq-q">What if I don't receive my order? <span>+</span></div>
+    <div class="faq-a">Contact our support on WhatsApp. We offer full refund or re-delivery if order fails.</div>
+  </div>
+
+  <div class="cta">
+    <h3>Ready to Grow?</h3>
+    <p>Place your order now and get real engagement fast!</p>
+    <a href="order.html">🚀 Place Order Now</a>
+  </div>
+</div>
+
+<footer>
+  <div>© 2025 EarnZone Pro. All rights reserved.</div>
+  <div style="margin-top:8px">
+    <a href="index.html">App</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+function toggle(el){
+  const a=el.querySelector('.faq-a');
+  const s=el.querySelector('.faq-q span');
+  a.style.display=a.style.display==='block'?'none':'block';
+  s.textContent=a.style.display==='block'?'−':'+';
+}
+// Pre-select from URL
+const p=new URLSearchParams(location.search);
+if(p.get('type')) location.href='order.html?type='+p.get('type');
+</script>
+</body>
+</html>

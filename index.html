@@ -1985,6 +1985,7 @@ function renderApp(){
   else if(S.page==='admin' && S.userData.isAdmin) html+=buildAdmin();
   else if(S.page==='notices') html+=buildNotices();
   else if(S.page==='faq') html+=buildFAQ();
+  else if(S.page==='social') html+=buildSocialTasks();
   else if(S.page==='unlock') html+=buildUnlock(S.unlockWallId);
   else if(S.page==='wallview') html+=buildWallView(S.unlockWallId);
   else html+=buildHome();
@@ -1992,6 +1993,8 @@ function renderApp(){
   html+=buildBottomNav();
   $('#app').innerHTML=html;
   attachAppEvents();
+  // Auto-load page data
+  if(S.page==='social') loadSocialTasks();
 }
 
 function buildNav(){
@@ -2020,6 +2023,7 @@ function buildBottomNav(){
     {p:'home',ic:'🏠',lb:T('db')},
     {p:'wallet',ic:'💰',lb:T('wl')},
     {p:'offers',ic:'🎯',lb:T('of')},
+    {p:'social',ic:'📱',lb:'Social'},
     {p:'profile',ic:'👤',lb:T('pr')},
   ];
   return `<nav class="bnav">${pages.map(pg=>`
@@ -2036,6 +2040,7 @@ function buildSidebar(){
   <button class="si${S.page==='home'?' on':''}" data-page="home"><span class="si-ico">🏠</span>${T('db')}</button>
   <button class="si${S.page==='wallet'?' on':''}" data-page="wallet"><span class="si-ico">💰</span>${T('wl')}</button>
   <button class="si${S.page==='offers'?' on':''}" data-page="offers"><span class="si-ico">🎯</span>${T('of')}</button>
+  <button class="si${S.page==='social'?' on':''}" data-page="social"><span class="si-ico">📱</span>Social Tasks</button>
   <div class="sdb-sg">Account</div>
   <button class="si${S.page==='profile'?' on':''}" data-page="profile"><span class="si-ico">👤</span>${T('pr')}</button>
   <button class="si${S.page==='notices'?' on':''}" data-page="notices"><span class="si-ico">📢</span>${T('ns')} ${S.noticeQueue.length>0?`<span class="bdg bdr" style="margin-left:auto">${S.noticeQueue.length}</span>`:''}</button>
@@ -2449,6 +2454,102 @@ async function loadNotices(){
   });
 }
 
+// ─── SOCIAL TASKS PAGE ────────────────────────────────
+function buildSocialTasks(){
+  return `
+  <div class="ph">
+    <div class="pt">📱 Social Tasks</div>
+    <div class="ps">Complete social tasks & earn money</div>
+  </div>
+
+  <!-- Buy Services Banner -->
+  <div style="background:linear-gradient(135deg,#1e40af,#065f46);border-radius:16px;padding:16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fff;margin-bottom:3px">Need Followers?</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.7)">Buy Facebook, YouTube, Instagram services</div>
+    </div>
+    <a href="services.html" target="_blank" style="background:#fff;color:#2563eb;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;text-decoration:none;font-family:'Syne',sans-serif;flex-shrink:0">Buy Now</a>
+  </div>
+
+  <!-- Available Tasks -->
+  <div id="socialTasksList"><div class="card" style="text-align:center;padding:30px"><div style="font-size:32px;margin-bottom:10px">⏳</div><div style="font-size:13px;color:#64748b">Loading tasks…</div></div></div>
+
+  <!-- My Submissions -->
+  <div class="card mt12">
+    <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#1e40af;margin-bottom:12px">📋 My Submissions</div>
+    <div id="mySubmissions"><div style="font-size:12px;color:#64748b;text-align:center;padding:16px">Loading…</div></div>
+  </div>`;
+}
+
+// Load social tasks from Firebase
+async function loadSocialTasks(){
+  const el = document.getElementById('socialTasksList');
+  if(!el) return;
+  try{
+    const snap = await fDB.ref('socialTasks').orderByChild('status').equalTo('active').once('value');
+    const tasks = snap.val()||{};
+    const list = Object.entries(tasks);
+    if(!list.length){
+      el.innerHTML='<div class="card" style="text-align:center;padding:30px"><div style="font-size:32px;margin-bottom:10px">😔</div><div style="font-size:13px;color:#64748b">No tasks available right now.<br>Check back soon!</div></div>';
+      return;
+    }
+    el.innerHTML = list.map(([id,t])=>`
+    <div class="card mb10">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="font-size:28px">${t.icon||'📱'}</div>
+        <div style="flex:1">
+          <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#0f172a">${t.title}</div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px">${t.platform} · Reward: <strong style="color:#059669">$${parseFloat(t.reward||0).toFixed(2)}</strong></div>
+        </div>
+        <div style="background:linear-gradient(135deg,#059669,#047857);color:#fff;border-radius:10px;padding:5px 10px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif">$${parseFloat(t.reward||0).toFixed(2)}</div>
+      </div>
+      <div style="background:#f8fafc;border-radius:10px;padding:10px;font-size:12px;color:#475569;margin-bottom:10px;line-height:1.6">${t.description}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:11px;color:#94a3b8">Workers: ${t.currentWorkers||0}/${t.maxWorkers||'∞'}</div>
+        <a href="${t.link}" target="_blank" style="background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.2);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:#2563eb;text-decoration:none">Open Link →</a>
+      </div>
+      <div style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,.1);border-radius:8px;padding:8px 10px;margin-bottom:10px">⚠️ After completing, send screenshot to WhatsApp for approval</div>
+      <button onclick="submitTaskProof('${id}','${t.title}','${t.reward}')" style="width:100%;background:linear-gradient(135deg,#25D366,#128C7E);border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'DM Sans',sans-serif">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Done! Send Proof on WhatsApp
+      </button>
+    </div>`).join('');
+
+    // Load my submissions
+    loadMySubmissions();
+  } catch(e){ el.innerHTML='<div class="card" style="text-align:center;padding:20px;color:#94a3b8;font-size:13px">Error loading tasks.</div>'; }
+}
+
+async function loadMySubmissions(){
+  const el = document.getElementById('mySubmissions');
+  if(!el||!S.user) return;
+  const snap = await fDB.ref('submissions').orderByChild('uid').equalTo(S.user.uid).once('value');
+  const subs = snap.val()||{};
+  const list = Object.values(subs).sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
+  if(!list.length){ el.innerHTML='<div style="font-size:12px;color:#64748b;text-align:center;padding:10px">No submissions yet.</div>'; return; }
+  el.innerHTML = list.map(s=>`
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f1f5f9">
+    <div><div style="font-size:13px;font-weight:600;color:#0f172a">${s.taskTitle}</div><div style="font-size:11px;color:#94a3b8;margin-top:2px">${new Date(s.createdAt).toLocaleDateString()}</div></div>
+    <div style="font-size:12px;font-weight:700;padding:4px 10px;border-radius:8px;${s.status==='approved'?'background:#f0fdf4;color:#059669':s.status==='rejected'?'background:#fef2f2;color:#dc2626':'background:#fefce8;color:#d97706'}">${s.status==='approved'?'✅ Approved':s.status==='rejected'?'❌ Rejected':'⏳ Pending'}</div>
+  </div>`).join('');
+}
+
+function submitTaskProof(taskId, taskTitle, reward){
+  const uid = S.user?.uid||'unknown';
+  const email = S.user?.email||'unknown';
+  const subId = 'SUB-'+Date.now();
+  // Save submission to Firebase
+  fDB.ref('submissions/'+subId).set({
+    subId, taskId, taskTitle, reward:parseFloat(reward), uid, email,
+    status:'pending', createdAt:Date.now()
+  });
+  // Open WhatsApp
+  const WA = '8801XXXXXXXXX'; // তোমার WhatsApp number দাও
+  const msg = `📱 *Social Task Proof — EarnZone Pro*\n\n*Submission ID:* ${subId}\n*Task:* ${taskTitle}\n*Reward:* $${reward}\n*User:* ${email}\n\n📸 Screenshot attached below 👇`;
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
+  showToast('📱 Proof sent! Wait for approval.','green',4000);
+}
+
 // ─── FAQ PAGE ─────────────────────────────────────────
 function buildFAQ(){
   const faqs=[
@@ -2493,6 +2594,15 @@ function buildAdmin(){
   <div id="adminContent"><div class="empty"><div class="ein">⏳</div></div></div>`;
 }
 
+// ─── ADMIN PAGE ───────────────────────────────────────
+function buildAdmin(){
+  const tabs=['users','ws','ns','wls','ofs','orders','tasks','sett'];
+  const tabLabels={users:T('us'),ws:T('ws'),ns:T('ns'),wls:T('wls'),ofs:T('ofs'),orders:'🛒 Orders',tasks:'📱 Tasks','sett':'⚙️ Settings'};
+  return `<div class="ph"><div class="pt">⚙️ ${T('ap')}</div></div>
+  <div class="ats">${tabs.map(t=>`<button class="at-btn${S.adminTab===t?' on':''}" data-atab="${t}">${tabLabels[t]||t}</button>`).join('')}</div>
+  <div id="adminContent"><div class="empty"><div class="ein">⏳</div></div></div>`;
+}
+
 async function loadAdminContent(){
   const c=$('#adminContent'); if(!c) return;
   if(S.adminTab==='users') await loadAdminUsers(c);
@@ -2500,7 +2610,179 @@ async function loadAdminContent(){
   else if(S.adminTab==='ns') loadAdminNotices(c);
   else if(S.adminTab==='wls') loadAdminWalls(c);
   else if(S.adminTab==='ofs') await loadAdminOffers(c);
+  else if(S.adminTab==='orders') await loadAdminOrders(c);
+  else if(S.adminTab==='tasks') await loadAdminTasks(c);
   else if(S.adminTab==='sett') await loadAdminSettings(c);
+}
+
+// ─── ADMIN ORDERS ─────────────────────────────────────
+async function loadAdminOrders(c){
+  const snap = await fDB.ref('orders').orderByChild('createdAt').once('value');
+  const data = snap.val()||{};
+  const orders = Object.entries(data).sort((a,b)=>b[1].createdAt-a[1].createdAt);
+  if(!orders.length){ c.innerHTML='<div class="empty"><div class="ein">📭</div><div>No orders yet</div></div>'; return; }
+  c.innerHTML = orders.map(([id,o])=>`
+  <div class="card mb10">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+      <div>
+        <div style="font-size:11px;color:#94a3b8;font-weight:600">${id}</div>
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#0f172a;margin-top:2px">${o.platform} — ${o.service}</div>
+      </div>
+      <div style="font-size:13px;font-weight:700;padding:4px 10px;border-radius:8px;${o.status==='approved'?'background:#f0fdf4;color:#059669':o.status==='rejected'?'background:#fef2f2;color:#dc2626':'background:#fefce8;color:#d97706'}">${o.status==='approved'?'✅ Done':o.status==='rejected'?'❌ Rejected':'⏳ Pending'}</div>
+    </div>
+    <div style="font-size:12px;color:#475569;line-height:1.8">
+      <div>👤 <strong>${o.name}</strong> · 📞 ${o.phone}</div>
+      <div>📦 Qty: <strong>${o.qty?.toLocaleString()}</strong> · 💰 <strong>$${parseFloat(o.price||0).toFixed(2)}</strong></div>
+      <div>🔗 <a href="${o.link}" target="_blank" style="color:#2563eb">${o.link?.substring(0,40)}…</a></div>
+      ${o.notes?`<div>📝 ${o.notes}</div>`:''}
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button onclick="updateOrder('${id}','approved')" style="flex:1;background:linear-gradient(135deg,#059669,#047857);border:none;border-radius:9px;padding:8px;font-size:12px;font-weight:700;color:#fff;cursor:pointer">✅ Approve</button>
+      <button onclick="updateOrder('${id}','rejected')" style="flex:1;background:linear-gradient(135deg,#dc2626,#b91c1c);border:none;border-radius:9px;padding:8px;font-size:12px;font-weight:700;color:#fff;cursor:pointer">❌ Reject</button>
+      <button onclick="deleteOrder('${id}')" style="background:#f1f5f9;border:none;border-radius:9px;padding:8px 12px;font-size:12px;font-weight:700;color:#64748b;cursor:pointer">🗑️</button>
+    </div>
+  </div>`).join('');
+}
+
+async function updateOrder(id, status){
+  await fDB.ref('orders/'+id+'/status').set(status);
+  showToast(status==='approved'?'✅ Order approved!':'❌ Order rejected','green');
+  loadAdminOrders($('#adminContent'));
+}
+
+async function deleteOrder(id){
+  if(!confirm('Delete this order?')) return;
+  await fDB.ref('orders/'+id).remove();
+  showToast('🗑️ Order deleted','blue');
+  loadAdminOrders($('#adminContent'));
+}
+
+// ─── ADMIN SOCIAL TASKS ───────────────────────────────
+async function loadAdminTasks(c){
+  const snap = await fDB.ref('socialTasks').once('value');
+  const data = snap.val()||{};
+  const tasks = Object.entries(data).sort((a,b)=>b[1].createdAt-a[1].createdAt);
+
+  // Add task form
+  let html = `<div class="card mb12">
+    <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#1e40af;margin-bottom:14px">➕ Add New Task</div>
+    <label style="font-size:12px;color:#475569;display:block;margin-bottom:4px;font-weight:600">Task Title *</label>
+    <input id="tTitle" type="text" placeholder="e.g. Subscribe to our YouTube channel" style="width:100%;padding:10px 13px;border:1.5px solid #dbeafe;border-radius:10px;font-size:13px;background:#f8fafc;color:#0f172a;outline:none;font-family:inherit;margin-bottom:10px">
+    <label style="font-size:12px;color:#475569;display:block;margin-bottom:4px;font-weight:600">Platform</label>
+    <select id="tPlatform" style="width:100%;padding:10px 13px;border:1.5px solid #dbeafe;border-radius:10px;font-size:13px;background:#f8fafc;color:#0f172a;outline:none;font-family:inherit;margin-bottom:10px">
+      <option value="🔵 Facebook">🔵 Facebook</option>
+      <option value="🔴 YouTube">🔴 YouTube</option>
+      <option value="💜 Instagram">💜 Instagram</option>
+    </select>
+    <label style="font-size:12px;color:#475569;display:block;margin-bottom:4px;font-weight:600">Task Link *</label>
+    <input id="tLink" type="url" placeholder="https://youtube.com/channel/..." style="width:100%;padding:10px 13px;border:1.5px solid #dbeafe;border-radius:10px;font-size:13px;background:#f8fafc;color:#0f172a;outline:none;font-family:inherit;margin-bottom:10px">
+    <label style="font-size:12px;color:#475569;display:block;margin-bottom:4px;font-weight:600">Description</label>
+    <input id="tDesc" type="text" placeholder="e.g. Subscribe and keep subscribed for 30 days" style="width:100%;padding:10px 13px;border:1.5px solid #dbeafe;border-radius:10px;font-size:13px;background:#f8fafc;color:#0f172a;outline:none;font-family:inherit;margin-bottom:10px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div>
+        <label style="font-size:12px;color:#475569;display:block;margin-bottom:4px;font-weight:600">Reward ($)</label>
+        <input id="tReward" type="number" placeholder="0.10" step="0.01" min="0.01" style="width:100%;padding:10px 13px;border:1.5px solid #dbeafe;border-radius:10px;font-size:13px;background:#f8fafc;color:#0f172a;outline:none;font-family:inherit">
+      </div>
+      <div>
+        <label style="font-size:12px;color:#475569;display:block;margin-bottom:4px;font-weight:600">Max Workers</label>
+        <input id="tMax" type="number" placeholder="100" min="1" style="width:100%;padding:10px 13px;border:1.5px solid #dbeafe;border-radius:10px;font-size:13px;background:#f8fafc;color:#0f172a;outline:none;font-family:inherit">
+      </div>
+    </div>
+    <button onclick="addSocialTask()" class="btn bp bau">➕ Add Task</button>
+  </div>
+
+  <!-- Submissions Review -->
+  <div class="card mb12">
+    <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#1e40af;margin-bottom:12px">📋 Pending Submissions</div>
+    <div id="pendingSubmissions"><div style="font-size:12px;color:#64748b;text-align:center;padding:16px">Loading…</div></div>
+  </div>
+
+  <!-- Existing Tasks -->
+  <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#475569;margin-bottom:10px">📱 Active Tasks (${tasks.length})</div>`;
+
+  html += tasks.map(([id,t])=>`
+  <div class="card mb10">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700">${t.title}</div>
+      <div style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;${t.status==='active'?'background:#f0fdf4;color:#059669':'background:#fef2f2;color:#dc2626'}">${t.status}</div>
+    </div>
+    <div style="font-size:12px;color:#475569;margin-bottom:8px">${t.platform} · $${t.reward} · Workers: ${t.currentWorkers||0}/${t.maxWorkers}</div>
+    <div style="display:flex;gap:8px">
+      <button onclick="toggleTask('${id}','${t.status}')" style="flex:1;background:${t.status==='active'?'#fef2f2':'#f0fdf4'};border:1px solid ${t.status==='active'?'#fca5a5':'#86efac'};border-radius:8px;padding:7px;font-size:11px;font-weight:700;color:${t.status==='active'?'#dc2626':'#059669'};cursor:pointer">${t.status==='active'?'⏸ Pause':'▶ Activate'}</button>
+      <button onclick="deleteTask('${id}')" style="background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;color:#64748b;cursor:pointer">🗑️</button>
+    </div>
+  </div>`).join('');
+
+  c.innerHTML = html;
+  loadPendingSubmissions();
+}
+
+async function loadPendingSubmissions(){
+  const el = document.getElementById('pendingSubmissions');
+  if(!el) return;
+  const snap = await fDB.ref('submissions').orderByChild('status').equalTo('pending').once('value');
+  const data = snap.val()||{};
+  const list = Object.entries(data).sort((a,b)=>b[1].createdAt-a[1].createdAt);
+  if(!list.length){ el.innerHTML='<div style="font-size:12px;color:#64748b;text-align:center;padding:10px">No pending submissions</div>'; return; }
+  el.innerHTML = list.map(([id,s])=>`
+  <div style="padding:12px 0;border-bottom:1px solid #f1f5f9">
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+      <div style="font-size:13px;font-weight:600">${s.taskTitle}</div>
+      <div style="font-size:12px;font-weight:700;color:#059669">$${parseFloat(s.reward||0).toFixed(2)}</div>
+    </div>
+    <div style="font-size:11px;color:#64748b;margin-bottom:8px">👤 ${s.email} · ${new Date(s.createdAt).toLocaleDateString()}</div>
+    <div style="display:flex;gap:8px">
+      <button onclick="approveSubmission('${id}','${s.uid}',${s.reward})" style="flex:1;background:linear-gradient(135deg,#059669,#047857);border:none;border-radius:8px;padding:7px;font-size:11px;font-weight:700;color:#fff;cursor:pointer">✅ Approve + Pay</button>
+      <button onclick="rejectSubmission('${id}')" style="flex:1;background:linear-gradient(135deg,#dc2626,#b91c1c);border:none;border-radius:8px;padding:7px;font-size:11px;font-weight:700;color:#fff;cursor:pointer">❌ Reject</button>
+    </div>
+  </div>`).join('');
+}
+
+async function approveSubmission(subId, uid, reward){
+  await fDB.ref('submissions/'+subId+'/status').set('approved');
+  await fDB.ref('users/'+uid+'/usdEarned').transaction(v=>(v||0)+parseFloat(reward));
+  await fDB.ref('stats/totalEarned').transaction(v=>(v||0)+parseFloat(reward));
+  showToast('✅ Approved! $'+parseFloat(reward).toFixed(2)+' added','green');
+  loadPendingSubmissions();
+}
+
+async function rejectSubmission(subId){
+  await fDB.ref('submissions/'+subId+'/status').set('rejected');
+  showToast('❌ Submission rejected','blue');
+  loadPendingSubmissions();
+}
+
+async function addSocialTask(){
+  const title=document.getElementById('tTitle')?.value?.trim();
+  const platform=document.getElementById('tPlatform')?.value;
+  const link=document.getElementById('tLink')?.value?.trim();
+  const desc=document.getElementById('tDesc')?.value?.trim();
+  const reward=parseFloat(document.getElementById('tReward')?.value||0);
+  const maxW=parseInt(document.getElementById('tMax')?.value||100);
+  if(!title||!link||!reward){ showToast('Fill all required fields','blue'); return; }
+  const id='TASK-'+Date.now();
+  await fDB.ref('socialTasks/'+id).set({
+    id, title, platform, link, description:desc||title,
+    reward, maxWorkers:maxW, currentWorkers:0,
+    icon: platform.includes('Facebook')?'🔵':platform.includes('YouTube')?'🔴':'💜',
+    status:'active', createdAt:Date.now()
+  });
+  showToast('✅ Task added!','green');
+  loadAdminTasks($('#adminContent'));
+}
+
+async function toggleTask(id, currentStatus){
+  const newStatus = currentStatus==='active'?'paused':'active';
+  await fDB.ref('socialTasks/'+id+'/status').set(newStatus);
+  showToast(newStatus==='active'?'▶ Task activated':'⏸ Task paused','blue');
+  loadAdminTasks($('#adminContent'));
+}
+
+async function deleteTask(id){
+  if(!confirm('Delete this task?')) return;
+  await fDB.ref('socialTasks/'+id).remove();
+  showToast('🗑️ Task deleted','blue');
+  loadAdminTasks($('#adminContent'));
 }
 
 async function loadAdminUsers(c){

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Place Order — EarnZone Pro</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%232563eb'/><stop offset='100%25' stop-color='%23059669'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23g)'/><text y='.9em' font-size='70' x='15' fill='white' font-family='serif'>◆</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#f0f7ff;color:#0f172a;font-family:'DM Sans',sans-serif}
+.nav{background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-bottom:2px solid #bfdbfe;padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:0 2px 12px rgba(37,99,235,.08)}
+.brand{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;background:linear-gradient(135deg,#2563eb,#059669);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+.back{background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:9px;padding:6px 14px;font-size:12px;color:#2563eb;font-weight:600;text-decoration:none}
+.wrap{max-width:600px;margin:0 auto;padding:24px 16px 80px}
+.hero{background:linear-gradient(135deg,#1e40af,#059669);border-radius:20px;padding:24px;margin-bottom:20px;text-align:center}
+.hero h1{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:4px}
+.hero p{font-size:12px;color:rgba(255,255,255,.75)}
+.card{background:#fff;border:1.5px solid #dbeafe;border-radius:17px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(37,99,235,.06)}
+.card h2{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#1e40af;margin-bottom:14px}
+label{font-size:12px;color:#475569;display:block;margin-bottom:5px;font-weight:600}
+input,select,textarea{width:100%;background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:11px;padding:11px 14px;color:#0f172a;font-size:14px;outline:none;font-family:'DM Sans',sans-serif;display:block;margin-bottom:13px;transition:border .18s}
+input:focus,select:focus,textarea:focus{border-color:#2563eb;background:#fff}
+textarea{resize:none;min-height:80px}
+.pkg-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:13px}
+.pkg{border:2px solid #dbeafe;border-radius:12px;padding:12px;cursor:pointer;text-align:center;transition:all .18s;background:#fff}
+.pkg.selected{border-color:#2563eb;background:#eff6ff}
+.pkg .qty{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#0f172a}
+.pkg .price{font-size:13px;color:#2563eb;font-weight:600;margin-top:3px}
+.pkg .per{font-size:10px;color:#94a3b8;margin-top:2px}
+.summary{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1.5px solid #bfdbfe;border-radius:14px;padding:14px;margin-bottom:14px}
+.summary-row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0}
+.summary-row.total{font-weight:700;font-size:15px;color:#1e40af;border-top:1px solid #bfdbfe;margin-top:6px;padding-top:8px}
+.pay-info{background:#fefce8;border:1.5px solid #fde047;border-radius:12px;padding:14px;margin-bottom:14px;font-size:13px;color:#713f12}
+.pay-info strong{display:block;margin-bottom:4px;color:#92400e}
+.btn{width:100%;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;box-shadow:0 4px 14px rgba(37,99,235,.3);transition:opacity .18s}
+.btn:hover{opacity:.9}
+.btn-primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.success-screen{display:none;text-align:center;padding:30px 20px}
+.success-screen .ico{font-size:60px;margin-bottom:16px}
+.success-screen h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#059669;margin-bottom:10px}
+.success-screen p{font-size:13px;color:#475569;line-height:1.7;margin-bottom:20px}
+.wa-btn{display:inline-flex;align-items:center;gap:10px;background:#25D366;border:none;border-radius:12px;padding:13px 24px;font-size:14px;font-weight:700;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;margin-bottom:12px}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="services.html" class="brand">◆ EarnZone Pro</a>
+  <a href="services.html" class="back">← Services</a>
+</nav>
+<div class="wrap">
+
+  <!-- Order Form -->
+  <div id="orderForm">
+    <div class="hero">
+      <h1>🛒 Place Your Order</h1>
+      <p>Fill in the details below to get started</p>
+    </div>
+
+    <!-- Step 1: Service -->
+    <div class="card">
+      <h2>1️⃣ Select Service</h2>
+      <label>Platform</label>
+      <select id="platform" onchange="updateService()">
+        <option value="">— Choose Platform —</option>
+        <option value="facebook">🔵 Facebook</option>
+        <option value="youtube">🔴 YouTube</option>
+        <option value="instagram">💜 Instagram</option>
+      </select>
+      <label>Service Type</label>
+      <select id="serviceType" onchange="updatePackages()">
+        <option value="">— Choose Service —</option>
+      </select>
+    </div>
+
+    <!-- Step 2: Package -->
+    <div class="card">
+      <h2>2️⃣ Select Package</h2>
+      <div class="pkg-grid" id="pkgGrid">
+        <div style="grid-column:1/-1;text-align:center;color:#94a3b8;font-size:13px;padding:20px">Select service first</div>
+      </div>
+    </div>
+
+    <!-- Step 3: Details -->
+    <div class="card">
+      <h2>3️⃣ Your Details</h2>
+      <label>Your Name *</label>
+      <input type="text" id="buyerName" placeholder="Enter your full name">
+      <label>WhatsApp Number *</label>
+      <input type="tel" id="buyerPhone" placeholder="+880 1XXX-XXXXXX">
+      <label>Social Media Link *</label>
+      <input type="url" id="socialLink" placeholder="https://facebook.com/yourpage">
+      <label>Special Instructions (optional)</label>
+      <textarea id="notes" placeholder="e.g. Comments in English only, followers from Bangladesh..."></textarea>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="summary" id="summaryBox" style="display:none">
+      <div class="summary-row"><span>Service</span><span id="sumService">—</span></div>
+      <div class="summary-row"><span>Quantity</span><span id="sumQty">—</span></div>
+      <div class="summary-row total"><span>Total</span><span id="sumTotal">—</span></div>
+    </div>
+
+    <!-- Payment Info -->
+    <div class="pay-info">
+      <strong>💳 Payment Instructions</strong>
+      After placing order, send payment to:<br>
+      <strong>bKash:</strong> 01XXXXXXXXX (Personal)<br>
+      <strong>Nagad:</strong> 01XXXXXXXXX<br>
+      <em style="font-size:11px">⚠️ Replace with your actual bKash/Nagad number</em>
+    </div>
+
+    <button class="btn btn-primary" id="placeOrderBtn" onclick="placeOrder()">🚀 Place Order</button>
+  </div>
+
+  <!-- Success Screen -->
+  <div id="successScreen" class="success-screen">
+    <div class="ico">✅</div>
+    <h2>Order Placed!</h2>
+    <p id="successMsg">Your order has been received. Please send payment and screenshot to our WhatsApp to confirm your order.</p>
+    <a id="whatsappBtn" href="#" class="wa-btn" target="_blank">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Send Payment Proof on WhatsApp
+    </a>
+    <br>
+    <a href="services.html" style="font-size:13px;color:#2563eb">← Back to Services</a>
+  </div>
+</div>
+
+<script>
+// ── CONFIG — তোমার WhatsApp number এখানে দাও ──
+const WA_NUMBER = '8801XXXXXXXXX'; // e.g. 8801712345678
+
+const SERVICES = {
+  facebook: {
+    label: '🔵 Facebook',
+    types: {
+      fb_like: { name: 'Page Likes', packages: [{qty:100,price:0.50},{qty:500,price:2.00},{qty:1000,price:3.50},{qty:5000,price:15.00}] },
+      fb_follow: { name: 'Followers', packages: [{qty:100,price:0.80},{qty:500,price:3.00},{qty:1000,price:5.00},{qty:5000,price:22.00}] },
+      fb_comment: { name: 'Comments', packages: [{qty:10,price:0.50},{qty:50,price:2.00},{qty:100,price:3.50}] },
+      fb_share: { name: 'Post Shares', packages: [{qty:50,price:0.50},{qty:200,price:1.50},{qty:500,price:3.00}] },
+    }
+  },
+  youtube: {
+    label: '🔴 YouTube',
+    types: {
+      yt_sub: { name: 'Subscribers', packages: [{qty:100,price:1.50},{qty:500,price:6.00},{qty:1000,price:10.00},{qty:5000,price:45.00}] },
+      yt_like: { name: 'Video Likes', packages: [{qty:100,price:0.80},{qty:500,price:3.50},{qty:1000,price:6.00}] },
+      yt_view: { name: 'Views', packages: [{qty:1000,price:1.00},{qty:5000,price:4.00},{qty:10000,price:7.00}] },
+      yt_comment: { name: 'Comments', packages: [{qty:10,price:1.00},{qty:50,price:4.00},{qty:100,price:7.00}] },
+    }
+  },
+  instagram: {
+    label: '💜 Instagram',
+    types: {
+      ig_follow: { name: 'Followers', packages: [{qty:100,price:1.00},{qty:500,price:4.00},{qty:1000,price:7.00},{qty:5000,price:30.00}] },
+      ig_like: { name: 'Post Likes', packages: [{qty:100,price:0.50},{qty:500,price:2.00},{qty:1000,price:3.50}] },
+    }
+  }
+};
+
+let selectedPkg = null;
+
+// Pre-select from URL
+const urlParams = new URLSearchParams(location.search);
+const preType = urlParams.get('type');
+if(preType){
+  const platform = preType.split('_')[0]==='fb'?'facebook':preType.split('_')[0]==='yt'?'youtube':'instagram';
+  document.getElementById('platform').value = platform;
+  updateService();
+  setTimeout(()=>{ document.getElementById('serviceType').value=preType; updatePackages(); },100);
+}
+
+function updateService(){
+  const plt = document.getElementById('platform').value;
+  const sel = document.getElementById('serviceType');
+  sel.innerHTML = '<option value="">— Choose Service —</option>';
+  if(!plt) return;
+  const types = SERVICES[plt]?.types||{};
+  Object.entries(types).forEach(([k,v])=>{
+    sel.innerHTML += `<option value="${k}">${v.name}</option>`;
+  });
+  updatePackages();
+}
+
+function updatePackages(){
+  const plt = document.getElementById('platform').value;
+  const svc = document.getElementById('serviceType').value;
+  const grid = document.getElementById('pkgGrid');
+  selectedPkg = null;
+  updateSummary();
+  if(!plt||!svc){ grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:#94a3b8;font-size:13px;padding:20px">Select service first</div>'; return; }
+  const pkgs = SERVICES[plt]?.types[svc]?.packages||[];
+  grid.innerHTML = pkgs.map((p,i)=>`
+    <div class="pkg" onclick="selectPkg(this,${i},'${plt}','${svc}')">
+      <div class="qty">${p.qty.toLocaleString()}</div>
+      <div class="price">$${p.price.toFixed(2)}</div>
+      <div class="per">$${(p.price/p.qty*100).toFixed(3)}/100</div>
+    </div>`).join('');
+}
+
+function selectPkg(el, idx, plt, svc){
+  document.querySelectorAll('.pkg').forEach(p=>p.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPkg = { ...SERVICES[plt].types[svc].packages[idx], svcName: SERVICES[plt].types[svc].name, platform: SERVICES[plt].label };
+  updateSummary();
+}
+
+function updateSummary(){
+  const box = document.getElementById('summaryBox');
+  if(!selectedPkg){ box.style.display='none'; return; }
+  box.style.display='block';
+  document.getElementById('sumService').textContent = selectedPkg.platform+' — '+selectedPkg.svcName;
+  document.getElementById('sumQty').textContent = selectedPkg.qty.toLocaleString();
+  document.getElementById('sumTotal').textContent = '$'+selectedPkg.price.toFixed(2);
+}
+
+async function placeOrder(){
+  const name = document.getElementById('buyerName').value.trim();
+  const phone = document.getElementById('buyerPhone').value.trim();
+  const link = document.getElementById('socialLink').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+  if(!name||!phone||!link){ alert('Please fill Name, WhatsApp and Social Media Link.'); return; }
+  if(!selectedPkg){ alert('Please select a package.'); return; }
+
+  const btn = document.getElementById('placeOrderBtn');
+  btn.disabled=true;
+  btn.innerHTML='<span style="display:inline-flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .7s linear infinite"><path d="M12 2a10 10 0 0 1 10 10"/></svg> Processing…</span>';
+
+  // Save to Firebase
+  try{
+    const orderId = 'ORD-'+Date.now();
+    const orderData = {
+      orderId, name, phone, link, notes,
+      platform: selectedPkg.platform,
+      service: selectedPkg.svcName,
+      qty: selectedPkg.qty,
+      price: selectedPkg.price,
+      status: 'pending',
+      createdAt: Date.now()
+    };
+
+    // Firebase save
+    if(typeof firebase !== 'undefined'){
+      await firebase.database().ref('orders/'+orderId).set(orderData);
+    }
+
+    // Show success
+    document.getElementById('orderForm').style.display='none';
+    document.getElementById('successScreen').style.display='block';
+    document.getElementById('successMsg').textContent =
+      `Order #${orderId} received!\nService: ${selectedPkg.platform} — ${selectedPkg.svcName}\nQuantity: ${selectedPkg.qty}\nTotal: $${selectedPkg.price.toFixed(2)}\n\nSend payment and this order ID to our WhatsApp to confirm.`;
+
+    // WhatsApp message
+    const msg = `🛒 *New Order — EarnZone Pro*\n\n*Order ID:* ${orderId}\n*Name:* ${name}\n*Phone:* ${phone}\n*Service:* ${selectedPkg.platform} — ${selectedPkg.svcName}\n*Quantity:* ${selectedPkg.qty}\n*Total:* $${selectedPkg.price.toFixed(2)}\n*Link:* ${link}\n*Notes:* ${notes||'None'}\n\n✅ Payment sent. Please confirm.`;
+    document.getElementById('whatsappBtn').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+
+  } catch(e){
+    alert('Error placing order. Please try again.');
+    btn.disabled=false;
+    btn.innerHTML='🚀 Place Order';
+  }
+}
+</script>
+</body>
+</html>

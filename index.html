@@ -1048,7 +1048,28 @@ function finishAd(){
     cb();
   } else if(type==='withdraw' && cb){
     cb();
+  } else if(type==='socialUnlock'){
+    onAdCompleteForSocial();
   }
+}
+
+async function onAdCompleteForSocial(){
+  if(!S.user) return;
+  const uid=S.user.uid;
+  await fDB.ref(`users/${uid}/adsWatched`).transaction(v=>(v||0)+1);
+  const adsSnap=await fDB.ref(`users/${uid}/adsWatched`).once('value');
+  const totalAds=adsSnap.val()||0;
+  if(totalAds>=5){
+    const unlockAt=Date.now()+(24*60*60*1000);
+    await fDB.ref(`users/${uid}/socialUnlockAt`).set(unlockAt);
+    // Reload user data
+    const uSnap=await fDB.ref(`users/${uid}`).once('value');
+    S.userData=uSnap.val();
+    toast('✅ Social Tasks unlocked for 24 hours!','s');
+  } else {
+    toast(`📺 ${totalAds}/5 ads watched. ${5-totalAds} more to unlock!`,'s');
+  }
+  render();
 }
 
 async function onAdCompleteForWall(wallId){
@@ -2049,6 +2070,11 @@ function buildSidebar(){
   <a href="about.html" target="_blank" class="si" style="text-decoration:none;color:inherit"><span class="si-ico">🏢</span>About Us</a>
   <a href="contact.html" target="_blank" class="si" style="text-decoration:none;color:inherit"><span class="si-ico">📧</span>Contact</a>
   <a href="support.html" target="_blank" class="si" style="text-decoration:none;color:inherit"><span class="si-ico">🎫</span>Support</a>
+  <div class="sdb-sg">Services</div>
+  <a href="services.html" target="_blank" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1e40af,#065f46);border-radius:12px;padding:12px 14px;margin:0 0 8px;text-decoration:none">
+    <span style="font-size:18px">📱</span>
+    <div><div style="font-size:13px;font-weight:700;color:#fff">Need Followers?</div><div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:1px">Buy Facebook, YouTube, Instagram</div></div>
+  </a>
   ${ud.isAdmin?`<div class="sdb-sg">Admin</div><button class="si${S.page==='admin'?' on':''}" data-page="admin"><span class="si-ico">⚙️</span>${T('ap')}</button>`:''}
   <div style="margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,.07)">
   <button class="si" id="sbLang"><span class="si-ico">🌐</span>${T('ln')}: ${LANGS[S.lang]?.f||'🇺🇸'}</button>
@@ -2456,19 +2482,43 @@ async function loadNotices(){
 
 // ─── SOCIAL TASKS PAGE ────────────────────────────────
 function buildSocialTasks(){
+  const ud=S.userData||{};
+  const adsWatched=ud.adsWatched||0;
+  const unlockAt=ud.socialUnlockAt||0;
+  const now=Date.now();
+  const isUnlocked=unlockAt>now;
+
+  // Locked state — need to watch ads
+  if(!isUnlocked){
+    return `
+    <div class="ph">
+      <div class="pt">📱 Social Tasks</div>
+      <div class="ps">Complete social tasks & earn money</div>
+    </div>
+    <div class="card" style="text-align:center;padding:30px 20px">
+      <div style="font-size:48px;margin-bottom:14px">🔒</div>
+      <div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#0f172a;margin-bottom:8px">Social Tasks Locked</div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:20px;line-height:1.7">Watch <strong>5 ads</strong> to unlock Social Tasks for <strong>24 hours</strong></div>
+      <div style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:12px;margin-bottom:20px">
+        <div style="font-size:12px;color:#1e40af;font-weight:600">Ads watched: ${Math.min(adsWatched,5)}/5</div>
+        <div style="background:#dbeafe;border-radius:6px;height:6px;margin-top:8px;overflow:hidden">
+          <div style="background:linear-gradient(90deg,#2563eb,#059669);height:100%;width:${Math.min(adsWatched/5*100,100)}%;border-radius:6px"></div>
+        </div>
+      </div>
+      <button onclick="startAd(null,'socialUnlock',()=>{})" class="btn bp bau" style="width:100%">📺 Watch Ad to Unlock</button>
+    </div>`;
+  }
+
+  // Unlocked state
+  const remaining = Math.ceil((unlockAt-now)/3600000);
   return `
   <div class="ph">
     <div class="pt">📱 Social Tasks</div>
     <div class="ps">Complete social tasks & earn money</div>
   </div>
-
-  <!-- Buy Services Banner -->
-  <div style="background:linear-gradient(135deg,#1e40af,#065f46);border-radius:16px;padding:16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
-    <div>
-      <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fff;margin-bottom:3px">Need Followers?</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.7)">Buy Facebook, YouTube, Instagram services</div>
-    </div>
-    <a href="services.html" target="_blank" style="background:#fff;color:#2563eb;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;text-decoration:none;font-family:'Syne',sans-serif;flex-shrink:0">Buy Now</a>
+  <div style="background:rgba(5,150,105,.1);border:1.5px solid rgba(5,150,105,.3);border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+    <div style="font-size:20px">✅</div>
+    <div style="font-size:12px;color:#065f46;font-weight:600">Unlocked for ${remaining} more hour${remaining!==1?'s':''}</div>
   </div>
 
   <!-- Available Tasks -->
@@ -2493,29 +2543,42 @@ async function loadSocialTasks(){
       el.innerHTML='<div class="card" style="text-align:center;padding:30px"><div style="font-size:32px;margin-bottom:10px">😔</div><div style="font-size:13px;color:#64748b">No tasks available right now.<br>Check back soon!</div></div>';
       return;
     }
-    el.innerHTML = list.map(([id,t])=>`
-    <div class="card mb10">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-        <div style="font-size:28px">${t.icon||'📱'}</div>
-        <div style="flex:1">
-          <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#0f172a">${t.title}</div>
-          <div style="font-size:11px;color:#64748b;margin-top:2px">${t.platform} · Reward: <strong style="color:#059669">$${parseFloat(t.reward||0).toFixed(2)}</strong></div>
-        </div>
-        <div style="background:linear-gradient(135deg,#059669,#047857);color:#fff;border-radius:10px;padding:5px 10px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif">$${parseFloat(t.reward||0).toFixed(2)}</div>
-      </div>
-      <div style="background:#f8fafc;border-radius:10px;padding:10px;font-size:12px;color:#475569;margin-bottom:10px;line-height:1.6">${t.description}</div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <div style="font-size:11px;color:#94a3b8">Workers: ${t.currentWorkers||0}/${t.maxWorkers||'∞'}</div>
-        <a href="${t.link}" target="_blank" style="background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.2);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:#2563eb;text-decoration:none">Open Link →</a>
-      </div>
-      <div style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,.1);border-radius:8px;padding:8px 10px;margin-bottom:10px">⚠️ After completing, send screenshot to WhatsApp for approval</div>
-      <button onclick="submitTaskProof('${id}','${t.title}','${t.reward}')" style="width:100%;background:linear-gradient(135deg,#25D366,#128C7E);border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'DM Sans',sans-serif">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Done! Send Proof on WhatsApp
-      </button>
-    </div>`).join('');
 
-    // Load my submissions
+    // Get user's completed tasks
+    const uid = S.user?.uid;
+    let completedTasks = {};
+    if(uid){
+      const cSnap = await fDB.ref(`users/${uid}/completedTasks`).once('value');
+      completedTasks = cSnap.val()||{};
+    }
+
+    el.innerHTML = list.map(([id,t])=>{
+      const isDone = completedTasks[id]===true;
+      return `
+      <div class="card mb10" style="${isDone?'opacity:.6':''}">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="font-size:28px">${t.icon||'📱'}</div>
+          <div style="flex:1">
+            <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#0f172a">${t.title}</div>
+            <div style="font-size:11px;color:#64748b;margin-top:2px">${t.platform} · Reward: <strong style="color:#059669">$${parseFloat(t.reward||0).toFixed(2)}</strong></div>
+          </div>
+          <div style="background:${isDone?'#f1f5f9':'linear-gradient(135deg,#059669,#047857)'};color:${isDone?'#94a3b8':'#fff'};border-radius:10px;padding:5px 10px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif">${isDone?'✅ Done':'$'+parseFloat(t.reward||0).toFixed(2)}</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:10px;padding:10px;font-size:12px;color:#475569;margin-bottom:10px;line-height:1.6">${t.description}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div style="font-size:11px;color:#94a3b8">Workers: ${t.currentWorkers||0}/${t.maxWorkers||'∞'}</div>
+          ${isDone?'<div style="font-size:11px;color:#059669;font-weight:600">✅ Already completed</div>':`<a href="${t.link}" target="_blank" style="background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.2);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:#2563eb;text-decoration:none">Open Link →</a>`}
+        </div>
+        ${isDone
+          ? `<div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:10px;text-align:center;font-size:12px;font-weight:600;color:#059669">✅ You have already completed this task</div>`
+          : `<div style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,.1);border-radius:8px;padding:8px 10px;margin-bottom:10px">⚠️ After completing, send screenshot to WhatsApp for approval</div>
+        <button onclick="submitTaskProof('${id}','${t.title}','${t.reward}')" style="width:100%;background:linear-gradient(135deg,#25D366,#128C7E);border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'DM Sans',sans-serif">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Done! Send Proof on WhatsApp
+        </button>`}
+      </div>`;
+    }).join('');
+
     loadMySubmissions();
   } catch(e){ el.innerHTML='<div class="card" style="text-align:center;padding:20px;color:#94a3b8;font-size:13px">Error loading tasks.</div>'; }
 }
@@ -2596,8 +2659,8 @@ function buildAdmin(){
 
 // ─── ADMIN PAGE ───────────────────────────────────────
 function buildAdmin(){
-  const tabs=['users','ws','ns','wls','ofs','orders','tasks','sett'];
-  const tabLabels={users:T('us'),ws:T('ws'),ns:T('ns'),wls:T('wls'),ofs:T('ofs'),orders:'🛒 Orders',tasks:'📱 Tasks','sett':'⚙️ Settings'};
+  const tabs=['users','ws','ns','wls','orders','tasks','sett'];
+  const tabLabels={users:T('us'),ws:T('ws'),ns:T('ns'),wls:T('wls'),orders:'🛒 Orders',tasks:'📱 Tasks','sett':'⚙️ Settings'};
   return `<div class="ph"><div class="pt">⚙️ ${T('ap')}</div></div>
   <div class="ats">${tabs.map(t=>`<button class="at-btn${S.adminTab===t?' on':''}" data-atab="${t}">${tabLabels[t]||t}</button>`).join('')}</div>
   <div id="adminContent"><div class="empty"><div class="ein">⏳</div></div></div>`;
@@ -2742,6 +2805,10 @@ async function approveSubmission(subId, uid, reward){
   await fDB.ref('submissions/'+subId+'/status').set('approved');
   await fDB.ref('users/'+uid+'/usdEarned').transaction(v=>(v||0)+parseFloat(reward));
   await fDB.ref('stats/totalEarned').transaction(v=>(v||0)+parseFloat(reward));
+  // Mark task as completed for this user
+  const subSnap = await fDB.ref('submissions/'+subId).once('value');
+  const taskId = subSnap.val()?.taskId;
+  if(taskId) await fDB.ref(`users/${uid}/completedTasks/${taskId}`).set(true);
   showToast('✅ Approved! $'+parseFloat(reward).toFixed(2)+' added','green');
   loadPendingSubmissions();
 }

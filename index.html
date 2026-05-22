@@ -124,7 +124,7 @@ select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+x
 .hg2{position:absolute;bottom:-22px;left:-22px;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.1),transparent);pointer-events:none}
 
 /* STATS GRID */
-.sgd{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.sgd{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:12px}
 .sc{border:none;border-radius:14px;padding:11px 12px;box-shadow:0 4px 14px rgba(0,0,0,.10)}
 .sc-i{font-size:18px;margin-bottom:4px}.sc-v{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:#fff}.sc-l{font-size:10px;color:rgba(255,255,255,.75);margin-top:1px}
 .sc-1{background:linear-gradient(135deg,#2563eb,#1d4ed8)}
@@ -1056,15 +1056,16 @@ function finishAd(){
 async function onAdCompleteForSocial(){
   if(!S.user) return;
   const uid=S.user.uid;
-  await fDB.ref(`users/${uid}/adsWatched`).transaction(v=>(v||0)+1);
-  const adsSnap=await fDB.ref(`users/${uid}/adsWatched`).once('value');
-  const totalAds=adsSnap.val()||0;
+  // localStorage এ save — Firebase call নেই
+  const key=`ez_ads_social_${uid}`;
+  const totalAds=(parseInt(localStorage.getItem(key)||'0'))+1;
+  localStorage.setItem(key, totalAds);
   if(totalAds>=5){
     const unlockAt=Date.now()+(24*60*60*1000);
     await fDB.ref(`users/${uid}/socialUnlockAt`).set(unlockAt);
-    // Reload user data
     const uSnap=await fDB.ref(`users/${uid}`).once('value');
     S.userData=uSnap.val();
+    localStorage.setItem(key,'0'); // reset
     toast('✅ Social Tasks unlocked for 24 hours!','s');
   } else {
     toast(`📺 ${totalAds}/5 ads watched. ${5-totalAds} more to unlock!`,'s');
@@ -1085,8 +1086,9 @@ async function onAdCompleteForWall(wallId){
     return;
   }
   prog.count=(prog.count||0)+1;
-  // Also increment global adsWatched
-  await fDB.ref(`users/${uid}/adsWatched`).transaction(v=>(v||0)+1);
+  // localStorage এ ads count — Firebase call নেই
+  const adsKey=`ez_ads_wall_${uid}`;
+  localStorage.setItem(adsKey, (parseInt(localStorage.getItem(adsKey)||'0')+1).toString());
   if(prog.count>=CFG.adsPerWall){
     prog.count=0;
     prog.unlockedAt=Date.now();
@@ -1802,8 +1804,9 @@ async function checkActiveReferrals(){
   const refs=S.userData.pendingReferrals||{};
   let active=0;
   for(const uid of Object.keys(refs)){
-    const snap=await fDB.ref(`users/${uid}/adsWatched`).once('value');
-    if((snap.val()||0)>0) active++;
+    // localStorage থেকে check — Firebase call নেই
+    const ads=parseInt(localStorage.getItem(`ez_ads_wall_${uid}`)||'0');
+    if(ads>0) active++;
   }
   if(active!==(S.userData.activeReferrals||0)){
     await fDB.ref(`users/${S.user.uid}/activeReferrals`).set(active);
@@ -2153,7 +2156,6 @@ function buildHome(){
     <div style="font-size:12px;color:#475569;margin-top:4px">Rate: ${fmt$(S.countryEarn)} per offer · ${S.country||'Detecting…'}</div>
   </div>
   <div class="sgd">
-    <div class="sc sc-1"><div class="sc-i">📺</div><div class="sc-v cp">${ud.adsWatched||0}</div><div class="sc-l">${T('aw')}</div></div>
     <div class="sc sc-2"><div class="sc-i">✅</div><div class="sc-v cgr">${ud.offersCompleted||0}</div><div class="sc-l">${T('oc')}</div></div>
     <div class="sc sc-3"><div class="sc-i">👥</div><div class="sc-v cb">${ud.activeReferrals||0}</div><div class="sc-l">${T('refCount')}</div></div>
     <div class="sc sc-4"><div class="sc-i">💵</div><div class="sc-v cy">${fmt$(todayEarn)}</div><div class="sc-l">${T('todayEarn')}</div></div>
@@ -2540,7 +2542,8 @@ async function loadNotices(){
 // ─── SOCIAL TASKS PAGE ────────────────────────────────
 function buildSocialTasks(){
   const ud=S.userData||{};
-  const adsWatched=ud.adsWatched||0;
+  const uid=S.user?.uid||'';
+  const adsWatched=parseInt(localStorage.getItem(`ez_ads_social_${uid}`)||'0');
   const unlockAt=ud.socialUnlockAt||0;
   const now=Date.now();
   const isUnlocked=unlockAt>now;

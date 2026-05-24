@@ -370,6 +370,63 @@ const CFG = {
   hiCC:['US','GB','CA','AU','DE','FR','NL','SE','NO','DK','CH','AT','SG','JP','NZ','IE'],
   methods:['bkash','nagad','paypal','visa','payoneer','usdt','opay','binance'],
   methodEmoji:{bkash:'🇧🇩 bKash',nagad:'💚 Nagad',paypal:'💳 PayPal',visa:'🔵 Visa Card',payoneer:'🏦 Payoneer',usdt:'💎 USDT',opay:'🇳🇬 OPay',binance:'🟡 Binance'},
+  // ── OFFERWALL CONFIG — এখানে link বসাও, admin panel লাগবে না ──
+  walls:[
+    {
+      id:'w1', icon:'🔥', color:'#ef4444',
+      defaultName:'CPAGrip Offers',
+      defaultDesc:'Complete offers & earn cash',
+      defaultIframe:'',   // ← iframe URL বসাও
+      defaultScript:'',   // ← script code বসাও
+      defaultRSS:'cpagrip', // ← RSS platform (cpagrip চালু আছে)
+      embedMode:'rss'
+    },
+    {
+      id:'w2', icon:'📱', color:'#8b5cf6',
+      defaultName:'OGAds Offers',
+      defaultDesc:'Mobile content offers',
+      defaultIframe:'',   // ← iframe URL বসাও
+      defaultScript:'',
+      defaultRSS:'',
+      embedMode:'iframe'
+    },
+    {
+      id:'w3', icon:'🎯', color:'#2563eb',
+      defaultName:'AdGate Offers',
+      defaultDesc:'Surveys & tasks',
+      defaultIframe:'',   // ← iframe URL বসাও
+      defaultScript:'',
+      defaultRSS:'',
+      embedMode:'iframe'
+    },
+    {
+      id:'w4', icon:'⭐', color:'#f59e0b',
+      defaultName:'MyLead Offers',
+      defaultDesc:'Complete tasks to earn',
+      defaultIframe:'',   // ← iframe URL বসাও
+      defaultScript:'',
+      defaultRSS:'',
+      embedMode:'iframe'
+    },
+    {
+      id:'w5', icon:'💚', color:'#10b981',
+      defaultName:'Adscend Offers',
+      defaultDesc:'Earn with surveys',
+      defaultIframe:'',   // ← iframe URL বসাও
+      defaultScript:'',
+      defaultRSS:'',
+      embedMode:'iframe'
+    },
+    {
+      id:'w6', icon:'👑', color:'#ec4899',
+      defaultName:'Premium Offers',
+      defaultDesc:'High paying tasks',
+      defaultIframe:'',   // ← iframe URL বসাও
+      defaultScript:'',
+      defaultRSS:'',
+      embedMode:'iframe'
+    },
+  ],
 };
 // ─── STATE ────────────────────────────────────────────
 const S = {
@@ -2675,17 +2732,8 @@ function buildFAQ(){
 
 // ─── ADMIN PAGE ───────────────────────────────────────
 function buildAdmin(){
-  const tabs=['users','ws','ns','wls','ofs','sett'];
-  const tabLabels={users:T('us'),ws:T('ws'),ns:T('ns'),wls:T('wls'),ofs:T('ofs'),sett:'⚙️ Settings'};
-  return `<div class="ph"><div class="pt">⚙️ ${T('ap')}</div></div>
-  <div class="ats">${tabs.map(t=>`<button class="at-btn${S.adminTab===t?' on':''}" data-atab="${t}">${tabLabels[t]||t}</button>`).join('')}</div>
-  <div id="adminContent"><div class="empty"><div class="ein">⏳</div></div></div>`;
-}
-
-// ─── ADMIN PAGE ───────────────────────────────────────
-function buildAdmin(){
-  const tabs=['users','ws','ns','wls','orders','tasks','sett'];
-  const tabLabels={users:T('us'),ws:T('ws'),ns:T('ns'),wls:T('wls'),orders:'🛒 Orders',tasks:'📱 Tasks','sett':'⚙️ Settings'};
+  const tabs=['users','ws','ns','ofs','orders','tasks','sett'];
+  const tabLabels={users:T('us'),ws:T('ws'),ns:T('ns'),ofs:T('ofs'),orders:'🛒 Orders',tasks:'📱 Tasks','sett':'⚙️ Settings'};
   return `<div class="ph"><div class="pt">⚙️ ${T('ap')}</div></div>
   <div class="ats">${tabs.map(t=>`<button class="at-btn${S.adminTab===t?' on':''}" data-atab="${t}">${tabLabels[t]||t}</button>`).join('')}</div>
   <div id="adminContent"><div class="empty"><div class="ein">⏳</div></div></div>`;
@@ -2696,7 +2744,6 @@ async function loadAdminContent(){
   if(S.adminTab==='users') await loadAdminUsers(c);
   else if(S.adminTab==='ws') await loadWithdrawals(c);
   else if(S.adminTab==='ns') loadAdminNotices(c);
-  else if(S.adminTab==='wls') loadAdminWalls(c);
   else if(S.adminTab==='ofs') await loadAdminOffers(c);
   else if(S.adminTab==='orders') await loadAdminOrders(c);
   else if(S.adminTab==='tasks') await loadAdminTasks(c);
@@ -2984,117 +3031,6 @@ async function loadAdminNoticeList(){
   });
 }
 
-function loadAdminWalls(c){
-  c.innerHTML=`<div class="card"><div class="card-hd">🔗 ${T('ols')}</div>`+
-  CFG.walls.map((w,i)=>{
-    const wd=S.wallData[w.id]||{};
-    const mode=wd.embedMode||'iframe';
-    return `<div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1.5px solid #dbeafe">
-    <div class="dfb mb8">
-      <div style="display:flex;align-items:center;gap:8px">
-        <div style="font-size:20px">${w.icon}</div>
-        <div class="fw6 sm">Offerwall ${i+1} (${w.id})</div>
-      </div>
-    </div>
-    <label class="lbl">Name</label>
-    <input class="inp" id="wl_nm_${w.id}" value="${wd.name||''}" placeholder="e.g. CPX Survey">
-    <label class="lbl">Description</label>
-    <input class="inp" id="wl_ds_${w.id}" value="${wd.desc||''}" placeholder="Short description">
-    <label class="lbl">Embed Mode</label>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
-      <button class="mb2${mode==='iframe'?' sel':''}" data-mode-btn="${w.id}" data-mode="iframe">🖼️ iFrame</button>
-      <button class="mb2${mode==='script'?' sel':''}" data-mode-btn="${w.id}" data-mode="script">📜 Script</button>
-      <button class="mb2${mode==='rss'?' sel':''}" data-mode-btn="${w.id}" data-mode="rss">📡 RSS Feed</button>
-    </div>
-
-    <!-- RSS PLATFORM SELECTOR -->
-    <div id="rss_sec_${w.id}" style="${mode!=='rss'?'display:none':''}">
-      <label class="lbl">RSS Platform</label>
-      <select class="inp" id="wl_rp_${w.id}">
-        ${Object.entries(RSS_PLATFORMS).map(([id,p])=>`<option value="${id}" ${(wd.rssPlatform||'cpagrip')===id?'selected':''}>${p.icon} ${p.name}</option>`).join('')}
-      </select>
-      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:9px;padding:9px 12px;font-size:11px;color:#1e40af;margin-bottom:10px">
-        📡 Credentials → Admin → Settings → RSS Credentials<br>
-        User ID automatic বসবে। শুধু platform credentials দিন।
-      </div>
-    </div>
-    <div id="iframe_sec_${w.id}" style="${mode==='script'?'display:none':''}">
-      <label class="lbl">iFrame URL</label>
-      <input class="inp" id="wl_lk_${w.id}" value="${wd.link||''}" placeholder="https://offers.cpx-research.com/...?app_id=32801&user_id={uid}">
-      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:9px;padding:9px 12px;font-size:11px;color:#1e40af;margin-bottom:10px">
-        💡 URL এ <strong>{uid}</strong> লিখুন — user এর ID automatic বসে যাবে<br>Example: <code>?app_id=32801&user_id={uid}</code>
-      </div>
-    </div>
-    <div id="script_sec_${w.id}" style="${mode==='iframe'?'display:none':''}">
-      <label class="lbl">Script Tag Code</label>
-      <textarea class="inp" id="wl_sc_${w.id}" rows="5" placeholder="Paste full script code here...">${wd.scriptCode||''}</textarea>
-      <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:9px;padding:9px 12px;font-size:11px;color:#15803d;margin-bottom:10px">
-        💡 Script এ user_id এর জায়গায় <strong>{uid}</strong> লিখুন — automatic বসবে<br>Example: <code>user_id: "{uid}"</code>
-      </div>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">
-      <button class="btn bp bau bsm" data-savew="${w.id}">💾 Save</button>
-      <button class="mb2${wd.useRSS?' sel':''}" data-rsstoggle="${w.id}" style="padding:7px 13px;font-size:11px">${wd.useRSS?'✅ RSS ON':'⬜ RSS OFF'}</button>
-    </div>
-  </div>`;
-  }).join('')+`</div>`;
-
-  // Mode toggle
-  c.querySelectorAll('[data-mode-btn]').forEach(btn=>{
-    btn.onclick=()=>{
-      const id=btn.getAttribute('data-mode-btn');
-      const mode=btn.getAttribute('data-mode');
-      c.querySelectorAll(`[data-mode-btn="${id}"]`).forEach(b=>{
-        b.classList.toggle('sel', b.getAttribute('data-mode')===mode);
-      });
-      const iSec=document.getElementById(`iframe_sec_${id}`);
-      const sSec=document.getElementById(`script_sec_${id}`);
-      const rSec=document.getElementById(`rss_sec_${id}`);
-      if(iSec) iSec.style.display=mode==='iframe'?'':'none';
-      if(sSec) sSec.style.display=mode==='script'?'':'none';
-      if(rSec) rSec.style.display=mode==='rss'?'':'none';
-      if(S.wallData[id]) S.wallData[id].embedMode=mode;
-    };
-  });
-
-  // Save
-  c.querySelectorAll('[data-savew]').forEach(btn=>{
-    btn.onclick=async()=>{
-      const id=btn.dataset.savew;
-      const nm=document.getElementById(`wl_nm_${id}`)?.value.trim()||'';
-      const ds=document.getElementById(`wl_ds_${id}`)?.value.trim()||'';
-      const lk=document.getElementById(`wl_lk_${id}`)?.value.trim()||'';
-      const sc=document.getElementById(`wl_sc_${id}`)?.value.trim()||'';
-      const iSec=document.getElementById(`iframe_sec_${id}`);
-      const sSec=document.getElementById(`script_sec_${id}`);
-      const rSec=document.getElementById(`rss_sec_${id}`);
-      const rpEl=document.getElementById(`wl_rp_${id}`);
-      let mode='iframe';
-      if(sSec&&sSec.style.display!=='none') mode='script';
-      if(rSec&&rSec.style.display!=='none') mode='rss';
-      const rssPlatform=rpEl?.value||'cpagrip';
-      btn.disabled=true; btn.textContent='⏳';
-      const version=Date.now().toString(); // নতুন version = timestamp
-      await fDB.ref(`walls/${id}`).update({name:nm,desc:ds,link:lk,scriptCode:sc,embedMode:mode,rssPlatform,version});
-      if(S.wallData[id]){S.wallData[id].name=nm;S.wallData[id].desc=ds;S.wallData[id].link=lk;S.wallData[id].scriptCode=sc;S.wallData[id].embedMode=mode;S.wallData[id].rssPlatform=rssPlatform;S.wallData[id].version=version;}
-      CACHE.clear(id); // local cache clear → পরের visit এ fresh আনবে
-      toast('Saved ✓','s'); btn.disabled=false; btn.textContent='💾 Save';
-    };
-  });
-
-  // RSS toggle
-  c.querySelectorAll('[data-rsstoggle]').forEach(btn=>{
-    btn.onclick=async()=>{
-      const id=btn.dataset.rsstoggle;
-      const cur=S.wallData[id]?.useRSS||false;
-      await fDB.ref(`walls/${id}/useRSS`).set(!cur);
-      if(S.wallData[id]) S.wallData[id].useRSS=!cur;
-      btn.classList.toggle('sel',!cur);
-      btn.textContent=!cur?'✅ RSS ON':'⬜ RSS OFF';
-      toast(!cur?'RSS enabled!':'RSS disabled','s');
-    };
-  });
-}
 async function loadAdminOffers(c){
   const snap=await fDB.ref('offers').once('value');
   const data=snap.val()||{};

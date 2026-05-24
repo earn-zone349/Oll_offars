@@ -362,107 +362,15 @@ fAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 // ─── CONFIG ───────────────────────────────────────────
 const CFG = {
-  //adSec:8, adsPerWall:4, unlock24h:86400000, adGapMs:5000,
   adSec:8, adsPerWall:5, unlock24h:86400000, adGapMs:5000, refBonus:0.01,
   minUSD:5, minRefs:5, maxDevAcc:2,
   smartLink:'https://www.profitablecpmratenetwork.com/umex8g0z7?key=60dc4ecdfe325f516355a547ff213570',
   earnCountry:{BD:.10,IN:.10,PK:.10,NG:.10,GH:.12,PH:.12,EG:.12,KE:.12},
   earnHi:.50, earnDef:.30,
   hiCC:['US','GB','CA','AU','DE','FR','NL','SE','NO','DK','CH','AT','SG','JP','NZ','IE'],
-  // RSS Feed Config (CPAGrip)
-  cpaUserId:'YOUR_CPAGRIP_USER_ID',   // ← Admin panel থেকেও বদলানো যাবে
-  cpaKey:'YOUR_CPAGRIP_API_KEY',
-  rssProxy:'https://rss-proxy.therockvai-textbd2025.workers.dev/?url=',
-  walls:[
-    // ════════════════════════════════════════════════════════
-    //  OFFERWALL SETTINGS — CODE-FIRST SYSTEM
-    //  এখানে link থাকলে Firebase call হবে না
-    //  খালি রাখলে Admin Panel থেকে নেবে
-    //
-    //  embedMode: 'iframe' | 'script' | 'rss'
-    //  defaultRSS: 'cpagrip'|'ogads'|'adgate'|'adscend'|'mylead'|'adworkm'
-    // ════════════════════════════════════════════════════════
-
-    { id:'w1', icon:'🔥', color:'#ef4444',
-      // ── Offerwall 1 Settings ──
-      defaultName: 'CPA Offers',
-      defaultDesc: 'Complete CPA offers and earn rewards',
-      embedMode:   'rss',            // ← 'iframe' | 'script' | 'rss'
-      // iFrame URL (embedMode='iframe' হলে এটা কাজ করবে):
-      defaultIframe: '',             // ← https://your-offerwall.com?user={uid}
-      // Script code (embedMode='script' হলে এটা কাজ করবে):
-      defaultScript: '',            
-      // RSS platform (embedMode='rss' হলে এটা কাজ করবে):
-      defaultRSS:  'cpagrip',        // ← cpagrip | ogads | adgate | adscend | mylead | adworkm
-    },
-
-    { id:'w2', icon:'📋', color:'#2563eb',
-      // ── Offerwall 2 Settings ──
-      defaultName: 'Survey Rewards',
-      defaultDesc: 'Share your opinion and earn',
-      embedMode:   'script',
-      // iFrame URL:
-      defaultIframe: '',             // ← https://offers.cpx-research.com/index.php?app_id=32801&ext_user_id={uid}&subid_1=w2
-      // Script code:
-     // defaultScript: '`,      
-      // RSS:
-      defaultRSS:  '',
-    },
-
-    { id:'w3', icon:'📱', color:'#8b5cf6',
-      // ── Offerwall 3 Settings ──
-      defaultName: 'Mobile Offers',
-      defaultDesc: 'App installs and mobile tasks',
-      embedMode:   'rss',
-      defaultIframe: '',             // ← OGAds/AdGem iframe URL এখানে
-      defaultScript: '',
-      defaultRSS:  'ogads',          // ← ogads | adgate | adscend | mylead | adworkm
-    },
-
-    { id:'w4', icon:'🎮', color:'#10b981',
-      // ── Offerwall 4 Settings ──
-      defaultName: 'Gaming Zone',
-      defaultDesc: 'Games, achievements and more',
-      embedMode:   'rss',
-      defaultIframe: '',             // ← AdGate/Lootably iframe URL এখানে
-      defaultScript: '',
-      defaultRSS:  'adgate',
-    },
-
-    { id:'w5', icon:'▶️', color:'#f59e0b',
-      // ── Offerwall 5 Settings ──
-      defaultName: 'Video Tasks',
-      defaultDesc: 'Watch videos and earn coins',
-      embedMode:   'rss',
-      defaultIframe: '',             // ← Adscend/BitLabs iframe URL এখানে
-      defaultScript: '',
-      defaultRSS:  'adscend',
-    },
-
-    { id:'w6', icon:'👑', color:'#ec4899',
-      // ── Offerwall 6 Settings ──
-      defaultName: 'Premium Offers',
-      defaultDesc: 'High payout premium tasks',
-      embedMode:   'rss',
-      defaultIframe: '',             // ← AdWork Media iframe URL এখানে
-      defaultScript: '',
-      defaultRSS:  'adworkm',
-    },
-
-    { id:'w7', icon:'💎', color:'#0891b2',
-      // ── Offerwall 7 Settings ──
-      defaultName: 'Special Offers',
-      defaultDesc: 'Exclusive high reward tasks',
-      embedMode:   'rss',
-      defaultIframe: '',             // ← MyLead/Theorem Reach iframe URL এখানে
-      defaultScript: '',
-      defaultRSS:  'mylead',
-    },
-  ],
   methods:['bkash','nagad','paypal','visa','payoneer','usdt','opay','binance'],
   methodEmoji:{bkash:'🇧🇩 bKash',nagad:'💚 Nagad',paypal:'💳 PayPal',visa:'🔵 Visa Card',payoneer:'🏦 Payoneer',usdt:'💎 USDT',opay:'🇳🇬 OPay',binance:'🟡 Binance'},
 };
-
 // ─── STATE ────────────────────────────────────────────
 const S = {
   user:null, userData:null, page:'home', prevPage:'home',
@@ -1086,9 +994,14 @@ async function onAdCompleteForWall(wallId){
     return;
   }
   prog.count=(prog.count||0)+1;
-  // localStorage এ ads count — Firebase call নেই
+  // localStorage এ ads count — UI এর জন্য
   const adsKey=`ez_ads_wall_${uid}`;
-  localStorage.setItem(adsKey, (parseInt(localStorage.getItem(adsKey)||'0')+1).toString());
+  const newCount=(parseInt(localStorage.getItem(adsKey)||'0')+1);
+  localStorage.setItem(adsKey, newCount.toString());
+  // Firebase এ শুধু ১ম ad এর সময় save করি — referral check এর জন্য
+  if(newCount===1){
+    await fDB.ref(`users/${uid}/adsWatched`).set(1);
+  }
   if(prog.count>=CFG.adsPerWall){
     prog.count=0;
     prog.unlockedAt=Date.now();
@@ -1802,11 +1715,19 @@ function activateNoticeDot(notices){
 async function checkActiveReferrals(){
   if(!S.userData) return;
   const refs=S.userData.pendingReferrals||{};
+  const refUids=Object.keys(refs);
+  if(!refUids.length) return;
   let active=0;
-  for(const uid of Object.keys(refs)){
-    // localStorage থেকে check — Firebase call নেই
-    const ads=parseInt(localStorage.getItem(`ez_ads_wall_${uid}`)||'0');
-    if(ads>0) active++;
+  for(const uid of refUids){
+    // Cache check first — Firebase call শুধু cache miss হলে
+    const cacheKey=`ref_active_${uid}`;
+    let isActive=EZCache.get(cacheKey);
+    if(isActive===null){
+      const snap=await fDB.ref(`users/${uid}/adsWatched`).once('value');
+      isActive=(snap.val()||0)>0;
+      EZCache.set(cacheKey, isActive);
+    }
+    if(isActive) active++;
   }
   if(active!==(S.userData.activeReferrals||0)){
     await fDB.ref(`users/${S.user.uid}/activeReferrals`).set(active);
@@ -1945,27 +1866,62 @@ function buildRegister(){
   <span class="al">◆</span>
   <div class="a-brand">${T('appName')}</div>
   <div class="a-sub">${T('appTag')}</div>
-  <div class="a-ttl">${T('reg')}</div>
-  <label class="lbl">${T('nm')}</label>
-  <input class="inp" id="rgNm" type="text" placeholder="Your name" autocomplete="name">
-  <label class="lbl">${T('em')}</label>
-  <input class="inp" id="rgEm" type="email" placeholder="you@email.com" autocomplete="email">
-  <label class="lbl">${T('pw')}</label>
-  <div class="ipw"><input class="inp" id="rgPw" type="password" placeholder="Min. 6 characters"><button class="ipe" id="rgEye">👁</button></div>
-  <label class="lbl">${T('cpw')}</label>
-  <input class="inp" id="rgCpw" type="password" placeholder="Repeat password">
-  <label class="lbl">${T('rc')}</label>
-  <input class="inp" id="rgRef" type="text" placeholder="XXXXXX (optional)">
-  <div style="background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);border-radius:10px;padding:10px 13px;font-size:12px;color:#a78bfa;margin-bottom:14px">🎁 You get $0 bonus coins on registration. Start earning by completing offers!</div>
-  <button class="btn bp mb12" id="rgBtn">${T('reg')}</button>
-  <div style="text-align:center;font-size:13px;color:#64748b">${T('ha')} <button style="background:none;border:none;cursor:pointer;font-size:13px;color:#a78bfa;font-family:inherit" id="rgToLi">${T('li')}</button></div>
-  <div style="text-align:center;font-size:11px;color:#94a3b8;margin-top:12px">
-  By registering you agree to our
-  <a href="terms.html" target="_blank" style="color:#2563eb">Terms</a>
-  and
-  <a href="privacy.html" target="_blank" style="color:#2563eb">Privacy Policy</a>
+
+  <!-- Worker / Employer Choice -->
+  <div style="margin-bottom:18px">
+    <div style="font-size:13px;font-weight:700;color:#0f172a;text-align:center;margin-bottom:10px">What would you like to do?</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div id="choiceWorker" onclick="selectChoice('worker')" style="border:2px solid #2563eb;background:#eff6ff;border-radius:14px;padding:14px 10px;text-align:center;cursor:pointer">
+        <div style="font-size:24px;margin-bottom:6px">💪</div>
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#2563eb">Earn Money</div>
+        <div style="font-size:10px;color:#64748b;margin-top:3px">Complete tasks & offers</div>
+      </div>
+      <div id="choiceEmployer" onclick="selectChoice('employer')" style="border:2px solid #dbeafe;background:#fff;border-radius:14px;padding:14px 10px;text-align:center;cursor:pointer">
+        <div style="font-size:24px;margin-bottom:6px">📢</div>
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#475569">Get Services</div>
+        <div style="font-size:10px;color:#64748b;margin-top:3px">Buy followers, likes, views</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Worker Form -->
+  <div id="workerForm">
+    <div class="a-ttl">${T('reg')}</div>
+    <label class="lbl">${T('nm')}</label>
+    <input class="inp" id="rgNm" type="text" placeholder="Your name" autocomplete="name">
+    <label class="lbl">${T('em')}</label>
+    <input class="inp" id="rgEm" type="email" placeholder="you@email.com" autocomplete="email">
+    <label class="lbl">${T('pw')}</label>
+    <div class="ipw"><input class="inp" id="rgPw" type="password" placeholder="Min. 6 characters"><button class="ipe" id="rgEye">👁</button></div>
+    <label class="lbl">${T('cpw')}</label>
+    <input class="inp" id="rgCpw" type="password" placeholder="Repeat password">
+    <label class="lbl">${T('rc')}</label>
+    <input class="inp" id="rgRef" type="text" placeholder="XXXXXX (optional)">
+    <div style="background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:10px;padding:10px 13px;font-size:12px;color:#2563eb;margin-bottom:14px">🎁 Start earning by completing offers & social tasks!</div>
+    <button class="btn bp mb12" id="rgBtn">${T('reg')}</button>
+    <div style="text-align:center;font-size:13px;color:#64748b">${T('ha')} <button style="background:none;border:none;cursor:pointer;font-size:13px;color:#2563eb;font-family:inherit" id="rgToLi">${T('li')}</button></div>
+    <div style="text-align:center;font-size:11px;color:#94a3b8;margin-top:12px">
+      By registering you agree to our
+      <a href="terms.html" target="_blank" style="color:#2563eb">Terms</a> and
+      <a href="privacy.html" target="_blank" style="color:#2563eb">Privacy Policy</a>
+    </div>
   </div>
   </div></div>`;
+}
+
+function selectChoice(type){
+  const wCard = document.getElementById('choiceWorker');
+  const eCard = document.getElementById('choiceEmployer');
+  if(type==='worker'){
+    wCard.style.borderColor='#2563eb'; wCard.style.background='#eff6ff';
+    wCard.querySelector('div:nth-child(2)').style.color='#2563eb';
+    eCard.style.borderColor='#dbeafe'; eCard.style.background='#fff';
+    eCard.querySelector('div:nth-child(2)').style.color='#475569';
+    document.getElementById('workerForm').style.display='block';
+  } else {
+    // Employer — go to services page directly
+    window.open('services.html','_blank');
+  }
 }
 function buildVerify(){
   return `<div class="aw fu"><div class="ac">

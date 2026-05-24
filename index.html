@@ -1483,17 +1483,9 @@ async function loadUserData(uid){
 }
 
 async function getWallData(){
-  // ── PURE CODE-ONLY SYSTEM — Firebase call নেই ──
-  // Code এ link আছে → দেখাবে
-  // Code এ link নেই → দেখাবে না
-  // Firebase এ কোনো call নেই
+  // ── সব wall দেখাবে — link থাকলে open হবে, না থাকলে "link নেই" দেখাবে ──
   const walls={};
   CFG.walls.forEach((w,i)=>{
-    const hasIframe = (w.defaultIframe||'').trim()!=='';
-    const hasScript = (w.defaultScript||'').trim()!=='';
-    const hasRSS    = (w.defaultRSS||'').trim()!=='';
-    const hasLink   = hasIframe||hasScript||hasRSS;
-    if(!hasLink) return; // code এ নেই → skip, দেখাবে না
     walls[w.id]={
       id:w.id, icon:w.icon, color:w.color,
       name:      w.defaultName||`Offerwall ${i+1}`,
@@ -2143,11 +2135,7 @@ function buildSidebar(){
   <a href="about.html" target="_blank" class="si" style="text-decoration:none;color:inherit"><span class="si-ico">🏢</span>About Us</a>
   <a href="contact.html" target="_blank" class="si" style="text-decoration:none;color:inherit"><span class="si-ico">📧</span>Contact</a>
   <a href="support.html" target="_blank" class="si" style="text-decoration:none;color:inherit"><span class="si-ico">🎫</span>Support</a>
-  <div class="sdb-sg">Services</div>
-  <a href="services.html" target="_blank" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1e40af,#065f46);border-radius:12px;padding:12px 14px;margin:0 0 8px;text-decoration:none">
-    <span style="font-size:18px">📱</span>
-    <div><div style="font-size:13px;font-weight:700;color:#fff">Need Followers?</div><div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:1px">Buy Facebook, YouTube, Instagram</div></div>
-  </a>
+
   ${ud.isAdmin?`<div class="sdb-sg">Admin</div><button class="si${S.page==='admin'?' on':''}" data-page="admin"><span class="si-ico">⚙️</span>${T('ap')}</button>`:''}
   <div style="margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,.07)">
   <button class="si" id="sbLang"><span class="si-ico">🌐</span>${T('ln')}: ${LANGS[S.lang]?.f||'🇺🇸'}</button>
@@ -2174,7 +2162,7 @@ function buildHome(){
     <div class="sc sc-4"><div class="sc-i">💵</div><div class="sc-v cy">${fmt$(todayEarn)}</div><div class="sc-l">${T('todayEarn')}</div></div>
   </div>
   <div class="sl">${T('of')}</div>
-  ${CFG.walls.slice(0,4).map(w=>`<div class="wc" data-goto-wall="${w.id}">
+  ${CFG.walls.slice(0,3).map(w=>`<div class="wc" data-goto-wall="${w.id}">
     <div class="wc-ic" style="background:${w.color}22;border:1px solid ${w.color}44">${w.icon}</div>
     <div class="wc-b"><div class="wc-t">${S.wallData[w.id]?.name||'Offerwall'}</div><div class="wc-d">${S.wallData[w.id]?.desc||''}</div></div>
     <div class="wc-r"><span style="color:${w.color};font-size:18px">›</span></div>

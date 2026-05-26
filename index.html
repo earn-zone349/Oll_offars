@@ -9,6 +9,11 @@
 <meta name="keywords" content="earn money online, earnzone, earn real money, bkash payment, cpa offers, referral earning, online income bangladesh">
 <meta name="robots" content="index, follow">
 <meta name="author" content="EarnZone Pro">
+
+<!-- PWA Manifest (inline via JS) -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EarnZone Pro">
 <link rel="canonical" href="https://earnzonepro.com/">
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%232563eb'/><stop offset='100%25' stop-color='%23059669'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23g)'/><text y='.9em' font-size='70' x='15' fill='white' font-family='serif'>◆</text></svg>">
@@ -146,6 +151,21 @@ select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+x
 
 /* OFFERWALL CARDS */
 .wc{background:#ffffff;border:1.5px solid #dbeafe;border-radius:17px;padding:16px;margin-bottom:11px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(37,99,235,.05)}
+
+/* ── QUICK SERVICES GRID (Style B) ── */
+.qs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.qs-card{background:#fff;border:1.5px solid #dbeafe;border-radius:18px;padding:14px 8px 12px;text-align:center;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
+body.dark .qs-card{background:#1e293b;border-color:#1e3a5f}
+.qs-card:active{transform:scale(.96)}
+.qs-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--qs-shadow,rgba(37,99,235,.15));border-color:var(--qs-bc,#93c5fd)}
+.qs-card-badge{position:absolute;top:-1px;right:8px;font-size:8px;font-weight:800;letter-spacing:.04em;padding:2px 7px;border-radius:0 0 8px 8px;text-transform:uppercase}
+.qs-icon-wrap{width:52px;height:52px;border-radius:16px;margin:0 auto 9px;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--qs-bg,#dbeafe);box-shadow:0 4px 14px var(--qs-shadow,rgba(37,99,235,.15))}
+.qs-name{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:#1e293b;line-height:1.3}
+body.dark .qs-name{color:#f1f5f9}
+.qs-sec-title{display:flex;align-items:center;gap:8px;margin-bottom:10px;margin-top:4px}
+.qs-sec-title span{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#1e293b}
+body.dark .qs-sec-title span{color:#f1f5f9}
+.qs-sec-dot{width:5px;height:5px;border-radius:50%;background:#2563eb;flex-shrink:0}
 .wc:hover{transform:translateY(-2px);border-color:#93c5fd;box-shadow:0 6px 20px rgba(37,99,235,.12)}
 .wc-ic{width:50px;height:50px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px}
 .wc-b{flex:1;min-width:0}
@@ -250,6 +270,104 @@ select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+x
 .ti{background:#eff6ff;border:1.5px solid #93c5fd;color:#1e40af}
 
 @media(max-width:380px){.ac{padding:22px 15px}.ud{width:38px;height:38px;font-size:12px}.arm{width:100px;height:100px}.arm-n{font-size:28px}}
+
+/* ── DARK MODE ── */
+body.dark{background:#0f172a;color:#e2e8f0}
+body.dark .nav{background:rgba(15,23,42,.97);border-color:#1e3a5f}
+body.dark .bnav{background:rgba(15,23,42,.97);border-color:#1e3a5f}
+body.dark .card{background:#1e293b;border-color:#1e3a5f}
+body.dark .inp{background:#0f172a;border-color:#334155;color:#e2e8f0}
+body.dark .arow{background:#1e293b;border-color:#1e3a5f}
+body.dark .wc{background:#1e293b;border-color:#1e3a5f}
+body.dark .qs-card{background:#1e293b;border-color:#1e3a5f}
+body.dark .qs-icon-wrap{filter:brightness(.9)}
+body.dark .bh{background:#1e293b;border-color:#334155;color:#94a3b8}
+body.dark .sdb{background:#0f172a;border-color:#1e3a5f}
+body.dark .nc-item{background:rgba(37,99,235,.08);border-color:#1e3a5f}
+body.dark .lmc{background:#0f172a}
+body.dark .nmc{background:#1e293b;border-color:#1e3a5f}
+body.dark .sl{color:#64748b}
+body.dark .ph .pt{color:#e2e8f0}
+body.dark .ph .ps{color:#64748b}
+body.dark .mu{color:#94a3b8}
+body.dark .rbox{background:linear-gradient(135deg,#1e293b,#1e3a5f);border-color:#1e3a5f}
+body.dark .at-btn{background:#1e293b;border-color:#1e3a5f;color:#94a3b8}
+body.dark .mb2{background:#1e293b;border-color:#334155;color:#94a3b8}
+body.dark .lb3{background:#1e293b;border-color:#1e3a5f;color:#e2e8f0}
+body.dark #ldr{background:linear-gradient(135deg,#070d1a,#0f172a)}
+body.dark .aw{background:linear-gradient(145deg,#0f172a,#1e293b)}
+body.dark .ac{background:#1e293b;border-color:#1e3a5f}
+
+/* ── SKELETON LOADER ── */
+.skel{background:linear-gradient(90deg,#e2e8f0 25%,#f1f5f9 50%,#e2e8f0 75%);background-size:200% 100%;animation:skelShimmer 1.4s infinite;border-radius:10px}
+body.dark .skel{background:linear-gradient(90deg,#1e293b 25%,#334155 50%,#1e293b 75%);background-size:200% 100%}
+@keyframes skelShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{height:80px;margin-bottom:10px;border-radius:14px}
+.skel-text{height:14px;margin-bottom:8px;border-radius:6px}
+.skel-text.sm{width:60%}
+.skel-avatar{width:50px;height:50px;border-radius:50%}
+
+/* ── LEVEL / BADGE ── */
+.lvl-bar-wrap{background:#dbeafe;border-radius:8px;height:10px;overflow:hidden;margin:8px 0}
+body.dark .lvl-bar-wrap{background:#1e3a5f}
+.lvl-bar{height:100%;border-radius:8px;background:linear-gradient(90deg,#2563eb,#059669);transition:width .6s ease}
+.badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.badge-item{text-align:center;padding:10px 6px;border-radius:12px;border:1.5px solid #dbeafe;background:#f8fafc;transition:all .2s}
+body.dark .badge-item{background:#1e293b;border-color:#1e3a5f}
+.badge-item.earned{border-color:#2563eb;background:rgba(37,99,235,.08)}
+.badge-item .bi{font-size:24px;margin-bottom:4px}
+.badge-item .bn{font-size:9px;font-weight:700;color:#64748b}
+.badge-item.earned .bn{color:#2563eb}
+
+/* ── LEADERBOARD ── */
+.lb-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:13px;margin-bottom:8px;background:#fff;border:1.5px solid #dbeafe;transition:all .18s}
+body.dark .lb-row{background:#1e293b;border-color:#1e3a5f}
+.lb-row.top1{background:linear-gradient(135deg,#fffbeb,#fef3c7);border-color:#f59e0b}
+.lb-row.top2{background:linear-gradient(135deg,#f8fafc,#f1f5f9);border-color:#94a3b8}
+.lb-row.top3{background:linear-gradient(135deg,#fff7ed,#ffedd5);border-color:#ea580c}
+.lb-rank{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;width:28px;text-align:center;flex-shrink:0}
+.lb-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#059669);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0}
+.lb-inf{flex:1;min-width:0}
+.lb-nm{font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-am{font-size:11px;color:#059669;font-weight:700}
+
+/* ── STREAK ── */
+.streak-wrap{display:flex;gap:6px;justify-content:center;margin:12px 0}
+.streak-day{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;border:2px solid #dbeafe;background:#f8fafc;color:#94a3b8;transition:all .3s}
+body.dark .streak-day{background:#1e293b;border-color:#1e3a5f}
+.streak-day.done{background:linear-gradient(135deg,#2563eb,#059669);border-color:transparent;color:#fff;box-shadow:0 3px 12px rgba(37,99,235,.35)}
+.streak-day.today{background:linear-gradient(135deg,#f59e0b,#ea580c);border-color:transparent;color:#fff;box-shadow:0 3px 12px rgba(245,158,11,.4);animation:glow 1.5s infinite}
+
+/* ── PUSH NOTIFICATION BANNER ── */
+.push-banner{background:linear-gradient(135deg,#1e40af,#065f46);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:14px;cursor:pointer;transition:opacity .2s}
+.push-banner:hover{opacity:.9}
+
+/* ── PWA INSTALL BANNER ── */
+.pwa-banner{background:linear-gradient(135deg,#7c3aed,#2563eb);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:12px;cursor:pointer}
+
+/* ── LEVEL COLORS ── */
+.lv-bronze{color:#b45309}
+.lv-silver{color:#64748b}
+.lv-gold{color:#d97706}
+.lv-platinum{color:#2563eb}
+.lv-diamond{color:#7c3aed}
+
+/* ── MONTHLY AWARD ── */
+.award-card{background:linear-gradient(135deg,#fffbeb,#fef3c7);border:2px solid #f59e0b;border-radius:16px;padding:16px;margin-bottom:10px;position:relative;overflow:hidden}
+body.dark .award-card{background:linear-gradient(135deg,#1c1400,#2a1f00);border-color:#b45309}
+.award-card.rank1{background:linear-gradient(135deg,#fffbeb,#fef08a);border-color:#eab308}
+.award-card.rank2{background:linear-gradient(135deg,#f8fafc,#e2e8f0);border-color:#94a3b8}
+.award-card.rank3{background:linear-gradient(135deg,#fff7ed,#ffedd5);border-color:#f97316}
+.award-badge{position:absolute;top:-8px;right:12px;font-size:32px}
+.award-status-approved{color:#059669;font-weight:700;font-size:12px}
+.award-status-pending{color:#d97706;font-weight:700;font-size:12px}
+.award-status-rejected{color:#dc2626;font-weight:700;font-size:12px}
+
+/* ── COUNTRY BADGE ── */
+.ctry-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(37,99,235,.08);border:1px solid #bfdbfe;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:600;color:#1d4ed8}
+body.dark .ctry-badge{background:rgba(37,99,235,.15);border-color:#1e3a5f;color:#93c5fd}
+.ctry-all{background:rgba(5,150,105,.08);border-color:#a7f3d0;color:#065f46}
+body.dark .ctry-all{background:rgba(5,150,105,.15);border-color:#065f46;color:#6ee7b7}
 </style>
 </head>
 <body>
@@ -335,30 +453,155 @@ select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+x
 <!-- TOAST CONTAINER -->
 <div id="tc"></div>
 
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 /* ═══════════════════════════════════════════════════════
    EARNZONE PRO — COMPLETE SYSTEM
-   Firebase + 7 Languages + 6 Offerwalls + Full Admin
+   Supabase + 7 Languages + 6 Offerwalls + Full Admin
 ═══════════════════════════════════════════════════════ */
 
-// ─── FIREBASE INIT ────────────────────────────────────
-firebase.initializeApp({
-  apiKey:"AIzaSyCxAj5dRiEvcvp26J8yYY6BSzVBXuBAEjk",
-  authDomain:"earn-zone-997fb.firebaseapp.com",
-  databaseURL:"https://earn-zone-997fb-default-rtdb.firebaseio.com",
-  projectId:"earn-zone-997fb",
-  storageBucket:"earn-zone-997fb.firebasestorage.app",
-  messagingSenderId:"267809609849",
-  appId:"1:267809609849:web:183f53725620cffd259ca8"
+// ─── SUPABASE INIT ──────────────────────────────────────
+// ── SUPABASE CONFIG ── বসাও তোমার Project URL ও anon key ──
+const SUPA_URL = 'https://YOUR_PROJECT.supabase.co';   // ← তোমার Supabase URL
+const SUPA_KEY = 'YOUR_ANON_KEY';                       // ← তোমার anon/public key
+const sb = supabase.createClient(SUPA_URL, SUPA_KEY, {
+  auth: { persistSession: true, autoRefreshToken: true }
 });
-const fAuth = firebase.auth();
-const fDB   = firebase.database();
-fAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+// ── PWA Manifest inject ──
+(function(){
+  const mf=document.createElement('link');
+  mf.rel='manifest';
+  const manifest={name:'EarnZone Pro',short_name:'EarnZone',start_url:'/',display:'standalone',background_color:'#0f172a',theme_color:'#2563eb'};
+  mf.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(manifest));
+  document.head.appendChild(mf);
+})();
+
+// ════════════════════════════════════════════════════════
+// SUPABASE SETUP — Dashboard → SQL Editor → এই SQL চালাও
+// ════════════════════════════════════════════════════════
+//
+// -- 1. USERS TABLE
+// CREATE TABLE IF NOT EXISTS users (
+//   id TEXT PRIMARY KEY,
+//   email TEXT, name TEXT, ref_code TEXT,
+//   referred_by TEXT, lang TEXT DEFAULT 'en',
+//   country TEXT, country_earn NUMERIC DEFAULT 0.30,
+//   usd_earned NUMERIC DEFAULT 0,
+//   today_earned NUMERIC DEFAULT 0,
+//   today_date TEXT, ads_watched INT DEFAULT 0,
+//   offers_completed INT DEFAULT 0,
+//   active_referrals INT DEFAULT 0,
+//   is_admin BOOLEAN DEFAULT false,
+//   banned BOOLEAN DEFAULT false,
+//   forgot_used BOOLEAN DEFAULT false,
+//   device_id TEXT, email_verified BOOLEAN DEFAULT false,
+//   login_streak INT DEFAULT 0,
+//   last_login_date TEXT, daily_bonus_date TEXT,
+//   wall_progress JSONB DEFAULT '{}',
+//   read_notices JSONB DEFAULT '{}',
+//   completed_tasks JSONB DEFAULT '{}',
+//   social_unlock_at BIGINT DEFAULT 0,
+//   created_at TIMESTAMPTZ DEFAULT now()
+// );
+//
+// -- 2. WITHDRAWALS TABLE
+// CREATE TABLE IF NOT EXISTS withdrawals (
+//   id TEXT PRIMARY KEY,
+//   uid TEXT, user_email TEXT, user_name TEXT,
+//   method TEXT, account TEXT,
+//   amount NUMERIC, status TEXT DEFAULT 'pending',
+//   created_at BIGINT
+// );
+//
+// -- 3. SOCIAL_TASKS TABLE
+// CREATE TABLE IF NOT EXISTS social_tasks (
+//   id TEXT PRIMARY KEY,
+//   title TEXT, description TEXT, platform TEXT,
+//   link TEXT, reward NUMERIC, whatsapp TEXT,
+//   status TEXT DEFAULT 'active',
+//   created_at BIGINT
+// );
+//
+// -- 4. SUBMISSIONS TABLE
+// CREATE TABLE IF NOT EXISTS submissions (
+//   id TEXT PRIMARY KEY,
+//   uid TEXT, task_id TEXT, task_title TEXT,
+//   reward NUMERIC, status TEXT DEFAULT 'pending',
+//   created_at BIGINT
+// );
+//
+// -- 5. NOTICES TABLE
+// CREATE TABLE IF NOT EXISTS notices (
+//   id TEXT PRIMARY KEY,
+//   text TEXT, created_at BIGINT, posted_by TEXT
+// );
+//
+// -- 6. OFFERS TABLE
+// CREATE TABLE IF NOT EXISTS offers (
+//   id TEXT PRIMARY KEY,
+//   uid TEXT, wall_id TEXT,
+//   amount NUMERIC, completed_at BIGINT,
+//   offer_id TEXT, verified BOOLEAN DEFAULT true
+// );
+//
+// -- 7. SETTINGS TABLE
+// CREATE TABLE IF NOT EXISTS settings (
+//   id TEXT PRIMARY KEY,
+//   data JSONB
+// );
+//
+// -- 8. STATS TABLE
+// CREATE TABLE IF NOT EXISTS stats (
+//   id TEXT PRIMARY KEY DEFAULT 'stats',
+//   total_users INT DEFAULT 0,
+//   total_earned NUMERIC DEFAULT 0
+// );
+// INSERT INTO stats (id) VALUES ('stats') ON CONFLICT DO NOTHING;
+//
+// -- 9. POSTBACKS TABLE
+// CREATE TABLE IF NOT EXISTS postbacks (
+//   id TEXT PRIMARY KEY,
+//   uid TEXT, wall_id TEXT,
+//   amount NUMERIC, offer_id TEXT,
+//   processed BOOLEAN DEFAULT false
+// );
+//
+// -- 10. ORDERS TABLE
+// CREATE TABLE IF NOT EXISTS orders (
+//   id TEXT PRIMARY KEY,
+//   uid TEXT, status TEXT DEFAULT 'pending',
+//   data JSONB, created_at BIGINT
+// );
+//
+// -- ROW LEVEL SECURITY (সব table এ)
+// DO $$ DECLARE t TEXT;
+// BEGIN FOR t IN SELECT tablename FROM pg_tables
+//   WHERE schemaname='public' LOOP
+//   EXECUTE 'ALTER TABLE '||t||' ENABLE ROW LEVEL SECURITY';
+//   EXECUTE 'CREATE POLICY IF NOT EXISTS auth_policy ON '||t||
+//     ' FOR ALL USING (auth.role() IN (''authenticated'',''service_role''))';
+// END LOOP; END $$;
+//
+// -- 11. MONTHLY_AWARDS TABLE
+// CREATE TABLE IF NOT EXISTS monthly_awards (
+//   id TEXT PRIMARY KEY,
+//   month TEXT,           -- e.g. "2025-01"
+//   uid TEXT,
+//   user_name TEXT,
+//   user_email TEXT,
+//   rank INT,             -- 1, 2, or 3
+//   earned NUMERIC,       -- total earned that month
+//   bonus NUMERIC,        -- award amount
+//   status TEXT DEFAULT 'pending',  -- pending/approved/rejected
+//   created_at BIGINT,
+//   approved_at BIGINT
+// );
+//
+// -- REALTIME চালু করো (Dashboard → Database → Replication → সব table ON)
+// ════════════════════════════════════════════════════════
 
 // ─── CONFIG ───────────────────────────────────────────
 const CFG = {
@@ -438,11 +681,14 @@ const S = {
   noticeQueue:[], noticeAdDone:false, currentNotice:null,
   wallData:{}, userStats:{}, pendingWithdraw:null,
   forgotUsed:false, unsubscribes:[],
-  // RSS Feed
   rssOffers:[], rssLoading:false, rssWallId:null,
-  // Payout settings (loaded from Firebase)
-  payoutMode:'custom',      // 'cpa' = CPA এর real amount, 'custom' = admin set amount
+  payoutMode:'custom',
   payoutRates:{BD:.10,IN:.10,PK:.10,default:.30,hi:.50},
+  // New features
+  darkMode: localStorage.getItem('ez_dark')==='1',
+  pwaPrompt: null,
+  leaderboard: [],
+  pushEnabled: false,
 };
 
 // ─── LANGUAGES ────────────────────────────────────────
@@ -844,7 +1090,7 @@ const LANGS={
 
 // ─── VERSION-BASED CACHE SYSTEM ─────────────────────
 // Admin save করলে version বাড়ে → user এর cache invalid হয়
-// No change → localStorage থেকে নেয় → 0 Firebase call
+// No change → localStorage থেকে নেয় → 0 Supabase call
 const CACHE={
   _key:(id)=>`ez_wall_${id}`,
   _vkey:(id)=>`ez_wall_v_${id}`,
@@ -872,9 +1118,9 @@ const CACHE={
     localStorage.removeItem(this._key(wallId));
     localStorage.removeItem(this._vkey(wallId));
   },
-  // Smart get: version check করে, same হলে local, আলাদা হলে Firebase
+  // Smart get: version check করে, same হলে local, আলাদা হলে Supabase
   async smartGet(wallId){
-    // Firebase call নেই — শুধু S.wallData থেকে নাও
+    // Supabase call নেই — শুধু S.wallData থেকে নাও
     return S.wallData[wallId]||{};
   }
 };
@@ -910,7 +1156,7 @@ function timeAgo(ts){
   if(s<86400) return Math.floor(s/3600)+'h ago';
   return Math.floor(s/86400)+'d ago';
 }
-// Safe encode for Firebase keys
+// Safe encode for keys
 function encKey(k){ return k.replace(/[.#$[\]/]/g,'_'); }
 // Generate ref code
 function genRef(){ return Math.random().toString(36).slice(2,8).toUpperCase(); }
@@ -1021,7 +1267,7 @@ function finishAd(){
 async function onAdCompleteForSocial(){
   if(!S.user) return;
   const uid=S.user.uid;
-  // localStorage এ save — Firebase call নেই
+  // localStorage এ save — Supabase call নেই
   const key=`ez_ads_social_${uid}`;
   const totalAds=(parseInt(localStorage.getItem(key)||'0'))+1;
   localStorage.setItem(key, totalAds);
@@ -1041,9 +1287,20 @@ async function onAdCompleteForSocial(){
 async function onAdCompleteForWall(wallId){
   if(!S.user) return;
   const uid=S.user.uid;
-  const ref=fDB.ref(`users/${uid}/wallProgress/${wallId}`);
-  const snap=await ref.once('value');
-  let prog=snap.val()||{count:0,unlockedAt:0};
+  // wallProgress stored as JSON object in users row
+  const uSnap=await fDB.ref(`users/${uid}`).once('value');
+  const ud2=uSnap.val()||{};
+  const wallProgressObj=ud2.wallProgress||{};
+  let prog=wallProgressObj[wallId]||{count:0,unlockedAt:0};
+  const ref={
+    set: async(val)=>{
+      const uSnap2=await fDB.ref(`users/${uid}`).once('value');
+      const ud3=uSnap2.val()||{};
+      const wp=ud3.wallProgress||{};
+      wp[wallId]=val;
+      await fDB.ref(`users/${uid}`).update({wallProgress:wp});
+    }
+  };
   // Check if already unlocked and within 24h
   if(prog.unlockedAt && (Date.now()-prog.unlockedAt)<CFG.unlock24h){
     toast(T('adNote'),'s');
@@ -1055,7 +1312,7 @@ async function onAdCompleteForWall(wallId){
   const adsKey=`ez_ads_wall_${uid}`;
   const newCount=(parseInt(localStorage.getItem(adsKey)||'0')+1);
   localStorage.setItem(adsKey, newCount.toString());
-  // Firebase এ শুধু ১ম ad এর সময় save করি — referral check এর জন্য
+  // Supabase এ শুধু ১ম ad এর সময় save করি — referral check এর জন্য
   if(newCount===1){
     await fDB.ref(`users/${uid}/adsWatched`).set(1);
   }
@@ -1416,13 +1673,20 @@ function viewNotice(notice){
   startAd(null,'notice',()=>showNoticeFinal(notice));
 }
 
-function showNoticeFinal(notice){
+async function showNoticeFinal(notice){
   $('#nmTtl').textContent='📢 '+T('ns');
   $('#nmTxt').textContent=notice.text;
   $('#nmDt').textContent=timeAgo(notice.createdAt);
   $('#nm').style.display='flex';
-  // Mark as read in Firebase
-  if(S.user) fDB.ref(`users/${S.user.uid}/readNotices/${notice.id}`).set(true);
+  // Mark as read in Supabase
+  if(S.user){
+    // Store readNotices as JSON in users row
+    const uSnap=await fDB.ref(`users/${S.user.uid}`).once('value');
+    const ud=uSnap.val()||{};
+    const rn=ud.readNotices||{};
+    rn[notice.id]=true;
+    await fDB.ref(`users/${S.user.uid}`).update({readNotices:rn});
+  }
 }
 
 window.EZ={
@@ -1446,7 +1710,7 @@ function buildLangModal(){
     btn.innerHTML=`<span style="font-size:22px">${cfg.f}</span><div><div style="font-weight:600;font-size:13px">${cfg.n}</div></div>`;
     btn.onclick=()=>{
       applyLang(code);
-      // Save to Firebase if logged in
+      // Save to Supabase if logged in
       if(S.user) fDB.ref(`users/${S.user.uid}/lang`).set(code);
       toast(T('setLang'),'s');
       EZ.closeLM();
@@ -1474,12 +1738,64 @@ async function detectCountry(){
   }catch(e){ S.country=''; S.countryEarn=CFG.earnDef; return ''; }
 }
 
-// ─── FIREBASE DB HELPERS ──────────────────────────────
+// ─── SUPABASE DB HELPERS ─────────────────────────────
 function userRef(uid=null){ return fDB.ref(`users/${uid||S.user.uid}`); }
 
 async function loadUserData(uid){
   const snap=await fDB.ref(`users/${uid}`).once('value');
-  return snap.val();
+  const raw=snap.val();
+  return raw ? _userFromDB(raw) : null;
+}
+
+// DB → JS camelCase mapper
+function _userFromDB(row){
+  if(!row) return null;
+  return {
+    ...row,
+    usdEarned: row.usd_earned ?? row.usdEarned ?? 0,
+    todayEarned: row.today_earned ?? row.todayEarned ?? 0,
+    todayDate: row.today_date ?? row.todayDate ?? '',
+    adsWatched: row.ads_watched ?? row.adsWatched ?? 0,
+    offersCompleted: row.offers_completed ?? row.offersCompleted ?? 0,
+    activeReferrals: row.active_referrals ?? row.activeReferrals ?? 0,
+    isAdmin: row.is_admin ?? row.isAdmin ?? false,
+    emailVerified: row.email_verified ?? row.emailVerified ?? false,
+    refCode: row.ref_code ?? row.refCode ?? '',
+    referredBy: row.referred_by ?? row.referredBy ?? null,
+    forgotUsed: row.forgot_used ?? row.forgotUsed ?? false,
+    countryEarn: row.country_earn ?? row.countryEarn ?? 0.30,
+    deviceId: row.device_id ?? row.deviceId ?? '',
+    loginStreak: row.login_streak ?? row.loginStreak ?? 0,
+    lastLoginDate: row.last_login_date ?? row.lastLoginDate ?? '',
+    dailyBonusDate: row.daily_bonus_date ?? row.dailyBonusDate ?? '',
+    socialUnlockAt: row.social_unlock_at ?? row.socialUnlockAt ?? 0,
+    wallProgress: row.wall_progress ?? row.wallProgress ?? {},
+    readNotices: row.read_notices ?? row.readNotices ?? {},
+    completedTasks: row.completed_tasks ?? row.completedTasks ?? {},
+    createdAt: row.created_at ?? row.createdAt ?? 0,
+  };
+}
+
+// JS camelCase → DB snake_case mapper (for writes)
+function _userToDB(data){
+  const m = {
+    usdEarned:'usd_earned', todayEarned:'today_earned',
+    todayDate:'today_date', adsWatched:'ads_watched',
+    offersCompleted:'offers_completed', activeReferrals:'active_referrals',
+    isAdmin:'is_admin', emailVerified:'email_verified',
+    refCode:'ref_code', referredBy:'referred_by',
+    forgotUsed:'forgot_used', countryEarn:'country_earn',
+    deviceId:'device_id', loginStreak:'login_streak',
+    lastLoginDate:'last_login_date', dailyBonusDate:'daily_bonus_date',
+    socialUnlockAt:'social_unlock_at', wallProgress:'wall_progress',
+    readNotices:'read_notices', completedTasks:'completed_tasks',
+    createdAt:'created_at',
+  };
+  const result = {};
+  for(const [k,v] of Object.entries(data)){
+    result[m[k]||k] = v;
+  }
+  return result;
 }
 
 async function getWallData(){
@@ -1506,8 +1822,11 @@ async function getWallData(){
 
 async function checkWallUnlock(wallId){
   if(!S.user) return {locked:true, count:0};
-  const snap=await fDB.ref(`users/${S.user.uid}/wallProgress/${wallId}`).once('value');
-  const prog=snap.val()||{count:0,unlockedAt:0};
+  // wallProgress stored as JSON field in users table
+  const snap=await fDB.ref(`users/${S.user.uid}`).once('value');
+  const ud=snap.val()||{};
+  const wallProgress=ud.wallProgress||{};
+  const prog=wallProgress[wallId]||{count:0,unlockedAt:0};
   const unlocked=prog.unlockedAt && (Date.now()-prog.unlockedAt)<CFG.unlock24h;
   const remaining=unlocked?Math.max(0,CFG.unlock24h-(Date.now()-prog.unlockedAt)):0;
   return {locked:!unlocked, count:prog.count||0, unlockedAt:prog.unlockedAt, remaining};
@@ -1521,7 +1840,8 @@ function msToHM(ms){
 
 // POSTBACK URL for user
 function getPostbackUrl(uid,wallId){
-  return `https://earn-zone-997fb-default-rtdb.firebaseio.com/postbacks/${uid}_${wallId}.json`;
+  // Supabase postback: use Edge Function or direct DB write
+  return `${SUPA_URL}/functions/v1/postback?uid=${uid}&wall=${wallId}`;
 }
 // Postback note to show users
 function getPostbackNote(uid,wallId){
@@ -1590,7 +1910,7 @@ function doLogout(){
   fAuth.signOut();
   S.user=null; S.userData=null;
   S.page='login'; S.sidebarOpen=false;
-  S.unsubscribes.forEach(u=>u());
+  S.unsubscribes.forEach(u=>{ try{ if(typeof u==='function') u(); }catch(e){} });
   S.unsubscribes=[];
   render();
 }
@@ -1637,7 +1957,8 @@ async function submitWithdraw(method,account,amount){
   if((ud.usdEarned||0)<usd){
     toast(T('wf'),'e'); return;
   }
-  const wid=fDB.ref('withdrawals').push().key;
+  const wPush=fDB.ref('withdrawals').push();
+  const wid=wPush.key;
   await fDB.ref(`withdrawals/${wid}`).set({
     id:wid, uid:S.user.uid, userEmail:ud.email, userName:ud.name,
     method, account, amount:usd, status:'pending',
@@ -1667,18 +1988,350 @@ async function submitWithdraw(method,account,amount){
 
 // ─── OFFER COMPLETE (postback / manual) ───────────────
 async function markOfferComplete(uid,wallId,amount){
-  const oid=fDB.ref(`offers/${uid}`).push().key;
+  const oPush=fDB.ref(`offers/${uid}`).push();
+  const oid=oPush.key;
   await fDB.ref(`offers/${uid}/${oid}`).set({
     id:oid,wallId,amount:parseFloat(amount)||0.30,
     completedAt:Date.now(),verified:true,
   });
   await fDB.ref(`users/${uid}/usdEarned`).transaction(v=>(v||0)+parseFloat(amount));
   await fDB.ref(`users/${uid}/offersCompleted`).transaction(v=>(v||0)+1);
+  // Track monthly earnings for award system
+  trackMonthlyEarning(uid, parseFloat(amount)||0);
   toast('Offer marked complete ✓','s');
   render();
 }
 
 // ─── SMART CACHE SYSTEM ───────────────────────────────
+// ════════════════════════════════════════════════════════
+//  SUPABASE PROPER TABLE LAYER
+//  প্রতিটা data type এর জন্য আলাদা table
+//  scalable, fast, professional
+// ════════════════════════════════════════════════════════
+
+// ── AUTH wrapper (fAuth — same API as before) ─────────
+const fAuth = {
+  currentUser: null,
+
+  async signInWithEmailAndPassword(email, pw){
+    const {data, error} = await sb.auth.signInWithPassword({email, password:pw});
+    if(error) throw {code:'auth/wrong-password', message: T('wp')};
+    return {user: _mapUser(data.user)};
+  },
+
+  async createUserWithEmailAndPassword(email, pw){
+    const {data, error} = await sb.auth.signUp({email, password:pw});
+    if(error) throw {code: error.message, message: error.message};
+    return {user: _mapUser(data.user)};
+  },
+
+  async sendPasswordResetEmail(email){
+    const {error} = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin
+    });
+    if(error) throw error;
+  },
+
+  async signOut(){
+    await sb.auth.signOut();
+  },
+
+  onAuthStateChanged(callback){
+    // Listen for auth changes
+    sb.auth.onAuthStateChange(async (event, session)=>{
+      if(session?.user){
+        fAuth.currentUser = _mapUser(session.user);
+        await callback(fAuth.currentUser);
+      } else {
+        fAuth.currentUser = null;
+        await callback(null);
+      }
+    });
+    // Check current session immediately
+    sb.auth.getSession().then(({data:{session}})=>{
+      if(session?.user){
+        fAuth.currentUser = _mapUser(session.user);
+        callback(fAuth.currentUser);
+      } else {
+        callback(null);
+      }
+    });
+  }
+};
+
+function _mapUser(u){
+  if(!u) return null;
+  return {
+    ...u,
+    uid: u.id,
+    emailVerified: !!u.email_confirmed_at,
+    sendEmailVerification: async ()=>{
+      await sb.auth.resend({type:'signup', email: u.email});
+    },
+    reload: async ()=>{
+      const {data:{user}} = await sb.auth.getUser();
+      if(user) fAuth.currentUser = _mapUser(user);
+    }
+  };
+}
+
+// ── DB wrapper — proper table-based ─────────────────
+// প্রতিটা path → সঠিক Supabase table এ যাবে
+const fDB = {
+  ref(path){ return new SBRef(path.replace(/^\//, '')); }
+};
+
+class SBRef {
+  constructor(path){ this.path = path; }
+
+  push(){
+    const key = crypto.randomUUID ? crypto.randomUUID() : ('id_'+Date.now()+'_'+Math.random().toString(36).slice(2,8));
+    const child = new SBRef(this.path + '/' + key);
+    child.key = key;
+    // Expose set on push result
+    child.parentSet = true;
+    return child;
+  }
+
+  get key(){
+    return this._key || this.path.split('/').pop();
+  }
+  set key(v){ this._key = v; }
+
+  async set(value){
+    const {table, id, field} = _parsePath(this.path);
+    if(!table) return;
+
+    if(field){
+      // Field update: users/uid/fieldName
+      const row = await _getRow(table, id);
+      const merged = {...(row||{}), [field]: value};
+      await _upsert(table, id, merged);
+    } else if(id){
+      // Full row set
+      if(value === null || value === undefined){
+        await sb.from(table).delete().eq('id', id);
+      } else {
+        await _upsert(table, id, {...value, id});
+      }
+    }
+    EZCache.invalidate(this.path);
+  }
+
+  async update(updates){
+    const {table, id, field} = _parsePath(this.path);
+    if(!table || !id) return;
+    const row = await _getRow(table, id) || {};
+    const merged = {...row, ...updates, id};
+    await _upsert(table, id, merged);
+    EZCache.invalidate(this.path);
+  }
+
+  async remove(){
+    const {table, id} = _parsePath(this.path);
+    if(!table) return;
+    if(id) await sb.from(table).delete().eq('id', id);
+    EZCache.invalidate(this.path);
+  }
+
+  async once(event){
+    const cached = EZCache.get(this.path);
+    if(cached) return _snap(cached, this.path);
+
+    const {table, id, field} = _parsePath(this.path);
+    if(!table) return _snap(null, this.path);
+
+    let value = null;
+
+    if(field){
+      const row = await _getRow(table, id);
+      value = row ? row[field] ?? null : null;
+    } else if(id){
+      value = await _getRow(table, id);
+    } else {
+      // Load all rows as object
+      const {data} = await sb.from(table).select('*');
+      if(data && data.length){
+        value = {};
+        for(const row of data) value[row.id] = row;
+      }
+    }
+
+    EZCache.set(this.path, value);
+    return _snap(value, this.path);
+  }
+
+  async transaction(updateFn){
+    const snap = await this.once('value');
+    const current = snap.val();
+    const newVal = updateFn(current);
+    if(newVal !== undefined) await this.set(newVal);
+    return {committed:true, snapshot:{val:()=>newVal}};
+  }
+
+  on(event, callback){
+    // Initial load
+    this.once('value').then(snap => callback(snap));
+
+    const {table, id} = _parsePath(this.path);
+    if(!table) return ()=>{};
+
+    const channelName = 'rt_' + this.path.replace(/[^a-zA-Z0-9]/g,'_').slice(0,50);
+    const filter = id ? `id=eq.${id}` : undefined;
+
+    const channel = sb.channel(channelName)
+      .on('postgres_changes', {
+        event: '*', schema: 'public', table,
+        ...(filter ? {filter} : {})
+      }, async ()=>{
+        EZCache.invalidate(this.path);
+        const snap = await this.once('value');
+        callback(snap);
+      }).subscribe();
+
+    return ()=> sb.removeChannel(channel);
+  }
+
+  off(event, unsub){ if(typeof unsub==='function') unsub(); }
+
+  // Query methods
+  orderByChild(child){ return new SBQuery(this.path, {orderBy:child}); }
+  orderByValue(){ return new SBQuery(this.path, {orderBy:'__value'}); }
+}
+
+class SBQuery {
+  constructor(path, opts={}){
+    this.path=path; this.opts={...opts};
+    this._eq=null; this._limit=null; this._limitFirst=null;
+  }
+  equalTo(val){ this._eq=val; return this; }
+  limitToLast(n){ this._limit=n; return this; }
+  limitToFirst(n){ this._limitFirst=n; return this; }
+  startAt(v){ return this; }
+
+  async once(event){
+    const {table} = _parsePath(this.path);
+    if(!table) return _snap(null, this.path);
+
+    let query = sb.from(table).select('*');
+
+    // Filter by column value
+    if(this._eq !== null && this.opts.orderBy && this.opts.orderBy !== '__value'){
+      query = query.eq(this.opts.orderBy, this._eq);
+    }
+
+    // Order
+    if(this.opts.orderBy && this.opts.orderBy !== '__value'){
+      const asc = !this._limit; // limitToLast → desc then reverse
+      query = query.order(this.opts.orderBy, {ascending: asc});
+    }
+
+    // Limit
+    if(this._limit) query = query.limit(this._limit);
+    if(this._limitFirst) query = query.limit(this._limitFirst);
+
+    const {data, error} = await query;
+    if(error){ console.warn('SBQuery error:', error.message); return _snap(null, this.path); }
+
+    if(!data || !data.length) return _snap(null, this.path);
+
+    // If limitToLast, reverse to get correct order
+    const rows = this._limit ? [...data].reverse() : data;
+
+    const obj = {};
+    for(const row of rows) obj[row.id] = row;
+
+    return _snap(obj, this.path);
+  }
+}
+
+// ── Path parser ────────────────────────────────────
+function _parsePath(path){
+  // path examples:
+  // "users"                     → table:users, id:null, field:null
+  // "users/uid123"              → table:users, id:uid123, field:null
+  // "users/uid123/usdEarned"    → table:users, id:uid123, field:usdEarned
+  // "withdrawals"               → table:withdrawals
+  // "settings/payout"           → table:settings, id:payout, field:null
+  // "stats"                     → table:stats, id:stats, field:null
+  // "stats/totalUsers"          → table:stats, id:stats, field:totalUsers
+  // "postbacks/uid"             → table:postbacks, id:uid
+  // "offers/uid/offerId"        → table:offers, id:offerId (store flat)
+
+  const parts = path.split('/').filter(Boolean);
+  if(!parts.length) return {table:null, id:null, field:null};
+
+  const tableMap = {
+    users:'users', withdrawals:'withdrawals',
+    socialTasks:'social_tasks', submissions:'submissions',
+    notices:'notices', offers:'offers',
+    settings:'settings', stats:'stats',
+    postbacks:'postbacks', walls:'walls',
+    orders:'orders',
+    monthlyAwards:'monthly_awards',
+  };
+
+  const rawTable = parts[0];
+  const table = tableMap[rawTable] || rawTable;
+
+  if(parts.length === 1){
+    // Special: stats → single row with id='stats'
+    if(rawTable==='stats') return {table:'stats', id:'stats', field:null};
+    return {table, id:null, field:null};
+  }
+
+  if(parts.length === 2){
+    if(rawTable==='stats') return {table:'stats', id:'stats', field:parts[1]};
+    if(rawTable==='settings') return {table:'settings', id:parts[1], field:null};
+    return {table, id:parts[1], field:null};
+  }
+
+  if(parts.length === 3){
+    if(rawTable==='settings') return {table:'settings', id:parts[1], field:parts[2]};
+    if(rawTable==='users') return {table:'users', id:parts[1], field:parts[2]};
+    if(rawTable==='offers') return {table:'offers', id:parts[2], field:null};
+    if(rawTable==='postbacks') return {table:'postbacks', id:parts[1]+'/'+parts[2], field:null};
+    return {table, id:parts[1], field:parts[2]};
+  }
+
+  // Deeper paths: users/uid/wallProgress/wallId → store as field
+  if(parts.length === 4 && rawTable==='users'){
+    return {table:'users', id:parts[1], field: parts[2]+'_'+parts[3]};
+  }
+  if(parts.length === 4 && rawTable==='users'){
+    return {table:'users', id:parts[1], field: parts[2]};
+  }
+
+  return {table, id:parts[1]||null, field:parts[2]||null};
+}
+
+async function _getRow(table, id){
+  const {data, error} = await sb.from(table).select('*').eq('id', id).maybeSingle();
+  if(error) console.warn('_getRow error:', table, id, error.message);
+  if(table === 'users' && data) return _userFromDB(data);
+  return data;
+}
+
+async function _upsert(table, id, value){
+  let row = typeof value === 'object' ? {...value, id} : {id, value};
+  // Convert camelCase to snake_case for users table
+  if(table === 'users') row = _userToDB(row);
+  const {error} = await sb.from(table).upsert(row, {onConflict:'id'});
+  if(error) console.warn('_upsert error:', table, id, error.message);
+}
+
+function _snap(value, path){
+  return {
+    val: ()=> value,
+    exists: ()=> value !== null && value !== undefined,
+    child: (c)=> _snap(value?.[c] ?? null, path+'/'+c),
+    forEach: (cb)=>{
+      if(!value || typeof value !== 'object') return;
+      for(const [k,v] of Object.entries(value)) cb({key:k, val:()=>v});
+    }
+  };
+}
+
 const CACHE_TTL = 12 * 60 * 60 * 1000; // 12 hours in ms
 const EZCache = {
   _store: {},
@@ -1707,7 +2360,7 @@ const EZCache = {
   }
 };
 
-// Smart Firebase read — cache first, Firebase only if expired or forced
+// Smart read — cache first, Supabase only if expired or forced
 async function smartRead(path, forceRefresh=false){
   const cached = EZCache.get(path);
   if(cached && !forceRefresh) return cached;
@@ -1726,12 +2379,12 @@ function setupListeners(uid){
   const uRef=fDB.ref(`users/${uid}`);
   const unsubUser=uRef.on('value',snap=>{
     S.userData=snap.val();
-    // Update cache
     EZCache.set(`users/${uid}`, S.userData);
     if(S.userData?.banned){ doLogout(); toast(T('banned'),'e'); return; }
     updateNavBar();
   });
-  S.unsubscribes.push(()=>uRef.off('value',unsubUser));
+  // unsubUser is already a function from our Supabase wrapper
+  S.unsubscribes.push(unsubUser);
   // Notices — check once, cache for 12h
   loadNoticesCached(uid);
 }
@@ -1768,7 +2421,7 @@ async function checkActiveReferrals(){
   if(!refUids.length) return;
   let active=0;
   for(const uid of refUids){
-    // Cache check first — Firebase call শুধু cache miss হলে
+    // Cache check first — Supabase call শুধু cache miss হলে
     const cacheKey=`ref_active_${uid}`;
     let isActive=EZCache.get(cacheKey);
     if(isActive===null){
@@ -1838,7 +2491,7 @@ function buildWelcome(){
       <h1 style="font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:12px">Earn Real Money<br><span style="background:linear-gradient(90deg,#2563eb,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent">From Your Phone</span></h1>
       <p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:24px">Complete offers, watch ads & refer friends.<br>Withdraw via bKash, Nagad, PayPal, USDT.</p>
 
-      <!-- Stats — Real Firebase data -->
+      <!-- Stats — Real Supabase data -->
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px">
         <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 8px;text-align:center">
           <div id="wlUserCount" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#22c55e">…</div>
@@ -1994,7 +2647,7 @@ function buildForgot(){
   </div></div>`;
 }
 
-function attachAuthEvents(){
+async function attachAuthEvents(){
   // Login
   const lgBtn=$('#lgBtn');
   if(lgBtn){
@@ -2041,7 +2694,7 @@ function attachAuthEvents(){
         S.page='home'; render();
       } else { toast('Not verified yet. Check your email.','w'); }
     };
-    $('#veRe').onclick=()=>{ fAuth.currentUser?.sendEmailVerification(); toast('Email sent!','s'); };
+    $('#veRe').onclick=()=>{ sb.auth.resend({type:'signup',email:fAuth.currentUser?.email}); toast('Email sent!','s'); };
     $('#veLo').onclick=()=>doLogout();
   }
   // Forgot
@@ -2074,6 +2727,7 @@ function renderApp(){
   else if(S.page==='social') html+=buildSocialTasks();
   else if(S.page==='unlock') html+=buildUnlock(S.unlockWallId);
   else if(S.page==='wallview') html+=buildWallView(S.unlockWallId);
+  else if(S.page==='leaderboard') html+=buildLeaderboardPage();
   else html+=buildHome();
   html+=`</div></div>`;
   html+=buildBottomNav();
@@ -2097,6 +2751,7 @@ function buildNav(){
     <div style="display:flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:#059669"><div style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 1.5s infinite"></div><span id="navOnlineCount">${onlineCount}</span></div>
     <div class="nav-bal" id="navBal">${fmt$(ud.usdEarned||0)}</div>
   </div>
+  <button onclick="toggleDarkMode()" style="background:none;border:none;cursor:pointer;font-size:18px;padding:4px 6px" title="Toggle Dark Mode">${S.darkMode?'☀️':'🌙'}</button>
   <button class="nav-av${hasNotice?' nb-dot':''}" id="navAv">
     ${(ud.name||ud.email||'?')[0].toUpperCase()}
     ${hasNotice?'<div class="nav-nd"></div>':''}
@@ -2131,6 +2786,7 @@ function buildSidebar(){
   <button class="si${S.page==='profile'?' on':''}" data-page="profile"><span class="si-ico">👤</span>${T('pr')}</button>
   <button class="si${S.page==='notices'?' on':''}" data-page="notices"><span class="si-ico">📢</span>${T('ns')} ${S.noticeQueue.length>0?`<span class="bdg bdr" style="margin-left:auto">${S.noticeQueue.length}</span>`:''}</button>
   <button class="si${S.page==='faq'?' on':''}" data-page="faq"><span class="si-ico">❓</span>FAQ</button>
+  <button class="si${S.page==='leaderboard'?' on':''}" data-page="leaderboard"><span class="si-ico">🏆</span>Leaderboard</button>
   <div class="sdb-sg">Info</div>
   <a href="about.html" target="_blank" class="si" style="text-decoration:none;color:inherit"><span class="si-ico">🏢</span>About Us</a>
   <a href="contact.html" target="_blank" class="si" style="text-decoration:none;color:inherit"><span class="si-ico">📧</span>Contact</a>
@@ -2138,6 +2794,7 @@ function buildSidebar(){
 
   ${ud.isAdmin?`<div class="sdb-sg">Admin</div><button class="si${S.page==='admin'?' on':''}" data-page="admin"><span class="si-ico">⚙️</span>${T('ap')}</button>`:''}
   <div style="margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,.07)">
+  <button class="si" onclick="toggleDarkMode()"><span class="si-ico">${S.darkMode?'☀️':'🌙'}</span>${S.darkMode?'Light Mode':'Dark Mode'}</button>
   <button class="si" id="sbLang"><span class="si-ico">🌐</span>${T('ln')}: ${LANGS[S.lang]?.f||'🇺🇸'}</button>
   <button class="si" id="sbLo"><span class="si-ico">🚪</span>${T('lo')}</button>
   </div>
@@ -2145,6 +2802,40 @@ function buildSidebar(){
 }
 
 // ─── HOME PAGE ────────────────────────────────────────
+
+// ── QS Card helper functions (template-in-template fix) ──
+const QS_COLOR_MAP = {
+  '#ef4444':{bg:'#fee2e2',shadow:'rgba(239,68,68,.18)',bc:'#fca5a5'},
+  '#8b5cf6':{bg:'#ede9fe',shadow:'rgba(139,92,246,.18)',bc:'#c4b5fd'},
+  '#2563eb':{bg:'#dbeafe',shadow:'rgba(37,99,235,.18)',bc:'#93c5fd'},
+  '#f59e0b':{bg:'#fef3c7',shadow:'rgba(245,158,11,.18)',bc:'#fde68a'},
+  '#10b981':{bg:'#d1fae5',shadow:'rgba(16,185,129,.18)',bc:'#6ee7b7'},
+  '#ec4899':{bg:'#fce7f3',shadow:'rgba(236,72,153,.18)',bc:'#f9a8d4'},
+};
+
+function buildQsCards(){
+  return CFG.walls.slice(0,5).map((w,i)=>{
+    const cm = QS_COLOR_MAP[w.color]||{bg:'#dbeafe',shadow:'rgba(37,99,235,.18)',bc:'#93c5fd'};
+    const badge = i===0 ? '<div class="qs-card-badge" style="background:#ef4444;color:#fff">HOT</div>' : '';
+    const name = (S.wallData[w.id]?.name||w.defaultName||'Offerwall');
+    return '<div class="qs-card" data-goto-wall="'+w.id+'" style="--qs-bg:'+cm.bg+';--qs-shadow:'+cm.shadow+';--qs-bc:'+cm.bc+'">'+
+      badge+
+      '<div class="qs-icon-wrap">'+w.icon+'</div>'+
+      '<div class="qs-name">'+name+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function buildQsCardsAll(walls){
+  return (walls||[]).map((w)=>{
+    const cm = QS_COLOR_MAP[w.color]||{bg:'#dbeafe',shadow:'rgba(37,99,235,.18)',bc:'#93c5fd'};
+    return '<div class="qs-card" data-goto-wall="'+w.id+'" style="--qs-bg:'+cm.bg+';--qs-shadow:'+cm.shadow+';--qs-bc:'+cm.bc+'">'+
+      '<div class="qs-icon-wrap">'+w.icon+'</div>'+
+      '<div class="qs-name">'+w.name+'</div>'+
+    '</div>';
+  }).join('');
+}
+
 function buildHome(){
   const ud=S.userData||{};
   const today=new Date().toDateString();
@@ -2161,13 +2852,76 @@ function buildHome(){
     <div class="sc sc-3"><div class="sc-i">👥</div><div class="sc-v cb">${ud.activeReferrals||0}</div><div class="sc-l">${T('refCount')}</div></div>
     <div class="sc sc-4"><div class="sc-i">💵</div><div class="sc-v cy">${fmt$(todayEarn)}</div><div class="sc-l">${T('todayEarn')}</div></div>
   </div>
-  <div class="sl">${T('of')}</div>
-  ${CFG.walls.slice(0,3).map(w=>`<div class="wc" data-goto-wall="${w.id}">
-    <div class="wc-ic" style="background:${w.color}22;border:1px solid ${w.color}44">${w.icon}</div>
-    <div class="wc-b"><div class="wc-t">${S.wallData[w.id]?.name||'Offerwall'}</div><div class="wc-d">${S.wallData[w.id]?.desc||''}</div></div>
-    <div class="wc-r"><span style="color:${w.color};font-size:18px">›</span></div>
-  </div>`).join('')}
-  <button class="btn bh mt8" data-page="offers">See All Offers →</button>
+  <!-- LEVEL & STREAK CARD -->
+  <div class="card mb12" style="padding:14px 16px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div>
+        <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.06em">Your Level</div>
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:${getUserLevel(ud.usdEarned).color}">${getUserLevel(ud.usdEarned).icon} ${getUserLevel(ud.usdEarned).name}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:#64748b;font-weight:600">🔥 Streak</div>
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#ea580c">${ud.loginStreak||0} days</div>
+      </div>
+    </div>
+    ${getUserLevel(ud.usdEarned).next?`
+    <div style="font-size:11px;color:#64748b;margin-bottom:4px">Progress to ${getUserLevel(ud.usdEarned).next?'next level':''}</div>
+    <div class="lvl-bar-wrap"><div class="lvl-bar" style="width:${Math.min(getUserLevel(ud.usdEarned).progress,100)}%"></div></div>
+    <div style="font-size:10px;color:#94a3b8;text-align:right">${getUserLevel(ud.usdEarned).progress}%</div>`:'<div style="font-size:12px;color:#7c3aed;font-weight:700;text-align:center">💎 MAX LEVEL!</div>'}
+    <div style="margin-top:10px">
+      ${buildStreakUI(ud)}
+    </div>
+  </div>
+
+  <!-- PWA INSTALL BANNER (show if not installed) -->
+  ${S.pwaPrompt?`<div class="pwa-banner" onclick="installPWA()">
+    <span style="font-size:24px">📲</span>
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:700;color:#fff">Install EarnZone Pro</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.7)">Add to home screen for faster access</div>
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,.8);font-weight:700">Install →</div>
+  </div>`:''}
+
+  <!-- PUSH NOTIFICATION BANNER -->
+  ${!S.pushEnabled && Notification?.permission!=='granted'?`<div class="push-banner" onclick="enablePush()">
+    <span style="font-size:24px">🔔</span>
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:700;color:#fff">Enable Notifications</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.7)">Get notified when withdrawal is approved</div>
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,.8);font-weight:700">Enable →</div>
+  </div>`:''}
+
+  <!-- LEADERBOARD PREVIEW -->
+  <div class="card mb12">
+    <div class="card-hd" style="display:flex;align-items:center;justify-content:space-between">
+      <span>🏆 Top Earners</span>
+      <button onclick="S.page='leaderboard';render()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#2563eb;font-weight:700">See All →</button>
+    </div>
+    <div id="lbPreview">${S.leaderboard.slice(0,3).length?S.leaderboard.slice(0,3).map((u,i)=>{const ri=['🥇','🥈','🥉'];return '<div class="lb-row'+(i===0?' top1':i===1?' top2':i===2?' top3':'')+'" style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:13px;margin-bottom:8px;background:#fff;border:1.5px solid #dbeafe"><div style="font-size:16px;font-weight:800;width:28px;text-align:center">'+ri[i]+'</div><div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#059669);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0">'+(u.name||u.email||'?')[0].toUpperCase()+'</div><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:13px">'+(u.name||u.email?.split?.('@')[0]||'User')+(u.uid===S.user?.uid?' <span style=color:#2563eb;font-size:10px>(You)</span>':'')+'</div><div style="font-size:11px;color:#059669;font-weight:700">'+fmt$(u.usdEarned||0)+' earned</div></div></div>';}).join(''):buildSkeleton(3)}</div>
+  </div>
+
+  <!-- BADGES PREVIEW -->
+  <div class="card mb12">
+    <div class="card-hd" style="display:flex;align-items:center;justify-content:space-between">
+      <span>🎖️ Your Badges</span>
+      <span style="font-size:11px;color:#64748b">${getUserBadges(ud).filter(b=>b.earned).length}/${getUserBadges(ud).length} earned</span>
+    </div>
+    ${buildBadgesSection(ud)}
+  </div>
+
+  <!-- QUICK SERVICES GRID -->
+  <div class="qs-sec-title"><div class="qs-sec-dot"></div><span>Quick Services</span></div>
+  <div class="qs-grid">
+    ${buildQsCards()}
+    <div class="qs-card" data-page="social" style="--qs-bg:#dcfce7;--qs-shadow:rgba(5,150,105,.18);--qs-bc:#6ee7b7">
+      <div class="qs-card-badge" style="background:#059669;color:#fff">EARN</div>
+      <div class="qs-icon-wrap">📋</div>
+      <div class="qs-name">Social Tasks</div>
+    </div>
+  </div>
+  <button class="btn bh mt4 mb12" data-page="offers" style="width:100%">See All Offers →</button>
   ${S.noticeQueue.length>0?`<div class="nc-item mt16" id="homeNotice"><div class="nc-dot"></div><div style="flex:1"><div class="fw6 sm">📢 ${T('nt')}</div></div><button class="btn bp bau bsm">${T('vn')}</button></div>`:''}
   <div class="div mt16"></div>
   <div style="text-align:center;padding:8px 0 20px">
@@ -2256,8 +3010,11 @@ function buildOffers(){
     </div>
     <div style="font-size:36px">💰</div>
   </div>
-  ${walls.map(w=>`<div class="wc" data-goto-wall="${w.id}">
-    <div class="wc-ic" style="background:${w.color}22;border:1px solid ${w.color}44">${w.icon}</div>
+  <div class="qs-grid">
+    ${buildQsCardsAll(walls)}
+  </div>
+  <!-- hidden wc divs kept for compatibility -->
+  ${walls.map(w=>`<div class="wc" data-goto-wall="${w.id}" style="display:none">
     <div class="wc-b">
       <div class="wc-t">${w.name}</div>
       <div class="wc-d">${w.desc}</div>
@@ -2472,6 +3229,26 @@ function buildProfile(){
     <div style="font-size:13px;color:#64748b">${ud.email}</div>
     ${ud.isAdmin?'<span class="bdg bdp mt8">⚙️ Admin</span>':''}
   </div>
+  <!-- LEVEL CARD in profile -->
+  <div class="card mb12">
+    <div class="card-hd">${getUserLevel(ud.usdEarned).icon} Level: <span class="${getUserLevel(ud.usdEarned).cls}">${getUserLevel(ud.usdEarned).name}</span></div>
+    ${getUserLevel(ud.usdEarned).next?`
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:#64748b;margin-bottom:6px">
+      <span>Progress to next</span><span>${getUserLevel(ud.usdEarned).progress}%</span>
+    </div>
+    <div class="lvl-bar-wrap"><div class="lvl-bar" style="width:${Math.min(getUserLevel(ud.usdEarned).progress,100)}%"></div></div>`
+    :'<div style="text-align:center;font-size:13px;color:#7c3aed;font-weight:700">💎 MAX LEVEL REACHED!</div>'}
+    <div class="div mt12 mb12"></div>
+    <div class="card-hd">🎖️ Badges (${getUserBadges(ud).filter(b=>b.earned).length}/${getUserBadges(ud).length})</div>
+    ${buildBadgesSection(ud)}
+    <div class="card-hd mt12">🔥 Login Streak</div>
+    ${buildStreakUI(ud)}
+  </div>
+  <!-- MY AWARDS -->
+  <div class="card mb12">
+    <div class="card-hd">🏆 My Monthly Awards</div>
+    <div id="userAwardsList"><div style="text-align:center;padding:16px;color:#94a3b8;font-size:13px">⏳ Loading…</div></div>
+  </div>
   <div class="sl">${T('yrc')}</div>
   <div class="rbox mb12">
     <div><div class="rc">${ud.refCode||'—'}</div><div class="xs mu mt8">${T('scd')}</div></div>
@@ -2592,21 +3369,26 @@ function buildSocialTasks(){
   </div>`;
 }
 
-// Load social tasks from Firebase
+// Load social tasks from Supabase
 async function loadSocialTasks(){
   const el = document.getElementById('socialTasksList');
   if(!el) return;
   try{
-    // Use cache — only call Firebase if cache expired
+    // Use cache — only call Supabase if cache expired
     let tasks = EZCache.get('socialTasks');
     if(!tasks){
       const snap = await fDB.ref('socialTasks').orderByChild('status').equalTo('active').once('value');
       tasks = snap.val()||{};
       EZCache.set('socialTasks', tasks);
     }
+    // ── Country filter ──
+    const filteredEntries = Object.entries(tasks).filter(([,t])=>taskVisibleForUser(t));
+    const filteredTasks = Object.fromEntries(filteredEntries);
+    tasks = filteredTasks;
+
     const list = Object.entries(tasks);
     if(!list.length){
-      el.innerHTML='<div class="card" style="text-align:center;padding:30px"><div style="font-size:32px;margin-bottom:10px">😔</div><div style="font-size:13px;color:#64748b">No tasks available right now.<br>Check back soon!</div></div>';
+      el.innerHTML='<div class="card" style="text-align:center;padding:30px"><div style="font-size:32px;margin-bottom:10px">😔</div><div style="font-size:13px;color:#64748b">No tasks available for your country right now.<br>Check back soon!</div></div>';
       return;
     }
 
@@ -2616,8 +3398,9 @@ async function loadSocialTasks(){
     if(uid){
       completedTasks = EZCache.get(`completedTasks_${uid}`);
       if(!completedTasks){
-        const cSnap = await fDB.ref(`users/${uid}/completedTasks`).once('value');
-        completedTasks = cSnap.val()||{};
+        const cSnap = await fDB.ref(`users/${uid}`).once('value');
+        const ctUd = cSnap.val()||{};
+        completedTasks = ctUd.completedTasks||{};
         EZCache.set(`completedTasks_${uid}`, completedTasks);
       }
     }
@@ -2636,7 +3419,11 @@ async function loadSocialTasks(){
         </div>
         <div style="background:#f8fafc;border-radius:10px;padding:10px;font-size:12px;color:#475569;margin-bottom:10px;line-height:1.6">${t.description}</div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-          <div style="font-size:11px;color:#94a3b8">Workers: ${t.currentWorkers||0}/${t.maxWorkers||'∞'}</div>
+          <div style="font-size:11px;color:${(t.maxWorkers||0)>0&&(t.currentWorkers||0)>=(t.maxWorkers||0)?'#dc2626':'#94a3b8'};font-weight:${(t.maxWorkers||0)>0&&(t.currentWorkers||0)>=(t.maxWorkers||0)?'700':'400'}">
+            ${(t.maxWorkers||0)>0&&(t.currentWorkers||0)>=(t.maxWorkers||0)
+              ? '🔴 Full ('+t.maxWorkers+'/'+t.maxWorkers+')'
+              : 'Slots: '+(t.currentWorkers||0)+'/'+(t.maxWorkers||'∞')}
+          </div>
           ${isDone?'<div style="font-size:11px;color:#059669;font-weight:600">✅ Already completed</div>':`<a href="${t.link}" target="_blank" style="background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.2);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:#2563eb;text-decoration:none">Open Link →</a>`}
         </div>
         ${isDone
@@ -2667,11 +3454,29 @@ async function loadMySubmissions(){
   </div>`).join('');
 }
 
-function submitTaskProof(taskId, taskTitle, reward){
+async function submitTaskProof(taskId, taskTitle, reward){
   const uid = S.user?.uid||'unknown';
   const email = S.user?.email||'unknown';
   const subId = 'SUB-'+Date.now();
-  // Save submission to Firebase
+  // Save submission to Supabase
+  // Check maxWorkers — auto disable if full
+  const taskSnap = await fDB.ref('socialTasks/'+taskId).once('value');
+  const taskData = taskSnap.val()||{};
+  const maxW = parseInt(taskData.maxWorkers||0);
+  const curW = parseInt(taskData.currentWorkers||0);
+  if(maxW > 0 && curW >= maxW){
+    toast('This task is full. No more slots available.','w');
+    return;
+  }
+  // Increment currentWorkers
+  await fDB.ref('socialTasks/'+taskId+'/currentWorkers').transaction(v=>(v||0)+1);
+  // Check again after increment — auto disable if now full
+  const newCur = curW + 1;
+  if(maxW > 0 && newCur >= maxW){
+    await fDB.ref('socialTasks/'+taskId+'/status').set('disabled');
+    EZCache.invalidate('socialTasks');
+  }
+
   fDB.ref('submissions/'+subId).set({
     subId, taskId, taskTitle, reward:parseFloat(reward), uid, email,
     status:'pending', createdAt:Date.now()
@@ -2697,7 +3502,7 @@ function buildFAQ(){
     {q:'Can I create multiple accounts?',a:'No. Only 2 accounts are allowed per device. Creating multiple accounts to abuse the system will result in a permanent ban.'},
     {q:'What happens if my withdrawal is rejected?',a:'If your withdrawal is rejected, your balance is not deducted. Rejections usually happen due to unmet requirements (insufficient balance or referrals). Contact support for details.'},
     {q:'How do I contact support?',a:'Visit our Support page or email us at support@earnzonepro.com. We respond within 24–48 hours on business days.'},
-    {q:'Is my personal data safe?',a:'Yes. We use Firebase Authentication and follow strict data protection practices. We never sell your data. Read our Privacy Policy for full details.'},
+    {q:'Is my personal data safe?',a:'Yes. We use Supabase Authentication and follow strict data protection practices. We never sell your data. Read our Privacy Policy for full details.'},
   ];
   return `<div class="ph">
     <button class="btn bh bau bsm mb12" onclick="S.page='home';render()">← Back</button>
@@ -2720,8 +3525,8 @@ function buildFAQ(){
 
 // ─── ADMIN PAGE ───────────────────────────────────────
 function buildAdmin(){
-  const tabs=['users','ws','ns','ofs','orders','tasks','sett'];
-  const tabLabels={users:T('us'),ws:T('ws'),ns:T('ns'),ofs:T('ofs'),orders:'🛒 Orders',tasks:'📱 Tasks','sett':'⚙️ Settings'};
+  const tabs=['users','ws','ns','ofs','orders','tasks','awards','sett'];
+  const tabLabels={users:T('us'),ws:T('ws'),ns:T('ns'),ofs:T('ofs'),orders:'🛒 Orders',tasks:'📱 Tasks',awards:'🏆 Awards','sett':'⚙️ Settings'};
   return `<div class="ph"><div class="pt">⚙️ ${T('ap')}</div></div>
   <div class="ats">${tabs.map(t=>`<button class="at-btn${S.adminTab===t?' on':''}" data-atab="${t}">${tabLabels[t]||t}</button>`).join('')}</div>
   <div id="adminContent"><div class="empty"><div class="ein">⏳</div></div></div>`;
@@ -2735,6 +3540,7 @@ async function loadAdminContent(){
   else if(S.adminTab==='ofs') await loadAdminOffers(c);
   else if(S.adminTab==='orders') await loadAdminOrders(c);
   else if(S.adminTab==='tasks') await loadAdminTasks(c);
+  else if(S.adminTab==='awards') await loadAdminAwards(c);
   else if(S.adminTab==='sett') await loadAdminSettings(c);
 }
 
@@ -2796,6 +3602,182 @@ async function loadAdminTasks(c){
       <option value="🔵 Facebook">🔵 Facebook</option>
       <option value="🔴 YouTube">🔴 YouTube</option>
       <option value="💜 Instagram">💜 Instagram</option>
+      <option value="🐦 Twitter/X">🐦 Twitter/X</option>
+      <option value="💬 Telegram">💬 Telegram</option>
+      <option value="📱 TikTok">📱 TikTok</option>
+    </select>
+    <label style="font-size:12px;color:#475569;display:block;margin-bottom:4px;font-weight:600">Target Country (একটি বেছে নাও)</label>
+    <select id="tCountry" style="width:100%;padding:10px 13px;border:1.5px solid #dbeafe;border-radius:10px;font-size:13px;background:#f8fafc;color:#0f172a;outline:none;font-family:inherit;margin-bottom:10px">
+
+      <option value="ALL">🌍 All Countries</option>
+      <option value="AF">🇦🇫 Afghanistan</option>
+      <option value="AL">🇦🇱 Albania</option>
+      <option value="DZ">🇩🇿 Algeria</option>
+      <option value="AD">🇦🇩 Andorra</option>
+      <option value="AO">🇦🇴 Angola</option>
+      <option value="AR">🇦🇷 Argentina</option>
+      <option value="AM">🇦🇲 Armenia</option>
+      <option value="AU">🇦🇺 Australia</option>
+      <option value="AT">🇦🇹 Austria</option>
+      <option value="AZ">🇦🇿 Azerbaijan</option>
+      <option value="BH">🇧🇭 Bahrain</option>
+      <option value="BD">🇧🇩 Bangladesh</option>
+      <option value="BY">🇧🇾 Belarus</option>
+      <option value="BE">🇧🇪 Belgium</option>
+      <option value="BZ">🇧🇿 Belize</option>
+      <option value="BJ">🇧🇯 Benin</option>
+      <option value="BT">🇧🇹 Bhutan</option>
+      <option value="BO">🇧🇴 Bolivia</option>
+      <option value="BA">🇧🇦 Bosnia</option>
+      <option value="BW">🇧🇼 Botswana</option>
+      <option value="BR">🇧🇷 Brazil</option>
+      <option value="BN">🇧🇳 Brunei</option>
+      <option value="BG">🇧🇬 Bulgaria</option>
+      <option value="BF">🇧🇫 Burkina Faso</option>
+      <option value="BI">🇧🇮 Burundi</option>
+      <option value="KH">🇰🇭 Cambodia</option>
+      <option value="CM">🇨🇲 Cameroon</option>
+      <option value="CA">🇨🇦 Canada</option>
+      <option value="CF">🇨🇫 Central African Rep.</option>
+      <option value="TD">🇹🇩 Chad</option>
+      <option value="CL">🇨🇱 Chile</option>
+      <option value="CN">🇨🇳 China</option>
+      <option value="CO">🇨🇴 Colombia</option>
+      <option value="CG">🇨🇬 Congo</option>
+      <option value="CR">🇨🇷 Costa Rica</option>
+      <option value="HR">🇭🇷 Croatia</option>
+      <option value="CU">🇨🇺 Cuba</option>
+      <option value="CY">🇨🇾 Cyprus</option>
+      <option value="CZ">🇨🇿 Czech Republic</option>
+      <option value="DK">🇩🇰 Denmark</option>
+      <option value="DJ">🇩🇯 Djibouti</option>
+      <option value="DO">🇩🇴 Dominican Republic</option>
+      <option value="EC">🇪🇨 Ecuador</option>
+      <option value="EG">🇪🇬 Egypt</option>
+      <option value="SV">🇸🇻 El Salvador</option>
+      <option value="GQ">🇬🇶 Equatorial Guinea</option>
+      <option value="ER">🇪🇷 Eritrea</option>
+      <option value="EE">🇪🇪 Estonia</option>
+      <option value="ET">🇪🇹 Ethiopia</option>
+      <option value="FJ">🇫🇯 Fiji</option>
+      <option value="FI">🇫🇮 Finland</option>
+      <option value="FR">🇫🇷 France</option>
+      <option value="GA">🇬🇦 Gabon</option>
+      <option value="GM">🇬🇲 Gambia</option>
+      <option value="GE">🇬🇪 Georgia</option>
+      <option value="DE">🇩🇪 Germany</option>
+      <option value="GH">🇬🇭 Ghana</option>
+      <option value="GR">🇬🇷 Greece</option>
+      <option value="GT">🇬🇹 Guatemala</option>
+      <option value="GN">🇬🇳 Guinea</option>
+      <option value="GW">🇬🇼 Guinea-Bissau</option>
+      <option value="GY">🇬🇾 Guyana</option>
+      <option value="HT">🇭🇹 Haiti</option>
+      <option value="HN">🇭🇳 Honduras</option>
+      <option value="HK">🇭🇰 Hong Kong</option>
+      <option value="HU">🇭🇺 Hungary</option>
+      <option value="IS">🇮🇸 Iceland</option>
+      <option value="IN">🇮🇳 India</option>
+      <option value="ID">🇮🇩 Indonesia</option>
+      <option value="IR">🇮🇷 Iran</option>
+      <option value="IQ">🇮🇶 Iraq</option>
+      <option value="IE">🇮🇪 Ireland</option>
+      <option value="IL">🇮🇱 Israel</option>
+      <option value="IT">🇮🇹 Italy</option>
+      <option value="JM">🇯🇲 Jamaica</option>
+      <option value="JP">🇯🇵 Japan</option>
+      <option value="JO">🇯🇴 Jordan</option>
+      <option value="KZ">🇰🇿 Kazakhstan</option>
+      <option value="KE">🇰🇪 Kenya</option>
+      <option value="KW">🇰🇼 Kuwait</option>
+      <option value="KG">🇰🇬 Kyrgyzstan</option>
+      <option value="LA">🇱🇦 Laos</option>
+      <option value="LV">🇱🇻 Latvia</option>
+      <option value="LB">🇱🇧 Lebanon</option>
+      <option value="LS">🇱🇸 Lesotho</option>
+      <option value="LR">🇱🇷 Liberia</option>
+      <option value="LY">🇱🇾 Libya</option>
+      <option value="LI">🇱🇮 Liechtenstein</option>
+      <option value="LT">🇱🇹 Lithuania</option>
+      <option value="LU">🇱🇺 Luxembourg</option>
+      <option value="MO">🇲🇴 Macao</option>
+      <option value="MK">🇲🇰 Macedonia</option>
+      <option value="MG">🇲🇬 Madagascar</option>
+      <option value="MW">🇲🇼 Malawi</option>
+      <option value="MY">🇲🇾 Malaysia</option>
+      <option value="MV">🇲🇻 Maldives</option>
+      <option value="ML">🇲🇱 Mali</option>
+      <option value="MT">🇲🇹 Malta</option>
+      <option value="MR">🇲🇷 Mauritania</option>
+      <option value="MU">🇲🇺 Mauritius</option>
+      <option value="MX">🇲🇽 Mexico</option>
+      <option value="MD">🇲🇩 Moldova</option>
+      <option value="MN">🇲🇳 Mongolia</option>
+      <option value="ME">🇲🇪 Montenegro</option>
+      <option value="MA">🇲🇦 Morocco</option>
+      <option value="MZ">🇲🇿 Mozambique</option>
+      <option value="MM">🇲🇲 Myanmar</option>
+      <option value="NA">🇳🇦 Namibia</option>
+      <option value="NP">🇳🇵 Nepal</option>
+      <option value="NL">🇳🇱 Netherlands</option>
+      <option value="NZ">🇳🇿 New Zealand</option>
+      <option value="NI">🇳🇮 Nicaragua</option>
+      <option value="NE">🇳🇪 Niger</option>
+      <option value="NG">🇳🇬 Nigeria</option>
+      <option value="NO">🇳🇴 Norway</option>
+      <option value="OM">🇴🇲 Oman</option>
+      <option value="PK">🇵🇰 Pakistan</option>
+      <option value="PA">🇵🇦 Panama</option>
+      <option value="PG">🇵🇬 Papua New Guinea</option>
+      <option value="PY">🇵🇾 Paraguay</option>
+      <option value="PE">🇵🇪 Peru</option>
+      <option value="PH">🇵🇭 Philippines</option>
+      <option value="PL">🇵🇱 Poland</option>
+      <option value="PT">🇵🇹 Portugal</option>
+      <option value="QA">🇶🇦 Qatar</option>
+      <option value="RO">🇷🇴 Romania</option>
+      <option value="RU">🇷🇺 Russia</option>
+      <option value="RW">🇷🇼 Rwanda</option>
+      <option value="SA">🇸🇦 Saudi Arabia</option>
+      <option value="SN">🇸🇳 Senegal</option>
+      <option value="RS">🇷🇸 Serbia</option>
+      <option value="SL">🇸🇱 Sierra Leone</option>
+      <option value="SG">🇸🇬 Singapore</option>
+      <option value="SK">🇸🇰 Slovakia</option>
+      <option value="SI">🇸🇮 Slovenia</option>
+      <option value="SO">🇸🇴 Somalia</option>
+      <option value="ZA">🇿🇦 South Africa</option>
+      <option value="SS">🇸🇸 South Sudan</option>
+      <option value="ES">🇪🇸 Spain</option>
+      <option value="LK">🇱🇰 Sri Lanka</option>
+      <option value="SD">🇸🇩 Sudan</option>
+      <option value="SR">🇸🇷 Suriname</option>
+      <option value="SZ">🇸🇿 Swaziland</option>
+      <option value="SE">🇸🇪 Sweden</option>
+      <option value="CH">🇨🇭 Switzerland</option>
+      <option value="SY">🇸🇾 Syria</option>
+      <option value="TW">🇹🇼 Taiwan</option>
+      <option value="TJ">🇹🇯 Tajikistan</option>
+      <option value="TZ">🇹🇿 Tanzania</option>
+      <option value="TH">🇹🇭 Thailand</option>
+      <option value="TL">🇹🇱 Timor-Leste</option>
+      <option value="TG">🇹🇬 Togo</option>
+      <option value="TT">🇹🇹 Trinidad and Tobago</option>
+      <option value="TN">🇹🇳 Tunisia</option>
+      <option value="TR">🇹🇷 Turkey</option>
+      <option value="TM">🇹🇲 Turkmenistan</option>
+      <option value="UG">🇺🇬 Uganda</option>
+      <option value="UA">🇺🇦 Ukraine</option>
+      <option value="AE">🇦🇪 UAE</option>
+      <option value="GB">🇬🇧 United Kingdom</option>
+      <option value="US">🇺🇸 United States</option>
+      <option value="UY">🇺🇾 Uruguay</option>
+      <option value="UZ">🇺🇿 Uzbekistan</option>
+      <option value="VE">🇻🇪 Venezuela</option>
+      <option value="VN">🇻🇳 Vietnam</option>
+      <option value="YE">🇾🇪 Yemen</option>
+      <option value="ZM">🇿🇲 Zambia</option>
+      <option value="ZW">🇿🇼 Zimbabwe</option>
     </select>
     <label style="font-size:12px;color:#475569;display:block;margin-bottom:4px;font-weight:600">Task Link *</label>
     <input id="tLink" type="url" placeholder="https://youtube.com/channel/..." style="width:100%;padding:10px 13px;border:1.5px solid #dbeafe;border-radius:10px;font-size:13px;background:#f8fafc;color:#0f172a;outline:none;font-family:inherit;margin-bottom:10px">
@@ -2865,6 +3847,7 @@ async function approveSubmission(subId, uid, reward){
   await fDB.ref('submissions/'+subId+'/status').set('approved');
   await fDB.ref('users/'+uid+'/usdEarned').transaction(v=>(v||0)+parseFloat(reward));
   await fDB.ref('stats/totalEarned').transaction(v=>(v||0)+parseFloat(reward));
+  trackMonthlyEarning(uid, parseFloat(reward)||0);
   const subSnap = await fDB.ref('submissions/'+subId).once('value');
   const taskId = subSnap.val()?.taskId;
   if(taskId){
@@ -2891,11 +3874,13 @@ async function addSocialTask(){
   const maxW=parseInt(document.getElementById('tMax')?.value||100);
   if(!title||!link||!reward){ showToast('Fill all required fields','blue'); return; }
   const id='TASK-'+Date.now();
+  const taskCountry = (document.getElementById('tCountry')?.value||'ALL').trim();
   await fDB.ref('socialTasks/'+id).set({
     id, title, platform, link, description:desc||title,
     reward, maxWorkers:maxW, currentWorkers:0,
     icon: platform.includes('Facebook')?'🔵':platform.includes('YouTube')?'🔴':'💜',
-    status:'active', createdAt:Date.now()
+    status:'active', createdAt:Date.now(),
+    country: taskCountry,
   });
   showToast('✅ Task added!','green');
   loadAdminTasks($('#adminContent'));
@@ -2983,7 +3968,7 @@ async function loadAdminUsers(c){
   });
 }
 
-function loadAdminNotices(c){
+async function loadAdminNotices(c){
   c.innerHTML=`<div class="card mb12">
     <div class="card-hd">📢 ${T('pn')}</div>
     <textarea class="inp" id="adnTxt" placeholder="${T('an')}" rows="3"></textarea>
@@ -2993,7 +3978,7 @@ function loadAdminNotices(c){
   $('#adnPost').onclick=async()=>{
     const txt=$('#adnTxt').value.trim();
     if(!txt){ toast('Write something','w'); return; }
-    await fDB.ref('notices').push().set({text:txt,createdAt:Date.now(),postedBy:S.user.uid});
+    const nPush=fDB.ref('notices').push(); await nPush.set({text:txt,createdAt:Date.now(),postedBy:S.user.uid});
     toast('Notice posted!','s');
     $('#adnTxt').value='';
     loadAdminNoticeList();
@@ -3059,7 +4044,7 @@ async function loadAdminOffers(c){
 }
 
 // ─── ATTACH APP EVENTS ────────────────────────────────
-function attachAppEvents(){
+async function attachAppEvents(){
   // Bottom nav
   $$('.bni[data-page]').forEach(b=>b.onclick=()=>navTo(b.dataset.page));
   // Sidebar toggle
@@ -3072,6 +4057,10 @@ function attachAppEvents(){
   $$('[data-goto-wall]').forEach(el=>{
     el.onclick=()=>openWall(el.dataset.gotoWall);
   });
+  // qs-card social tasks shortcut
+  $$('.qs-card[data-page]').forEach(el=>{
+    el.onclick=()=>{ S.page=el.dataset.page; render(); };
+  });
   // Back buttons
   $$('[data-page]').forEach(btn=>{
     if(!btn.classList.contains('bni')) btn.onclick=()=>navTo(btn.dataset.page);
@@ -3081,7 +4070,7 @@ function attachAppEvents(){
   if(hn) hn.querySelector('button').onclick=()=>{
     if(S.noticeQueue.length) viewNotice(S.noticeQueue[0]);
   };
-  // Wall view — Version-based cache (0 Firebase call if no admin change)
+  // Wall view — Version-based cache (0 Supabase call if no admin change)
   if(S.page==='wallview'){
     const wallId=S.unlockWallId;
     CACHE.smartGet(wallId).then(freshData=>{
@@ -3173,6 +4162,8 @@ function attachAppEvents(){
       toast(T('sv'),'s');
     };
     const lo=$('#prfLo'); if(lo) lo.onclick=doLogout;
+  // Load user awards on profile
+  if(S.user) loadUserAwards(S.user.uid);
   }
   // Notices
   if(S.page==='notices') loadNotices();
@@ -3182,6 +4173,13 @@ function attachAppEvents(){
     loadAdminContent();
   }
   // Admin tab content buttons re-loaded in loadAdminContent
+  // Leaderboard page
+  if(S.page==='leaderboard'){
+    loadLeaderboard().then(()=>{
+      const el=document.getElementById('lbContent');
+      if(el) el.innerHTML=buildLeaderboardSection();
+    });
+  }
 }
 
 function openSidebar(){
@@ -3215,7 +4213,7 @@ async function openWall(wallId){
   render();
 }
 
-// ─── FIREBASE AUTH STATE ──────────────────────────────
+// ─── SUPABASE AUTH STATE ─────────────────────────────
 fAuth.onAuthStateChanged(async user=>{
   if(user){
     S.user=user;
@@ -3264,6 +4262,18 @@ fAuth.onAuthStateChanged(async user=>{
       const el = document.getElementById('navOnlineCount');
       if(el) el.textContent = S.realUserCount;
     });
+    // ── NEW FEATURES ──
+    initDarkMode();
+    initPWA();
+    // Daily bonus + streak (non-blocking)
+    if(S.userData){
+      checkDailyBonus(user.uid, S.userData);
+      updateLoginStreak(user.uid, S.userData);
+    }
+    // Preload leaderboard
+    loadLeaderboard();
+    // Push permission check
+    S.pushEnabled = localStorage.getItem('ez_push')==='1';
     render();
   } else {
     S.user=null; S.userData=null;
@@ -3288,22 +4298,7 @@ window.addEventListener('popstate',()=>{
 });
 
 // ─── POSTBACK LISTENER (REST-based) ───────────────────
-// When CPA network hits postback URL, write to Firebase:
-// PUT https://earn-zone-997fb-default-rtdb.firebaseio.com/postbacks/{uid}_{wallId}.json
-// body: {"amount":0.30,"offerId":"xxx"}
-// The app checks /postbacks on load and processes them.
-(async()=>{
-  if(!S.user) return;
-  const snap=await fDB.ref(`postbacks/${S.user.uid}`).once('value');
-  const data=snap.val()||{};
-  for(const [key,val] of Object.entries(data)){
-    if(!val.processed && val.amount){
-      const wallId=val.wallId||key.split('_')[1]||'w1';
-      await markOfferComplete(S.user.uid,wallId,val.amount);
-      await fDB.ref(`postbacks/${S.user.uid}/${key}/processed`).set(true);
-    }
-  }
-})().catch(()=>{});
+// Moved inside onAuthStateChanged — S.user guaranteed to exist there
 
 async function loadAdminSettings(c){
   // Load current settings
@@ -3540,6 +4535,451 @@ async function clearAnnouncement(){
   const inp=document.getElementById('announcementInput');
   if(inp) inp.value='';
   showToast('🗑️ Announcement cleared','blue');
+}
+
+
+// ═══════════════════════════════════════════════════════
+//  NEW FEATURES — Dark Mode, PWA, Push, Skeleton,
+//  Leaderboard, Badges, Level, Streak, Daily Bonus
+// ═══════════════════════════════════════════════════════
+
+// ── DARK MODE ──────────────────────────────────────────
+function initDarkMode(){
+  if(S.darkMode) document.body.classList.add('dark');
+}
+function toggleDarkMode(){
+  S.darkMode=!S.darkMode;
+  document.body.classList.toggle('dark', S.darkMode);
+  localStorage.setItem('ez_dark', S.darkMode?'1':'0');
+  toast(S.darkMode?'🌙 Dark mode on':'☀️ Light mode on','s',2000);
+  render();
+}
+
+// ── PWA INSTALL ────────────────────────────────────────
+function initPWA(){
+  window.addEventListener('beforeinstallprompt', e=>{
+    e.preventDefault();
+    S.pwaPrompt=e;
+  });
+}
+async function installPWA(){
+  if(!S.pwaPrompt){ toast('Open in browser to install','w'); return; }
+  S.pwaPrompt.prompt();
+  const res=await S.pwaPrompt.userChoice;
+  if(res.outcome==='accepted'){ toast('✅ App installed!','s'); S.pwaPrompt=null; }
+}
+
+// ── PUSH NOTIFICATIONS ────────────────────────────────
+async function enablePush(){
+  if(!('Notification' in window)){ toast('Notifications not supported','w'); return; }
+  const perm=await Notification.requestPermission();
+  if(perm==='granted'){
+    S.pushEnabled=true;
+    localStorage.setItem('ez_push','1');
+    toast('🔔 Notifications enabled!','s');
+    render();
+  } else {
+    toast('Notifications blocked in browser settings','w');
+  }
+}
+function sendLocalNotif(title, body){
+  if(Notification.permission==='granted'){
+    new Notification(title,{body, icon:'/icon.png'});
+  }
+}
+
+// ── SKELETON LOADER ────────────────────────────────────
+function buildSkeleton(count=3){
+  return Array(count).fill(0).map(()=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:14px;background:#fff;border:1.5px solid #dbeafe;border-radius:14px;margin-bottom:10px">
+      <div class="skel skel-avatar"></div>
+      <div style="flex:1">
+        <div class="skel skel-text" style="margin-bottom:8px"></div>
+        <div class="skel skel-text sm"></div>
+      </div>
+    </div>`).join('');
+}
+
+// ── LEVEL SYSTEM ───────────────────────────────────────
+function getUserLevel(totalEarned){
+  const e=parseFloat(totalEarned)||0;
+  if(e>=500) return {name:'Diamond',icon:'💎',color:'#7c3aed',next:null,progress:100,cls:'lv-diamond'};
+  if(e>=100) return {name:'Platinum',icon:'🏆',color:'#2563eb',next:500,progress:Math.round((e-100)/4),cls:'lv-platinum'};
+  if(e>=50)  return {name:'Gold',icon:'🥇',color:'#d97706',next:100,progress:Math.round((e-50)/0.5),cls:'lv-gold'};
+  if(e>=10)  return {name:'Silver',icon:'🥈',color:'#64748b',next:50,progress:Math.round((e-10)/0.4),cls:'lv-silver'};
+  return      {name:'Bronze',icon:'🥉',color:'#b45309',next:10,progress:Math.round(e*10),cls:'lv-bronze'};
+}
+
+// ── BADGES ─────────────────────────────────────────────
+function getUserBadges(ud){
+  const earned=parseFloat(ud.usdEarned||0);
+  const ads=parseInt(ud.adsWatched||0);
+  const refs=parseInt(ud.activeReferrals||0);
+  const offers=parseInt(ud.offersCompleted||0);
+  return [
+    {icon:'🌟',name:'First Earn',earned:earned>=0.01},
+    {icon:'📺',name:'Ad Watcher',earned:ads>=10},
+    {icon:'👥',name:'Connector',earned:refs>=1},
+    {icon:'🎯',name:'Offer Pro',earned:offers>=5},
+    {icon:'💰',name:'$1 Club',earned:earned>=1},
+    {icon:'🔥',name:'$10 Club',earned:earned>=10},
+    {icon:'👑',name:'$50 Club',earned:earned>=50},
+    {icon:'💎',name:'Diamond',earned:earned>=100},
+  ];
+}
+
+// ── STREAK SYSTEM ──────────────────────────────────────
+function getStreakData(ud){
+  const today=new Date().toDateString();
+  const lastLogin=ud.lastLoginDate||'';
+  const yesterday=new Date(Date.now()-86400000).toDateString();
+  let streak=parseInt(ud.loginStreak||0);
+  // If logged in yesterday → streak continues; if today already counted → same
+  // Streak update happens on login
+  return {streak, today, lastLogin};
+}
+
+async function updateLoginStreak(uid, ud){
+  const today=new Date().toDateString();
+  if(ud.lastLoginDate===today) return; // already counted today
+  const yesterday=new Date(Date.now()-86400000).toDateString();
+  let streak=parseInt(ud.loginStreak||0);
+  if(ud.lastLoginDate===yesterday){
+    streak+=1;
+  } else if(ud.lastLoginDate!==today){
+    streak=1; // reset
+  }
+  await fDB.ref(`users/${uid}`).update({loginStreak:streak, lastLoginDate:today});
+  // Streak bonus
+  if(streak>0 && streak%7===0){
+    const bonus=0.05;
+    await fDB.ref(`users/${uid}/usdEarned`).transaction(v=>(v||0)+bonus);
+    toast(`🔥 7-day streak! +$${bonus.toFixed(2)} bonus!`,'s',4000);
+    sendLocalNotif('🔥 Streak Bonus!',`7-day streak! You earned +$${bonus.toFixed(2)}`);
+  } else if(streak>1){
+    toast(`🔥 ${streak}-day streak! Keep it up!`,'s',3000);
+  }
+}
+
+// ── DAILY LOGIN BONUS ──────────────────────────────────
+async function checkDailyBonus(uid, ud){
+  const today=new Date().toDateString();
+  if(ud.dailyBonusDate===today) return; // already claimed
+  const bonus=0.01; // $0.01 daily login bonus
+  await fDB.ref(`users/${uid}/usdEarned`).transaction(v=>(v||0)+bonus);
+  await fDB.ref(`users/${uid}/dailyBonusDate`).set(today);
+  toast(`🎁 Daily Login Bonus: +$${bonus.toFixed(2)}!`,'s',3500);
+  sendLocalNotif('🎁 Daily Bonus!',`You earned $${bonus.toFixed(2)} for logging in today!`);
+}
+
+// ── LEADERBOARD ────────────────────────────────────────
+async function loadLeaderboard(){
+  try{
+    const cacheKey='leaderboard';
+    let cached=EZCache.get(cacheKey);
+    if(cached){ S.leaderboard=cached; return; }
+    const snap=await fDB.ref('users').orderByChild('usdEarned').limitToLast(10).once('value');
+    const data=snap.val()||{};
+    S.leaderboard=Object.values(data)
+      .filter(u=>!u.banned)
+      .sort((a,b)=>(b.usdEarned||0)-(a.usdEarned||0))
+      .slice(0,10);
+    EZCache.set(cacheKey, S.leaderboard);
+  }catch(e){ S.leaderboard=[]; }
+}
+
+function buildLeaderboardSection(){
+  if(!S.leaderboard.length) return `<div class="empty"><div class="ein">🏆</div><div class="etx">Loading leaderboard…</div></div>`;
+  const rankIcons=['🥇','🥈','🥉'];
+  return S.leaderboard.map((u,i)=>`
+    <div class="lb-row${i===0?' top1':i===1?' top2':i===2?' top3':''}">
+      <div class="lb-rank">${rankIcons[i]||`#${i+1}`}</div>
+      <div class="lb-av">${(u.name||u.email||'?')[0].toUpperCase()}</div>
+      <div class="lb-inf">
+        <div class="lb-nm">${u.name||u.email?.split('@')[0]||'User'} ${u.uid===S.user?.uid?'<span style="color:#2563eb;font-size:10px">(You)</span>':''}</div>
+        <div class="lb-am">${fmt$(u.usdEarned||0)} earned · Refs: ${u.activeReferrals||0}</div>
+      </div>
+      <div>${getUserLevel(u.usdEarned).icon}</div>
+    </div>`).join('');
+}
+
+// ── LEADERBOARD PAGE ───────────────────────────────────
+function buildLeaderboardPage(){
+  return `<div class="ph">
+    <button class="btn bh bau bsm mb12" onclick="S.page='home';render()">← Back</button>
+    <div class="pt">🏆 Leaderboard</div>
+    <div class="ps">Top earners this week</div>
+  </div>
+  <div class="card mb12">
+    <div class="card-hd">🏆 Top 10 Earners</div>
+    <div id="lbContent">${buildSkeleton(5)}</div>
+  </div>`;
+}
+
+// ── BADGES PAGE ────────────────────────────────────────
+function buildBadgesSection(ud){
+  const badges=getUserBadges(ud);
+  return `<div class="badge-grid">${badges.map(b=>`
+    <div class="badge-item${b.earned?' earned':''}">
+      <div class="bi">${b.icon}</div>
+      <div class="bn">${b.name}</div>
+      ${b.earned?'<div style="font-size:8px;color:#059669;margin-top:2px">✓</div>':'<div style="font-size:8px;color:#cbd5e1;margin-top:2px">🔒</div>'}
+    </div>`).join('')}</div>`;
+}
+
+// ── STREAK UI ──────────────────────────────────────────
+function buildStreakUI(ud){
+  const {streak}=getStreakData(ud);
+  const days=Math.min(streak,7);
+  return `<div class="streak-wrap">
+    ${Array(7).fill(0).map((_,i)=>`
+      <div class="streak-day${i<days?' done':i===days?' today':''}">
+        ${i<days?'✓':i+1}
+      </div>`).join('')}
+  </div>
+  <div style="text-align:center;font-size:12px;color:#64748b">
+    ${streak>=7?'🔥 Max streak! Bonus earned!':streak>0?`🔥 ${streak} day streak — ${7-streak} more for bonus!`:'Start your streak today!'}
+  </div>`;
+}
+
+// ── UPDATE HOME PAGE with new features ─────────────────
+// Dark mode toggle in navbar — handled via buildNav update
+
+
+// ════════════════════════════════════════════════════════
+//  COUNTRY-WISE TASKS + MONTHLY AWARD SYSTEM
+// ════════════════════════════════════════════════════════
+
+// ── COUNTRY-WISE TASK FILTER ─────────────────────────
+// task.country = 'ALL' → সবাই দেখবে
+// task.country = 'BD'  → শুধু BD user দেখবে
+// task.country = 'BD,IN,PK' → এই দেশগুলো দেখবে
+function taskVisibleForUser(task){
+  const tc = (task.country||'ALL').toUpperCase().trim();
+  if(tc === 'ALL' || tc === '') return true;
+  const userCC = (S.country||'').toUpperCase();
+  if(!userCC) return true; // country detect না হলে দেখাবে
+  const allowed = tc.split(',').map(x=>x.trim());
+  return allowed.includes(userCC);
+}
+
+// ── MONTHLY AWARD SYSTEM ─────────────────────────────
+
+// Current month string: "2025-01"
+function currentMonth(){
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+}
+
+// Get month display name: "January 2025"
+function monthDisplayName(m){
+  if(!m) m = currentMonth();
+  const [y,mo] = m.split('-');
+  const names=['January','February','March','April','May','June',
+    'July','August','September','October','November','December'];
+  return (names[parseInt(mo)-1]||mo)+' '+y;
+}
+
+// Award amounts for rank 1, 2, 3
+const AWARD_BONUS = {1: 2.00, 2: 1.00, 3: 0.50};
+
+// ── Calculate top 3 earners for a month ──
+// Uses monthEarned_{month} field in users table
+// This field is updated whenever user earns during that month
+async function calcMonthlyTop3(month){
+  month = month || currentMonth();
+  try{
+    const snap = await fDB.ref('users').once('value');
+    const data = snap.val()||{};
+    const field = 'monthEarned_'+month.replace('-','_');
+
+    const earners = Object.values(data)
+      .filter(u => !u.banned && (u[field]||0) >= 10) // min $10
+      .map(u => ({
+        uid: u.uid||u.id,
+        name: u.name||u.email?.split('@')[0]||'User',
+        email: u.email||'',
+        earned: parseFloat(u[field]||0),
+      }))
+      .sort((a,b) => b.earned - a.earned)
+      .slice(0,3);
+
+    return earners;
+  }catch(e){
+    console.warn('calcMonthlyTop3 error:', e);
+    return [];
+  }
+}
+
+// ── Save monthly awards to DB (admin triggers this) ──
+async function generateMonthlyAwards(month){
+  month = month || currentMonth();
+  const top3 = await calcMonthlyTop3(month);
+  if(!top3.length){
+    toast('No eligible users (min $10 earned)','w');
+    return;
+  }
+  for(let i=0; i<top3.length; i++){
+    const u = top3[i];
+    const rank = i+1;
+    const awardId = `award_${month}_rank${rank}`;
+    // Check if already exists
+    const existing = await fDB.ref(`monthlyAwards/${awardId}`).once('value');
+    if(existing.exists()) continue; // already generated
+    await fDB.ref(`monthlyAwards/${awardId}`).set({
+      id: awardId,
+      month, uid: u.uid,
+      userName: u.name,
+      userEmail: u.email,
+      rank, earned: u.earned,
+      bonus: AWARD_BONUS[rank]||0,
+      status: 'pending',
+      createdAt: Date.now(),
+    });
+  }
+  toast(`✅ ${top3.length} award(s) generated for ${monthDisplayName(month)}`,'s');
+  EZCache.invalidate('monthlyAwards');
+  loadAdminAwards(document.getElementById('adminContent'));
+}
+
+// ── Admin approve award ──
+async function approveAward(awardId){
+  const snap = await fDB.ref(`monthlyAwards/${awardId}`).once('value');
+  const award = snap.val();
+  if(!award || award.status !== 'pending'){
+    toast('Award not found or already processed','w'); return;
+  }
+  // Give bonus to user
+  await fDB.ref(`users/${award.uid}/usdEarned`).transaction(v=>(v||0)+award.bonus);
+  // Mark approved
+  await fDB.ref(`monthlyAwards/${awardId}`).update({
+    status:'approved', approvedAt: Date.now()
+  });
+  // Notify user (add to notices)
+  const noticeId = 'notice_award_'+awardId;
+  await fDB.ref(`notices/${noticeId}`).set({
+    text: `🏆 Congratulations! You won Rank #${award.rank} in ${monthDisplayName(award.month)}! +$${award.bonus.toFixed(2)} has been added to your account.`,
+    createdAt: Date.now(),
+    postedBy: S.user?.uid||'admin',
+    targetUid: award.uid,
+  });
+  toast(`✅ Award approved! $${award.bonus} sent to ${award.userName}`,'s');
+  EZCache.invalidate('monthlyAwards');
+  loadAdminAwards(document.getElementById('adminContent'));
+}
+
+// ── Admin reject award ──
+async function rejectAward(awardId){
+  await fDB.ref(`monthlyAwards/${awardId}`).update({status:'rejected'});
+  toast('Award rejected','s');
+  EZCache.invalidate('monthlyAwards');
+  loadAdminAwards(document.getElementById('adminContent'));
+}
+
+// ── Load awards for admin ──
+async function loadAdminAwards(c){
+  if(!c) return;
+  c.innerHTML = '<div class="empty"><div class="ein">⏳</div></div>';
+  const month = currentMonth();
+
+  // Load all awards
+  const snap = await fDB.ref('monthlyAwards').once('value');
+  const data = snap.val()||{};
+  const awards = Object.values(data).sort((a,b)=>b.createdAt-a.createdAt);
+
+  // Load current month top 3 preview
+  const top3 = await calcMonthlyTop3(month);
+
+  const rankMedal = ['🥇','🥈','🥉'];
+
+  c.innerHTML = `
+    <div class="card mb12">
+      <div class="card-hd">📊 ${monthDisplayName(month)} — Current Top 3</div>
+      <div style="font-size:12px;color:#64748b;margin-bottom:10px">Min $10 earned this month to qualify</div>
+      ${top3.length ? top3.map((u,i)=>`
+        <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#f8fafc;border-radius:10px;margin-bottom:6px">
+          <div style="font-size:20px">${rankMedal[i]}</div>
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:13px">${u.name}</div>
+            <div style="font-size:11px;color:#64748b">${u.email} · Earned: $${u.earned.toFixed(2)}</div>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:#059669">+$${(AWARD_BONUS[i+1]||0).toFixed(2)}</div>
+        </div>`).join('')
+      : '<div style="text-align:center;padding:20px;color:#94a3b8">No users with $10+ earned this month</div>'}
+      <button class="btn bp mt12" style="width:100%" onclick="generateMonthlyAwards('${month}')">
+        🏆 Generate ${monthDisplayName(month)} Awards
+      </button>
+    </div>
+
+    <div class="card mb12">
+      <div class="card-hd">📋 All Awards</div>
+      ${awards.length ? awards.map(a=>`
+        <div class="award-card rank${a.rank} mb8">
+          <div class="award-badge">${rankMedal[a.rank-1]||'🏆'}</div>
+          <div style="font-weight:700;font-size:14px">${a.userName}</div>
+          <div style="font-size:12px;color:#64748b;margin:2px 0">${a.userEmail}</div>
+          <div style="font-size:12px;margin:4px 0">
+            📅 ${monthDisplayName(a.month)} · 
+            Rank #${a.rank} · 
+            Earned: <b>$${parseFloat(a.earned).toFixed(2)}</b> · 
+            Bonus: <b style="color:#059669">+$${parseFloat(a.bonus).toFixed(2)}</b>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+            <span class="award-status-${a.status}">${
+              a.status==='approved'?'✅ Approved':
+              a.status==='rejected'?'❌ Rejected':
+              '⏳ Pending'
+            }</span>
+            ${a.status==='pending'?`
+              <div style="display:flex;gap:6px">
+                <button class="btn bp bsm" onclick="approveAward('${a.id}')">✅ Approve</button>
+                <button class="btn bsm" style="background:#fee2e2;color:#dc2626;border:1.5px solid #fca5a5" onclick="rejectAward('${a.id}')">❌ Reject</button>
+              </div>`:''}
+          </div>
+        </div>`).join('')
+      : '<div style="text-align:center;padding:20px;color:#94a3b8">No awards yet</div>'}
+    </div>`;
+}
+
+// ── Track monthly earnings ──
+// Call this whenever user earns money
+async function trackMonthlyEarning(uid, amount){
+  const month = currentMonth();
+  const field = 'monthEarned_'+month.replace('-','_');
+  const snap = await fDB.ref(`users/${uid}`).once('value');
+  const ud = snap.val()||{};
+  const current = parseFloat(ud[field]||0);
+  await fDB.ref(`users/${uid}`).update({[field]: current+amount});
+}
+
+// ── User Awards page ──
+async function loadUserAwards(uid){
+  const el = document.getElementById('userAwardsList');
+  if(!el) return;
+  el.innerHTML = '<div style="text-align:center;padding:20px">⏳ Loading…</div>';
+  const snap = await fDB.ref('monthlyAwards').once('value');
+  const data = snap.val()||{};
+  const myAwards = Object.values(data)
+    .filter(a => a.uid===uid)
+    .sort((a,b)=>b.createdAt-a.createdAt);
+  const rankMedal = ['🥇','🥈','🥉'];
+  if(!myAwards.length){
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8">No awards yet. Earn $10+ in a month to qualify!</div>';
+    return;
+  }
+  el.innerHTML = myAwards.map(a=>`
+    <div class="award-card rank${a.rank}">
+      <div class="award-badge">${rankMedal[a.rank-1]||'🏆'}</div>
+      <div style="font-weight:700;font-size:15px">${rankMedal[a.rank-1]} Rank #${a.rank}</div>
+      <div style="font-size:12px;color:#64748b;margin:4px 0">${monthDisplayName(a.month)}</div>
+      <div style="font-size:13px">Earned: <b>$${parseFloat(a.earned).toFixed(2)}</b></div>
+      <div style="font-size:13px;color:#059669;font-weight:700">Bonus: +$${parseFloat(a.bonus).toFixed(2)}</div>
+      <div class="award-status-${a.status}" style="margin-top:6px">${
+        a.status==='approved'?'✅ Paid':
+        a.status==='rejected'?'❌ Rejected':
+        '⏳ Pending approval'
+      }</div>
+    </div>`).join('');
 }
 
 console.log('%c◆ EarnZone Pro v3 — RSS + Custom Payout + Postback', 'color:#2563eb;font-size:14px;font-weight:700');
